@@ -1,0 +1,10 @@
+{
+  "HomePage": {
+    "title": "Your Image on a <code>Custom</code> Phone Casen",
+    "subtitle": "Capture your favorite memories with your own, <code> one-of-one </code> phone case. CaseCobra allows you to protect your memories, not just your phone case."
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, es {Espanish} en {English} other {''} no {Norwayan} }"
+  }
+}
