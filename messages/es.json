@@ -1,7 +1,13 @@
 {
   "HomePage": {
-    "title": "Tu imagen en una <code>Carcasa</code> personalisada",
-    "subtitle": "Capture your favorite memories with your own, <code> one-of-one </code> phone case. CaseCobra allows you to protect your memories, not just your phone case."
+    "title": "Tu imagen en una Carcasa <code>personalisada</code>",
+    "subtitle": "Capture sus recuerdos favoritos con su <code>propia</code> funda de teléfono única. Oslo Case te permite proteger tus recuerdos, no solo la funda de tu teléfono.",
+    "sub": {
+      "li": "Alta calidad",
+      "li1": "material durable",
+      "li2": "Compatible con los modelos modernos de iPhone",
+      "customer": "<code>1.250</code> clientes satisfechos"
+    }
   },
   "LocaleSwitcher": {
     "label": "Cambiar Idioma",

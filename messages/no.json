@@ -1,7 +1,13 @@
 {
   "HomePage": {
-    "title": "Carcasa Ditt bilde i et personlig <code>etui</code>.",
-    "subtitle": "Capture your favorite memories with your own, <code> one-of-one </code> phone case. CaseCobra allows you to protect your memories, not just your phone case."
+    "title": "Carcasa Ditt bilde i et <code>personlig</code> etui.",
+    "subtitle": "Fang favorittminnene dine med ditt <code>eget</code> unike mobiletui. Oslo Case lar deg beskytte minnene dine, ikke bare telefonvesken din.",
+    "sub": {
+      "li": "Holdbart materiale av høy kvalitet",
+      "li1": "slitesterkt materiale",
+      "li2": "Støtte for moderne iPhone-modeller",
+      "customer": "<code>1.250</code> fornøyde kunder"
+    }
   },
   "LocaleSwitcher": {
     "label": "Sprache ändern",

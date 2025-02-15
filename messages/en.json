@@ -1,7 +1,13 @@
 {
   "HomePage": {
     "title": "Your Image on a <code>Custom</code> Phone Casen",
-    "subtitle": "Capture your favorite memories with your own, <code> one-of-one </code> phone case. CaseCobra allows you to protect your memories, not just your phone case."
+    "subtitle": "Capture your favorite memories with your own, <code> one-of-one </code> phone case. CaseCobra allows you to protect your memories, not just your phone case.",
+    "sub": {
+      "li": "High-quality",
+      "li1": "durable material",
+      "li2": "Modern iPhone models supported ",
+      "customer": "<code>1.250</code> happy customers"
+    }
   },
   "LocaleSwitcher": {
     "label": "Change language",

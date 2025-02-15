@@ -20,19 +20,11 @@ type Props = {
 };
 
 export const LocaleSwitcherSelect = ({
-  // children,
   defaultValue,
   label,
   routing,
 }: Props) => {
   const t = useTranslations("LocaleSwitcher");
-  const a = t("locale", { locale: "en" });
-  const b = t("locale", { locale: "es" });
-  const c = t("locale", { locale: "no" });
-  console.log("en:===>", b);
-  console.log("es:===>", a);
-  console.log("no:===>", c);
-
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
@@ -67,11 +59,9 @@ export const LocaleSwitcherSelect = ({
         onChange={onSelectChange}
       >
         {routing.map((language) => (
-          <>
-            <option key={language} value={language}>
-              <>{t("locale", { locale: language })}</>
-            </option>
-          </>
+          <option key={language} value={language}>
+            <>{t("locale", { locale: language })}</>
+          </option>
         ))}
       </select>
       <span className="pointer-events-none absolute right-2 top-[8px]">⌄</span>
