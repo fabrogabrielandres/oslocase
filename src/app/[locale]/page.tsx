@@ -5,6 +5,8 @@ import { MaxWidthWrapper } from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import { Check, Star } from "lucide-react";
 import Image from "next/image";
 import { Phone } from "@/components/Phone/Phone";
+import { Testimonial } from "@/components/Phone/Testimonial";
+import { LinePhone } from "@/components/Phone/LinePhone";
 
 export default function HomePage() {
   const t = useTranslations("HomePage");
@@ -136,20 +138,15 @@ export default function HomePage() {
           </div>
 
           <div className="col-span-full lg:col-span-1 w-full flex justify-center px-8 sm:px-16 md:px-0 mt-32 lg:mx-0 lg:mt-20 h-fit">
-          <div className="relative md:max-w-xl">
-            <img
-              src="/your-image.png"
-              className="absolute w-40 lg:w-52 left-56 -top-20 select-none hidden sm:block lg:hidden xl:block"
-            />
-            <img
-              src="/line.png"
-              className="absolute w-20 -left-6 -bottom-6 select-none"
-            />
-            <Phone className="w-64" imgSrc="/testimonials/1.jpg" />
-          </div>
+            <div className="relative md:max-w-xl">
+              <Phone classNameContainer="w-64" imgSrc="/testimonials/1.jpg">
+                <Testimonial></Testimonial>
+                <LinePhone></LinePhone>
+              </Phone>
+            </div>
           </div>
         </MaxWidthWrapper>
       </section>
-     </div>
+    </div>
   );
 }
