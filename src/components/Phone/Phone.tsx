@@ -1,20 +1,21 @@
 import { cn } from "@/lib/utils";
-import { HTMLAttributes, ReactElement } from "react";
+// import { ReactElement } from "react";
 
-interface PhoneProps extends HTMLAttributes<HTMLDivElement> {
-  children?: ReactElement | ReactElement[];
-  imgSrc: string;
+export interface PhoneProps {
+  // children?: ReactElement | ReactElement[];
+  children?: (arg?: unknown) => JSX.Element;
   dark?: boolean;
   classNameContainer?: string;
   classNameMainPicture?: string;
+  imgSrc: string;
 }
 
 export const Phone = ({
-  imgSrc,
   classNameContainer,
   classNameMainPicture,
   dark = false,
   children,
+  imgSrc,
   ...props
 }: PhoneProps) => {
   return (
@@ -46,7 +47,8 @@ export const Phone = ({
           {/*  */}
         </section>
       </article>
-      {children}
+
+      {children ? children() : null}
     </>
   );
 };

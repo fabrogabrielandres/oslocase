@@ -4,9 +4,11 @@ import LocaleSwitcher from "@/components/LocaleSwitcher/LocaleSwitcher";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import { Check, Star } from "lucide-react";
 import Image from "next/image";
-import { Phone } from "@/components/Phone/Phone";
-import { Testimonial } from "@/components/Phone/Testimonial";
-import { LinePhone } from "@/components/Phone/LinePhone";
+// import { Testimonial } from "@/components/Phone/Testimonial";
+// import { LinePhone } from "@/components/Phone/LinePhone";
+import Phone from "@/components";
+// import { Testimonial } from "@/components/Phone/Testimonial";
+// import { LinePhone } from "@/components/Phone/LinePhone";
 
 export default function HomePage() {
   const t = useTranslations("HomePage");
@@ -139,9 +141,20 @@ export default function HomePage() {
 
           <div className="col-span-full lg:col-span-1 w-full flex justify-center px-8 sm:px-16 md:px-0 mt-32 lg:mx-0 lg:mt-20 h-fit bg-red-700">
             <div className="relative md:max-w-xl bg-orange-400 ">
-              <Phone classNameContainer="w-64 bg-pink-600" imgSrc="/testimonials/1.jpg">
-                <Testimonial></Testimonial>
-                <LinePhone></LinePhone>
+              <Phone
+                classNameContainer="w-64 bg-pink-600"
+                imgSrc="/testimonials/1.jpg"
+              >
+                {/* <> */}
+                {/* </> */}
+                {() => (
+                  <>
+                    {/* <Testimonial></Testimonial> */}
+                    {/* <LinePhone></LinePhone> */}
+                    <Phone.LinePhone></Phone.LinePhone>
+                    <Phone.Testimonial></Phone.Testimonial>
+                  </>
+                )}
               </Phone>
             </div>
           </div>
