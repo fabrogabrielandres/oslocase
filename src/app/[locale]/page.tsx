@@ -137,9 +137,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="col-span-full lg:col-span-1 w-full flex justify-center px-8 sm:px-16 md:px-0 mt-32 lg:mx-0 lg:mt-20 h-fit">
-            <div className="relative md:max-w-xl">
-              <Phone classNameContainer="w-64" imgSrc="/testimonials/1.jpg">
+          <div className="col-span-full lg:col-span-1 w-full flex justify-center px-8 sm:px-16 md:px-0 mt-32 lg:mx-0 lg:mt-20 h-fit bg-red-700">
+            <div className="relative md:max-w-xl bg-orange-400 ">
+              <Phone classNameContainer="w-64 bg-pink-600" imgSrc="/testimonials/1.jpg">
                 <Testimonial></Testimonial>
                 <LinePhone></LinePhone>
               </Phone>

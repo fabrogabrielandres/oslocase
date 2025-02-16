@@ -6,18 +6,20 @@ interface PhoneProps extends HTMLAttributes<HTMLDivElement> {
   imgSrc: string;
   dark?: boolean;
   classNameContainer?: string;
+  classNameMainPicture?: string;
 }
 
 export const Phone = ({
   imgSrc,
   classNameContainer,
+  classNameMainPicture,
   dark = false,
   children,
   ...props
 }: PhoneProps) => {
   return (
     <>
-      <div
+      <article
         className={cn(
           "relative pointer-events-none z-50 overflow-hidden",
           classNameContainer
@@ -33,16 +35,17 @@ export const Phone = ({
           className="pointer-events-none z-50 select-none"
           alt="phone image"
         />
-        <div className="absolute -z-10 inset-0">
+        <section className="absolute -z-10 inset-0 bg-red-400">
           <img
-            className="object-cover min-w-full min-h-full"
+            className={cn("object-cover min-w-full min-h-full", {
+              classNameMainPicture,
+            })}
             src={imgSrc}
             alt="overlaying phone image"
           />
-
           {/*  */}
-        </div>
-      </div>
+        </section>
+      </article>
       {children}
     </>
   );
