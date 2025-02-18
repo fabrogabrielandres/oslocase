@@ -1,22 +1,15 @@
 import { useTranslations } from "next-intl";
-// import { Link } from "@/i18n/routing";
-import LocaleSwitcher from "@/components/LocaleSwitcher/LocaleSwitcher";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import { Check, Star } from "lucide-react";
 import Image from "next/image";
-// import { Testimonial } from "@/components/Phone/Testimonial";
-// import { LinePhone } from "@/components/Phone/LinePhone";
+import "../globals.css";
 import Phone from "@/components";
-// import { Testimonial } from "@/components/Phone/Testimonial";
-// import { LinePhone } from "@/components/Phone/LinePhone";
 
 export default function HomePage() {
   const t = useTranslations("HomePage");
 
   return (
     <div className="bg-slate-50 grainy-light">
-      <LocaleSwitcher></LocaleSwitcher>
-
       <section>
         <MaxWidthWrapper className="pb-24 pt-10 lg:grid lg:grid-cols-3 sm:pb-32 lg:gap-x-0 xl:gap-x-8 lg:pt-24 xl:pt-32 lg:pb-52">
           <div className="col-span-2 px-6 lg:px-0 lg:pt-4">
@@ -36,9 +29,7 @@ export default function HomePage() {
               <h1 className="relative w-fit tracking-tight text-balance mt-16 font-bold !leading-tight text-gray-900 text-5xl md:text-6xl lg:text-7xl">
                 {t.rich("title", {
                   code: (chunks) => (
-                    <code className="bg-blue-900 px-2 text-white">
-                      {chunks}
-                    </code>
+                    <code className="bg-primary px-2 text-white">{chunks}</code>
                   ),
                 })}
               </h1>
@@ -53,7 +44,7 @@ export default function HomePage() {
               <ul className="mt-8 space-y-2 text-left font-medium flex flex-col items-center sm:items-start">
                 <div className="space-y-2">
                   <li className="flex gap-1.5 items-center text-left">
-                    <Check></Check>
+                    <Check className="text-primary"></Check>
                     {t.rich("sub.li", {
                       code: (chunks) => (
                         <code className="font-semibold">{chunks}</code>
@@ -61,7 +52,7 @@ export default function HomePage() {
                     })}
                   </li>
                   <li className="flex gap-1.5 items-center text-left">
-                    <Check></Check>
+                    <Check className="text-primary"></Check>
                     {t.rich("sub.li1", {
                       code: (chunks) => (
                         <code className="font-semibold">{chunks}</code>
@@ -69,7 +60,7 @@ export default function HomePage() {
                     })}
                   </li>
                   <li className="flex gap-1.5 items-center text-left">
-                    <Check></Check>
+                    <Check className="text-primary"></Check>
                     {t.rich("sub.li2", {
                       code: (chunks) => (
                         <code className="font-semibold">{chunks}</code>
@@ -120,13 +111,13 @@ export default function HomePage() {
 
                 <div className="flex flex-col justify-between items-center sm:items-start">
                   <div className="flex gap-0.5">
-                    <Star className="h-4 w-4 text-blue-900 fill-blue-900" />
-                    <Star className="h-4 w-4 text-blue-900 fill-blue-900" />
-                    <Star className="h-4 w-4 text-blue-900 fill-blue-900" />
-                    <Star className="h-4 w-4 text-blue-900 fill-blue-900" />
-                    <Star className="h-4 w-4 text-blue-900 fill-blue-900" />
+                    <Star className="h-4 w-4 text-primary fill-primary" />
+                    <Star className="h-4 w-4 text-primary fill-primary" />
+                    <Star className="h-4 w-4 text-primary fill-primary" />
+                    <Star className="h-4 w-4 text-primary fill-primary" />
+                    <Star className="h-4 w-4 text-primary fill-primary" />
                   </div>
-
+                  <h1 className="text-primary">holaaaa</h1>
                   <p>
                     {t.rich("sub.customer", {
                       code: (chunks) => (
@@ -139,20 +130,18 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="col-span-full lg:col-span-1 w-full flex justify-center px-8 sm:px-16 md:px-0 mt-32 lg:mx-0 lg:mt-20 h-fit bg-red-700">
-            <div className="relative md:max-w-xl bg-orange-400 ">
+          <div className="col-span-full lg:col-span-1 w-full flex justify-center px-8 sm:px-16 md:px-0 mt-32 lg:mx-0 lg:mt-20 h-fit ">
+            <div className="relative md:max-w-xl  ">
               <Phone
                 classNameContainer="w-64 bg-pink-600"
                 imgSrc="/testimonials/1.jpg"
               >
-                {/* <> */}
-                {/* </> */}
                 {() => (
                   <>
-                    {/* <Testimonial></Testimonial> */}
                     {/* <LinePhone></LinePhone> */}
-                    <Phone.LinePhone></Phone.LinePhone>
+                    {/* <Testimonial></Testimonial> */}
                     <Phone.Testimonial></Phone.Testimonial>
+                    <Phone.LinePhone></Phone.LinePhone>
                   </>
                 )}
               </Phone>
