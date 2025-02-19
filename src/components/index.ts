@@ -4,6 +4,8 @@ import {  PhoneHOCProps } from "./Phone/PhoneInterface";
 import { Testimonial } from "./Phone/Testimonial";
 
 
+
+export { AuthProvider } from "./Provaiders/AuthProviderKinde/AuthProviderKinde";
 export * from "./LocaleSwitcherSelect/LocaleSwitcherSelect";
 
 

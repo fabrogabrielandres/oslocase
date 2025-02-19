@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 import Navbar from "@/components/NavBar/NavBar";
+import { AuthProvider } from "@/components";
 
 export default async function LocaleLayout({
   children,
@@ -24,10 +25,12 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider messages={messages}>
-          <Navbar></Navbar>
-          {children}
-        </NextIntlClientProvider>
+        <AuthProvider>
+          <NextIntlClientProvider messages={messages}>
+            <Navbar></Navbar>
+            {children}
+          </NextIntlClientProvider>
+        </AuthProvider>
       </body>
     </html>
   );

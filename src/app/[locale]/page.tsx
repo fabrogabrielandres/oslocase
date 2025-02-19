@@ -117,7 +117,6 @@ export default function HomePage() {
                     <Star className="h-4 w-4 text-primary fill-primary" />
                     <Star className="h-4 w-4 text-primary fill-primary" />
                   </div>
-                  <h1 className="text-primary">holaaaa</h1>
                   <p>
                     {t.rich("sub.customer", {
                       code: (chunks) => (
