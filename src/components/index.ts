@@ -5,15 +5,16 @@ import { Testimonial } from "./Phone/Testimonial";
 
 
 
-export { AuthProvider } from "./Provaiders/AuthProviderKinde/AuthProviderKinde";
-export * from "./LocaleSwitcherSelect/LocaleSwitcherSelect";
-
-
-
 export const Phone: PhoneHOCProps = Object.assign( PhoneHC, {
     Testimonial,
     LinePhone
 })
-
-
 export default Phone;
+
+
+
+export { AuthProvider } from "./Provaiders/AuthProviderKinde/AuthProviderKinde";
+export * from "./LocaleSwitcherSelect/LocaleSwitcherSelect";
+export { Icons } from "./Icons/Icons";
+
+

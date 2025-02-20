@@ -7,6 +7,14 @@
       "li1": "slitesterkt materiale",
       "li2": "Støtte for moderne iPhone-modeller",
       "customer": "<code>1.250</code> fornøyde kunder"
+    },
+    "customerssay": {
+      "title": "Hva våre <code > kunder </code> sier",
+      "customerOne": "Dekselet føles slitesterkt og jeg fikk til og med et kompliment for designet. Hadde etuiet i to og en halv måned nå, og <code> bildet er superklart </code> , på etuiet jeg hadde før, begynte bildet å blekne til en gulaktig farge etter et par uker. Elsker det.",
+      "customerTwo": "Jeg pleier å ha telefonen sammen med nøklene i lommen, og det førte til noen ganske kraftige skrapemerker på alle de siste telefondekslene mine. Denne, foruten en knapt merkbar ripe på hjørnet, ser <code> helt ny ut etter omtrent et halvt år </code>. Jeg graver det.",
+      "Jonathan": "Jonathan",
+      "Josh": "Josh",
+      "Verified": "Verifisert kjøp"
     }
   },
   "LocaleSwitcher": {

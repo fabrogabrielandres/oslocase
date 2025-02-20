@@ -7,6 +7,14 @@
       "li1": "durable material",
       "li2": "Modern iPhone models supported ",
       "customer": "<code>1.250</code> happy customers"
+    },
+    "customerssay": {
+      "title": "What our <code > customers </code> say",
+      "customerOne": "The case feels durable and I even got a compliment on the design. Had the case for two and a half months now and <code> the image is super clear </code> , on the case I had before, the image started fading into yellow-ish color after a couple weeks. Love it.",
+      "customerTwo": "I usually keep my phone together with my keys in my pocket and that led to some pretty heavy scratchmarks on all of my last phone cases. This one, besides a barely noticeable scratch on the corner, <code > looks brand new after about half a year </code>. I dig it.",
+      "Jonathan":"Jonathan",
+      "Josh":"Josh",
+      "Verified":"Verified Purchase"
     }
   },
   "LocaleSwitcher": {

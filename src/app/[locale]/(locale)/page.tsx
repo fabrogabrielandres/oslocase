@@ -61,13 +61,9 @@ export default function HomePage() {
     },
   ];
 
-  const stackStar: Array<StarInterface> = [
-    { classNameStar: "h-4 w-4 text-primary fill-primary" },
-    { classNameStar: "h-4 w-4 text-primary fill-primary" },
-    { classNameStar: "h-4 w-4 text-primary fill-primary" },
-    { classNameStar: "h-4 w-4 text-primary fill-primary" },
-    { classNameStar: "h-4 w-4 text-primary fill-primary" },
-  ];
+  const stackStar: Array<StarInterface> = Array.from({ length: 5 }, () => {
+    return { classNameStar: "h-5 w-5 text-primary fill-primary" };
+  });
 
   return (
     <div className="bg-slate-50 grainy-light">
@@ -138,7 +134,10 @@ export default function HomePage() {
                 ></AvatarStack>
 
                 <div className="flex flex-col justify-between items-center sm:items-start">
-                  <StarStack data={stackStar} classNameContainer="gap-0.5"></StarStack>
+                  <StarStack
+                    data={stackStar}
+                    classNameContainer="gap-0.5"
+                  ></StarStack>
 
                   <p>
                     {t.rich("sub.customer", {
