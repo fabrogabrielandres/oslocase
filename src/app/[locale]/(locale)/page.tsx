@@ -1,12 +1,73 @@
 import { useTranslations } from "next-intl";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper/MaxWidthWrapper";
-import { Check, Star } from "lucide-react";
+import { Check } from "lucide-react";
 import Image from "next/image";
-import "../globals.css";
+import "../../globals.css";
 import Phone from "@/components";
+import { CustomersSay } from "./CustomersSay";
+import {
+  AvatarInterface,
+  AvatarStack,
+} from "@/components/AvatarStack/AvatarStack";
+import { StarInterface, StarStack } from "@/components/StarStack/StarStack";
+// import { Icons } from '@/components/Icons'
 
 export default function HomePage() {
   const t = useTranslations("HomePage");
+  const stackImage: Array<AvatarInterface> = [
+    {
+      classNameImage:
+        "inline-block h-10 w-10 rounded-full ring-2 ring-slate-100",
+      src: "/users/user-1.png",
+      alt: "user image",
+      width: 500,
+      height: 500,
+    },
+
+    {
+      classNameImage:
+        "inline-block h-10 w-10 rounded-full ring-2 ring-slate-100",
+      src: "/users/user-2.png",
+      alt: "user image",
+      width: 500,
+      height: 500,
+    },
+
+    {
+      classNameImage:
+        "inline-block h-10 w-10 rounded-full ring-2 ring-slate-100",
+      src: "/users/user-3.png",
+      alt: "user image",
+      width: 500,
+      height: 500,
+    },
+
+    {
+      classNameImage:
+        "inline-block h-10 w-10 rounded-full ring-2 ring-slate-100",
+      src: "/users/user-4.jpg",
+      alt: "user image",
+      width: 500,
+      height: 500,
+    },
+
+    {
+      classNameImage:
+        "inline-block object-cover h-10 w-10 rounded-full ring-2 ring-slate-100",
+      src: "/users/user-5.jpg",
+      alt: "user image",
+      width: 500,
+      height: 500,
+    },
+  ];
+
+  const stackStar: Array<StarInterface> = [
+    { classNameStar: "h-4 w-4 text-primary fill-primary" },
+    { classNameStar: "h-4 w-4 text-primary fill-primary" },
+    { classNameStar: "h-4 w-4 text-primary fill-primary" },
+    { classNameStar: "h-4 w-4 text-primary fill-primary" },
+    { classNameStar: "h-4 w-4 text-primary fill-primary" },
+  ];
 
   return (
     <div className="bg-slate-50 grainy-light">
@@ -70,53 +131,15 @@ export default function HomePage() {
                 </div>
               </ul>
 
-              <div className="mt-12 flex flex-col sm:flex-row items-center sm:items-start gap-5">
-                <div className="flex -space-x-4">
-                  <Image
-                    className="inline-block h-10 w-10 rounded-full ring-2 ring-slate-100"
-                    src="/users/user-1.png"
-                    alt="user image"
-                    width={500}
-                    height={500}
-                  />
-                  <Image
-                    className="inline-block h-10 w-10 rounded-full ring-2 ring-slate-100"
-                    src="/users/user-2.png"
-                    alt="user image"
-                    width={500}
-                    height={500}
-                  />
-                  <Image
-                    className="inline-block h-10 w-10 rounded-full ring-2 ring-slate-100"
-                    src="/users/user-3.png"
-                    alt="user image"
-                    width={500}
-                    height={500}
-                  />
-                  <Image
-                    className="inline-block h-10 w-10 rounded-full ring-2 ring-slate-100"
-                    src="/users/user-4.jpg"
-                    alt="user image"
-                    width={500}
-                    height={500}
-                  />
-                  <Image
-                    className="inline-block object-cover h-10 w-10 rounded-full ring-2 ring-slate-100"
-                    src="/users/user-5.jpg"
-                    alt="user image"
-                    width={500}
-                    height={500}
-                  />
-                </div>
+              <div className="mt-12 flex flex-col sm:flex-row items-center sm:items-start gap-5 ">
+                <AvatarStack
+                  data={stackImage}
+                  classNameContainer="-space-x-4"
+                ></AvatarStack>
 
                 <div className="flex flex-col justify-between items-center sm:items-start">
-                  <div className="flex gap-0.5">
-                    <Star className="h-4 w-4 text-primary fill-primary" />
-                    <Star className="h-4 w-4 text-primary fill-primary" />
-                    <Star className="h-4 w-4 text-primary fill-primary" />
-                    <Star className="h-4 w-4 text-primary fill-primary" />
-                    <Star className="h-4 w-4 text-primary fill-primary" />
-                  </div>
+                  <StarStack data={stackStar} classNameContainer="gap-0.5"></StarStack>
+
                   <p>
                     {t.rich("sub.customer", {
                       code: (chunks) => (
@@ -148,6 +171,8 @@ export default function HomePage() {
           </div>
         </MaxWidthWrapper>
       </section>
+
+      <CustomersSay />
     </div>
   );
 }
