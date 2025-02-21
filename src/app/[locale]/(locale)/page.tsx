@@ -3,7 +3,7 @@ import { MaxWidthWrapper } from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import { Check } from "lucide-react";
 import Image from "next/image";
 import "../../globals.css";
-import Phone from "@/components";
+import Phone, { Reviews } from "@/components";
 import { CustomersSay } from "./CustomersSay";
 import {
   AvatarInterface,
@@ -169,9 +169,11 @@ export default function HomePage() {
             </div>
           </div>
         </MaxWidthWrapper>
+        <CustomersSay />
+        <section className="pt-16 bg-purple-500">
+          <Reviews/>
+        </section>
       </section>
-
-      <CustomersSay />
     </div>
   );
 }

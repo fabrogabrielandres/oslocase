@@ -5,6 +5,7 @@ import { Testimonial } from "./Phone/Testimonial";
 
 
 
+// Components 
 export const Phone: PhoneHOCProps = Object.assign( PhoneHC, {
     Testimonial,
     LinePhone
@@ -12,8 +13,10 @@ export const Phone: PhoneHOCProps = Object.assign( PhoneHC, {
 export default Phone;
 
 
-
 export { AuthProvider } from "./Provaiders/AuthProviderKinde/AuthProviderKinde";
+export { Reviews } from "./Reviews/Reviews";
+
+
 export * from "./LocaleSwitcherSelect/LocaleSwitcherSelect";
 export { Icons } from "./Icons/Icons";
 
