@@ -1,4 +1,4 @@
-import { Icons } from "@/components";
+import { Icons, Reviews } from "@/components";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import { StarInterface, StarStack } from "@/components/StarStack/StarStack";
 import { Check } from "lucide-react";
@@ -139,11 +139,8 @@ export const CustomersSay = () => {
             </div>
           </div>
         </div>
+        <Reviews />
       </MaxWidthWrapper>
-      {/* 
-    <div className="pt-16">
-      <Reviews />
-    </div> */}
     </section>
   );
 };

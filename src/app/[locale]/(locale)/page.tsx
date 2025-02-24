@@ -3,14 +3,13 @@ import { MaxWidthWrapper } from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import { Check } from "lucide-react";
 import Image from "next/image";
 import "../../globals.css";
-import Phone, { Reviews } from "@/components";
+import Phone from "@/components";
 import { CustomersSay } from "./CustomersSay";
 import {
   AvatarInterface,
   AvatarStack,
 } from "@/components/AvatarStack/AvatarStack";
 import { StarInterface, StarStack } from "@/components/StarStack/StarStack";
-// import { Icons } from '@/components/Icons'
 
 export default function HomePage() {
   const t = useTranslations("HomePage");
@@ -170,9 +169,6 @@ export default function HomePage() {
           </div>
         </MaxWidthWrapper>
         <CustomersSay />
-        <section className="pt-16 bg-purple-500">
-          <Reviews/>
-        </section>
       </section>
     </div>
   );
