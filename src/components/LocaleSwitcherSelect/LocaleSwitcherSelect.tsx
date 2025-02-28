@@ -13,17 +13,11 @@ import { useTranslations } from "next-intl";
 type U = ["en", "es", "no"];
 
 type Props = {
-  // children: ReactNode;
   defaultValue: string;
-  label: string;
   routing: U;
 };
 
-export const LocaleSwitcherSelect = ({
-  defaultValue,
-  label,
-  routing,
-}: Props) => {
+export const LocaleSwitcherSelect = ({ defaultValue, routing }: Props) => {
   const t = useTranslations("LocaleSwitcher");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -50,21 +44,19 @@ export const LocaleSwitcherSelect = ({
         isPending && "transition-opacity [&:disabled]:opacity-30"
       )}
     >
-      <p className="sr-only">{label}</p>
-
       <select
-        className="inline-flex appearance-none bg-transparent py-3 pl-2 pr-6"
+        className="text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 rounded-md px-3"
         defaultValue={defaultValue}
         disabled={isPending}
         onChange={onSelectChange}
       >
         {routing.map((language) => (
           <option key={language} value={language}>
-            <>{t("locale", { locale: language })}</>
+            {/* <>{t("locale", { locale: language })}</> */}
+            <>{t.rich("locale", { locale: language })}</>
           </option>
         ))}
       </select>
-      <span className="pointer-events-none absolute right-2 top-[8px]">⌄</span>
     </label>
   );
 };
