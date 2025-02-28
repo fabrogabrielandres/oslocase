@@ -15,6 +15,14 @@
       "Jonathan": "Jonathan",
       "Josh": "Josh",
       "Verified": "Verifisert kjøp"
+    },
+    "UploadYourPhoto": {
+      "title": "Last opp bildet ditt og <code>få din egen sak </code>nå",
+      "li1": "Silikonmateriale av høy kvalitet",
+      "li2": "Ripe- og fingeravtrykkbestandig belegg",
+      "li3": "Trådløs lading kompatibel",
+      "li4": "5 års utskriftsgaranti",
+      "create": "Opprett saken din nå"
     }
   },
   "LocaleSwitcher": {

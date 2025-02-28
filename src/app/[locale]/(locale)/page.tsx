@@ -10,6 +10,7 @@ import {
   AvatarStack,
 } from "@/components/AvatarStack/AvatarStack";
 import { StarInterface, StarStack } from "@/components/StarStack/StarStack";
+import { UploadYourPhoto } from "./UploadYourPhoto";
 
 export default function HomePage() {
   const t = useTranslations("HomePage");
@@ -76,7 +77,7 @@ export default function HomePage() {
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t via-slate1-50/50 from-slate-50 h-28" />
                 <Image
                   alt="/1.png"
-                  src="/1.png"
+                  src={"/1.png"}
                   width={250}
                   height={600}
                   className="w-fit bg-gradient-to-t via-slate1-50/50 from-slate-50"
@@ -160,8 +161,8 @@ export default function HomePage() {
                   <>
                     {/* <LinePhone></LinePhone> */}
                     {/* <Testimonial></Testimonial> */}
-                    <Phone.Testimonial></Phone.Testimonial>
-                    <Phone.LinePhone></Phone.LinePhone>
+                    <Phone.Testimonial />
+                    <Phone.LinePhone />
                   </>
                 )}
               </Phone>
@@ -169,6 +170,9 @@ export default function HomePage() {
           </div>
         </MaxWidthWrapper>
         <CustomersSay />
+      </section>
+      <section>
+        <UploadYourPhoto />
       </section>
     </div>
   );

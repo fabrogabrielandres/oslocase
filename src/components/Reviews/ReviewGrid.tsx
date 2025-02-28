@@ -19,7 +19,6 @@ export const ReviewGrid = () => {
         <>
           <ReviewColumn
             reviews={[...column1, ...column3, ...column2]}
-            className="bg-purple-600"
             reviewClassName={(reviewIndex) =>
               cn({
                 "md:hidden": reviewIndex >= column1.length + column3.length,
@@ -30,7 +29,7 @@ export const ReviewGrid = () => {
           />
           <ReviewColumn
             reviews={[...column2, ...column3]}
-            className="bg-yellow-600 hidden md:block"
+            className="hidden md:block"
             reviewClassName={(reviewIndex) =>
               reviewIndex >= column2.length ? "lg:hidden" : ""
             }
@@ -38,7 +37,7 @@ export const ReviewGrid = () => {
           />
           <ReviewColumn
             reviews={column3}
-            className="hidden md:block bg-red-600"
+            className="hidden md:block "
             msPerPixel={10}
           />
         </>

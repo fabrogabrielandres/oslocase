@@ -12,9 +12,17 @@
       "title": "Lo que dicen nuestros <code > clientes </code>",
       "customerOne": "El estuche parece duradero e incluso me felicitaron por el diseño. Tengo el estuche desde hace dos meses y medio y la imagen es súper clara. En el estuche que tenía antes, la imagen comenzó a decolorarse y adquirir un color amarillento después de un par de semanas. Me encanta. Tuve el estuche durante dos meses y medio y <code> la imagen es súper clara </code>. En el estuche que tuve antes, la imagen comenzó a desvanecerse a un color amarillento después de un par de semanas.",
       "customerTwo": "Por lo general, guardo mi teléfono junto con las llaves en el bolsillo y eso provocó algunos rayones bastante fuertes en todas las últimas fundas de mi teléfono. Este, además de un rasguño apenas perceptible en la esquina, <code> parece nuevo después de aproximadamente medio año</code>. Lo entiendo.",
-      "Jonathan":"Jonathan",
-      "Josh":"Josh",
-      "Verified":"Compra verificada"
+      "Jonathan": "Jonathan",
+      "Josh": "Josh",
+      "Verified": "Compra verificada"
+    },
+    "UploadYourPhoto": {
+      "title": "Sube tu foto y <code>obtén tu propio estuche</code>ahora",
+      "li1": "Material de silicona de alta calidad",
+      "li2": "Revestimiento resistente a arañazos y huellas dactilares",
+      "li3": "Compatible con carga inalámbrica",
+      "li4": "5 años de garantía de impresión",
+      "create": "Crea tu caso ahora"
     }
   },
   "LocaleSwitcher": {

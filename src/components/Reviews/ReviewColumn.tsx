@@ -19,7 +19,6 @@ export const ReviewColumn = ({
   const [columnHeight, setColumnHeight] = useState(0);
   const duration = `${columnHeight * msPerPixel}ms`;
 
-
   useEffect(() => {
       if (!columnRef.current) return;
       console.log(columnRef.current.offsetHeight);
