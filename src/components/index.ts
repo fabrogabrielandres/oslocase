@@ -13,11 +13,10 @@ export const Phone: PhoneHOCProps = Object.assign( PhoneHC, {
 export default Phone;
 
 
-export { AuthProvider } from "./Provaiders/AuthProviderKinde/AuthProviderKinde";
-export { Reviews } from "./Reviews/Reviews";
-
-
+export * from "./Provaiders/AuthProviderKinde/AuthProviderKinde";
+export * from "./Reviews/Reviews";
 export * from "./LocaleSwitcherSelect/LocaleSwitcherSelect";
-export { Icons } from "./Icons/Icons";
+export * from "./Icons/Icons";
+export * from "./Footer/Footer";
 
 

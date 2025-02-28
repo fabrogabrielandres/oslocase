@@ -4,13 +4,13 @@ import { Check } from "lucide-react";
 import Image from "next/image";
 import "../../globals.css";
 import Phone from "@/components";
-import { CustomersSay } from "./CustomersSay";
+import { CustomersSay } from "./ui/CustomersSay";
 import {
   AvatarInterface,
   AvatarStack,
 } from "@/components/AvatarStack/AvatarStack";
 import { StarInterface, StarStack } from "@/components/StarStack/StarStack";
-import { UploadYourPhoto } from "./UploadYourPhoto";
+import { UploadYourPhoto } from "./ui/UploadYourPhoto";
 
 export default function HomePage() {
   const t = useTranslations("HomePage");

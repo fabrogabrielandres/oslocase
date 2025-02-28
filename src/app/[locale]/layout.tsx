@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 import Navbar from "@/components/NavBar/NavBar";
-import { AuthProvider } from "@/components";
+import { AuthProvider, Footer } from "@/components";
 
 export default async function LocaleLayout({
   children,
@@ -28,7 +28,10 @@ export default async function LocaleLayout({
         <AuthProvider>
           <NextIntlClientProvider messages={messages}>
             <Navbar></Navbar>
-            {children}
+            <main className="flex grainy-light flex-col min-h-[calc(100vh-3.5rem-1px)]">
+              <div className="flex-1 flex flex-col h-full">{children}</div>
+              <Footer />
+            </main>
           </NextIntlClientProvider>
         </AuthProvider>
       </body>
