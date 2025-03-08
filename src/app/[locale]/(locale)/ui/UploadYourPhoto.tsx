@@ -1,3 +1,4 @@
+"use client";
 import Phone from "@/components";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import { buttonVariants } from "@/components/ui/button";
@@ -7,7 +8,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export const UploadYourPhoto = () => {
+interface Props {
+  locale: string;
+}
+
+export const UploadYourPhoto = ({ locale }: Props) => {
   const t = useTranslations("HomePage.UploadYourPhoto");
 
   return (
@@ -81,7 +86,8 @@ export const UploadYourPhoto = () => {
                 size: "lg",
                 className: "mx-auto mt-8",
               })}
-              href="/configure/upload"
+              href={`${locale}/configure/upload`}
+              // href={`/configure/upload`}
             >
               {t.rich("create", {
                 t: (t) => <code>{t}</code>,

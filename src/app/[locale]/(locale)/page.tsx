@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+// import { useLocale, useTranslations } from "next-intl";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import { Check } from "lucide-react";
 import Image from "next/image";
@@ -11,9 +11,21 @@ import {
 } from "@/components/AvatarStack/AvatarStack";
 import { StarInterface, StarStack } from "@/components/StarStack/StarStack";
 import { UploadYourPhoto } from "./ui/UploadYourPhoto";
+import { getTranslations } from "next-intl/server";
 
-export default function HomePage() {
-  const t = useTranslations("HomePage");
+
+
+interface Props {
+  params: {
+    locale: string;
+  };
+}
+
+export default async function HomePage({ params }: Props) {
+  // const t = useTranslations("HomePage");
+  const t = await getTranslations('HomePage');
+  const locale  = await params.locale
+
   const stackImage: Array<AvatarInterface> = [
     {
       classNameImage:
@@ -79,7 +91,7 @@ export default function HomePage() {
                   alt="/1.png"
                   src={"/1.png"}
                   width={250}
-                  height={600}
+                  height={250}
                   className="w-fit bg-gradient-to-t via-slate1-50/50 from-slate-50"
                 />
               </div>
@@ -172,7 +184,7 @@ export default function HomePage() {
         <CustomersSay />
       </section>
       <section>
-        <UploadYourPhoto />
+        <UploadYourPhoto locale={ locale }/>
       </section>
     </div>
   );
