@@ -1,9 +1,10 @@
-import Link from "next/link";
+
 import { ArrowRight } from "lucide-react";
 import { MaxWidthWrapper } from "../MaxWidthWrapper/MaxWidthWrapper";
 import { buttonVariants } from "../ui/button";
 import LocaleSwitcher from "../LocaleSwitcher/LocaleSwitcher";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { Link } from "@/i18n/routing";
 
 interface Props {
   language: string;
@@ -81,7 +82,7 @@ const Navbar = async ({ language }: Props) => {
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
 
                 <Link
-                  href={`${language}/configure/upload`}
+                  href={`/configure/upload`}
                   className={buttonVariants({
                     size: "sm",
                     className: "hidden sm:flex items-center gap-1",
