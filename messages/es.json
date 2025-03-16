@@ -28,5 +28,13 @@
   "LocaleSwitcher": {
     "label": "Cambiar Idioma",
     "locale": "{locale, select, es {Español} en {Ingles} other {''} no {Noruego}}"
+  },
+  "Components": {
+    "Footer": {
+      "reserved": "Todos los derechos reservados",
+      "terms":   "Condiciones de uso",
+      "privacy": "Política de privacidad",
+      "cookie":  "Política de cookies"
+    }
   }
 }
