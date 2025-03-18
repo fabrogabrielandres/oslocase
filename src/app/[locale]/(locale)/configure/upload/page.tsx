@@ -1,32 +1,53 @@
 "use client";
+
+import { Progress } from "@/components/ui/progress";
+import { useUploadThing } from "@/lib/uploadthing";
 import { cn } from "@/lib/utils";
 import { Image, Loader2, MousePointerSquareDashed } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState,  } from "react";
+import { useState, useTransition } from "react";
 import Dropzone, { FileRejection } from "react-dropzone";
 
-
-const Page = () => {
-  
+export default function Page() {
+  const [isPending, startTransition] = useTransition();
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
   const router = useRouter();
 
-  const isUploading = false;
-  const isPending = false;
+  const { isUploading ,startUpload } = useUploadThing("imageUploader", {
+    onClientUploadComplete: ([data]) => {
+      const configId = data.serverData.configId
+      console.log("onClientUploadComplete",configId);
+      
+      startTransition(() => {
+        router.push(`/configure/design?id=${configId}`)
+      })
+    },
+    onUploadProgress(p) {
+      console.log("progress",p);
+      
+      setUploadProgress(p);
+    },
+  });
 
   const onDropRejected = (rejectedFiles: FileRejection[]) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [file] = rejectedFiles;
 
+    console.log("onDropRejected",file);
     setIsDragOver(false);
+
+    
   };
 
   const onDropAccepted = (acceptedFiles: File[]) => {
-    console.log(acceptedFiles);
-    
+    console.log("onDropAccepted");
+    startUpload(acceptedFiles,{configId:undefined})
+    startTransition(()=>{
+      
+    })
     setIsDragOver(false);
   };
+
 
   return (
     <div
@@ -60,12 +81,16 @@ const Page = () => {
               ) : isUploading || isPending ? (
                 <Loader2 className="animate-spin h-6 w-6 text-zinc-500 mb-2" />
               ) : (
-                <Image  className="h-6 w-6 text-zinc-500 mb-2" />
+                <Image className="h-6 w-6 text-zinc-500 mb-2" />
               )}
               <div className="flex flex-col justify-center mb-2 text-sm text-zinc-700">
                 {isUploading ? (
                   <div className="flex flex-col items-center">
                     <p>Uploading...</p>
+                    <Progress
+                      value={uploadProgress}
+                      className="mt-2 w-40 h-2 bg-gray-300"
+                    />
                   </div>
                 ) : isPending ? (
                   <div className="flex flex-col items-center">
@@ -82,6 +107,7 @@ const Page = () => {
                   </p>
                 )}
               </div>
+
               {isPending ? null : (
                 <p className="text-xs text-zinc-500">PNG, JPG, JPEG</p>
               )}
@@ -91,6 +117,4 @@ const Page = () => {
       </div>
     </div>
   );
-};
-
-export default Page;
+}
