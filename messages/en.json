@@ -23,6 +23,13 @@
       "li3": "Wireless charging compatible",
       "li4": "5 year print warranty",
       "create": "Create your case now"
+    },
+    "Configure": {
+      "Uploading": "Uploading...",
+      "Redirecting": "Redirecting, please wait...",
+      "Drop": "Drop file, <code>to upload</code>",
+      "Click": "<code>Click to upload</code> or drag and drop",
+      "Type": "PNG, JPG, JPEG"
     }
   },
   "LocaleSwitcher": {
@@ -31,10 +38,10 @@
   },
   "Components": {
     "Footer": {
-      "reserved":"All rights reserved",
-      "terms":"Terms",
-      "privacy":"Privacy Policy",
-      "cookie":"Cookie Policy"
+      "reserved": "All rights reserved",
+      "terms": "Terms",
+      "privacy": "Privacy Policy",
+      "cookie": "Cookie Policy"
     }
   }
 }

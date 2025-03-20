@@ -5,17 +5,19 @@ import { useToast } from "@/hooks/use-toast";
 import { useUploadThing } from "@/lib/uploadthing";
 import { cn } from "@/lib/utils";
 import { Image, Loader2, MousePointerSquareDashed } from "lucide-react";
+import { useTranslations } from "next-intl";
+
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import Dropzone, { FileRejection } from "react-dropzone";
 
 export default function Page() {
+  const t = useTranslations("HomePage.Configure");
   const [isPending, startTransition] = useTransition();
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const router = useRouter();
-  const { toast } = useToast()
-  
+  const { toast } = useToast();
 
   const { isUploading, startUpload } = useUploadThing("imageUploader", {
     onClientUploadComplete: ([data]) => {
@@ -28,7 +30,6 @@ export default function Page() {
       console.log("progress", p);
       setUploadProgress(p);
     },
-    
   });
 
   const onDropRejected = (rejectedFiles: FileRejection[]) => {
@@ -87,7 +88,11 @@ export default function Page() {
               <div className="flex flex-col justify-center mb-2 text-sm text-zinc-700">
                 {isUploading ? (
                   <div className="flex flex-col items-center">
-                    <p>Uploading...</p>
+                    <p>
+                      {t.rich("Uploading", {
+                        code: (code) => <>{code}</>,
+                      })}
+                    </p>
                     <Progress
                       value={uploadProgress}
                       className="mt-2 w-40 h-2 bg-gray-300"
@@ -95,16 +100,27 @@ export default function Page() {
                   </div>
                 ) : isPending ? (
                   <div className="flex flex-col items-center">
-                    <p>Redirecting, please wait...</p>
+                    <p>
+                      {t.rich("Redirecting", {
+                        code: (code) => <>{code}</>,
+                      })}
+                    </p>
                   </div>
                 ) : isDragOver ? (
                   <p>
-                    <span className="font-semibold">Drop file</span> to upload
+                    {t.rich("Drop", {
+                      code: (code) => (
+                        <span className="font-semibold">{code}</span>
+                      ),
+                    })}
                   </p>
                 ) : (
                   <p>
-                    <span className="font-semibold">Click to upload</span> or
-                    drag and drop
+                    {t.rich("Click", {
+                      code: (code) => (
+                        <span className="font-semibold">{code}</span>
+                      ),
+                    })}
                   </p>
                 )}
               </div>

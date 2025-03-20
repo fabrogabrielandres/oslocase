@@ -23,6 +23,13 @@
       "li3": "Compatible con carga inalámbrica",
       "li4": "5 años de garantía de impresión",
       "create": "Crea tu caso ahora"
+    },
+    "Configure": {
+      "Uploading": "Cargando...",
+      "Redirecting": "Redirigiendo, por favor espere...",
+      "Drop": "Soltar archivo, <code>para cargar</code>",
+      "Click": "<code>Haga clic para cargar</code> o arrastre y suelte",
+      "Type": "PNG, JPG, JPEG"
     }
   },
   "LocaleSwitcher": {
@@ -32,9 +39,9 @@
   "Components": {
     "Footer": {
       "reserved": "Todos los derechos reservados",
-      "terms":   "Condiciones de uso",
+      "terms": "Condiciones de uso",
       "privacy": "Política de privacidad",
-      "cookie":  "Política de cookies"
+      "cookie": "Política de cookies"
     }
   }
 }

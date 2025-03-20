@@ -23,6 +23,13 @@
       "li3": "Trådløs lading kompatibel",
       "li4": "5 års utskriftsgaranti",
       "create": "Opprett saken din nå"
+    },
+    "Configure": {
+      "Uploading": "Laster opp...",
+      "Redirecting": "Omdirigerer, vennligst vent...",
+      "Drop": "Slipp fil, <code>for å laste opp</code>",
+      "Click": "<code>Klikk for å laste opp</code> eller dra og slipp",
+      "Type": "PNG, JPG, JPEG"
     }
   },
   "LocaleSwitcher": {
