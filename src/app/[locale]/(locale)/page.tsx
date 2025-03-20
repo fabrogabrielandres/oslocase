@@ -85,7 +85,7 @@ export default async function HomePage({ params }: Props) {
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t via-slate1-50/50 from-slate-50 h-28" />
                 <Image
                   alt="/1.png"
-                  src={"/1.png"}
+                  src={"/moose-1.png"}
                   width={250}
                   height={250}
                   className="w-fit bg-gradient-to-t via-slate1-50/50 from-slate-50"

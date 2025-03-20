@@ -33,7 +33,7 @@ export const CustomersSay = () => {
           </h2>
           <Image
             alt="/1.png"
-            src="/1.png"
+            src="/moose-1.png"
             className="w-24 order-0 lg:order-2"
             width={250}
             height={250}
