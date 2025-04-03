@@ -47,7 +47,6 @@ export default function UploadPage() {
 
   const onDropAccepted = (acceptedFiles: File[]) => {
     startUpload(acceptedFiles, { configId: undefined });
-    startTransition(() => {});
     setIsDragOver(false);
   };
 
