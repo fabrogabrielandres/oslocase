@@ -12,3 +12,10 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model configuration {
+  id              String  @id @default(uuid())
+  with            Int
+  height          Int
+  croppedImageUrl String?
+}
