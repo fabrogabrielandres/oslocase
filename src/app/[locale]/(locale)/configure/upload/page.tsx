@@ -7,11 +7,8 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { cn } from "@/lib/utils";
 import { Image, Loader2, MousePointerSquareDashed } from "lucide-react";
 import { useTranslations } from "next-intl";
-
-// import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import Dropzone, { FileRejection } from "react-dropzone";
-
 
 export default function UploadPage() {
   const t = useTranslations("HomePage.Configure");
@@ -23,16 +20,13 @@ export default function UploadPage() {
 
   const { isUploading, startUpload } = useUploadThing("imageUploader", {
     onClientUploadComplete: ([data]) => {
-      console.log("que subiii", data);
-      
-      const configId = data.serverData.configId;
+      const configId = data.serverData?.configId;
 
       startTransition(() => {
         router.push(`/configure/design?id=${configId}`);
       });
     },
     onUploadProgress(p) {
-      console.log("progress", p);
       setUploadProgress(p);
     },
   });
@@ -40,7 +34,6 @@ export default function UploadPage() {
   const onDropRejected = (rejectedFiles: FileRejection[]) => {
     const [file] = rejectedFiles;
 
-    console.log("onDropRejected");
     setIsDragOver(false);
 
     toast({
