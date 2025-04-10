@@ -1,7 +1,9 @@
 "use client";
 import HandleComponent from "@/components/HandleComponent/HandleComponent";
 import { cn } from "@/lib/utils";
+import { COLORS } from "@/validators/option-validator";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import Image from "next/image";
 import { Rnd } from "react-rnd";
@@ -17,9 +19,13 @@ interface ImageDimenisons {
   height: number;
 }
 
-export const DesignConfiguration = ({ imageDimenisons, id, imgUrl }: Props) => {
+const colorVariants = {
+  black: "bg-zinc-900",
+  blue: "bg-blue-950",
+  rose: "bg-rose-950",
+};
+export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
   const { height, width } = imageDimenisons;
-  console.log(id, imgUrl, height, width);
 
   return (
     <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20 ">
@@ -70,8 +76,46 @@ export const DesignConfiguration = ({ imageDimenisons, id, imgUrl }: Props) => {
           </div>
         </Rnd>
       </div>
-      <div>
-        <ScrollArea></ScrollArea>
+      <div className="h-[37.5rem] w-full col-span-full lg:col-span-1 flex flex-col bg-white">
+        <ScrollArea>
+          <div
+            aria-hidden="true"
+            className="absolute z-10 inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white pointer-events-none"
+          />
+          <div className="px-8 pb-12 pt-8">
+            <h2 className="tracking-tight font-bold text-3xl">
+              Customize your case
+            </h2>
+
+            <div className="w-full h-px bg-zinc-200 my-6" />
+            <div className="relative mt-4 h-full flex flex-col justify-between">
+              <div className="flex flex-col gap-6">
+                <RadioGroup
+                  defaultValue=""
+                  onValueChange={(value) => console.log(value)}
+                >
+                  <label>Color: {"options.color.label"}</label>
+                  <div className="mt-3 flex items-center space-x-3">
+                    {COLORS.map((color) => (
+                      <RadioGroupItem
+                        key={color.value}
+                        value={color.value}
+                        id={color.label}
+                      >
+                        <label htmlFor={color.label}>{color.label}</label>
+                        <div
+                          className={`${
+                            colorVariants[color.value]
+                          } h-8 w-8 rounded-full border border-black border-opacity-10`}
+                        ></div>
+                      </RadioGroupItem>
+                    ))}
+                  </div>
+                </RadioGroup>
+              </div>
+            </div>
+          </div>
+        </ScrollArea>
       </div>
     </div>
   );
