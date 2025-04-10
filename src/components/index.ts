@@ -18,5 +18,7 @@ export * from "./Reviews/Reviews";
 export * from "./LocaleSwitcherSelect/LocaleSwitcherSelect";
 export * from "./Icons/Icons";
 export * from "./Footer/Footer";
+export * from "./HandleComponent/HandleComponent";
+
 
 

@@ -1,6 +1,10 @@
+"use client";
+import HandleComponent from "@/components/HandleComponent/HandleComponent";
 import { cn } from "@/lib/utils";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 import Image from "next/image";
+import { Rnd } from "react-rnd";
 
 interface Props {
   id: string;
@@ -40,9 +44,34 @@ export const DesignConfiguration = ({ imageDimenisons, id, imgUrl }: Props) => {
           />
           <div className="absolute z-40 inset-0 left-[3px] top-px right-[3px] bottom-px rounded-[32px] shadow-[0_0_0_99999px_rgba(229,231,235,0.6)] " />
         </div>
-        <div className="relative w-full h-full">
-          <Image src={imgUrl} fill alt="Author Photo" />
-        </div>
+        <Rnd
+          default={{
+            x: 150,
+            y: 205,
+            height: height / 4,
+            width: width / 4,
+          }}
+          className="absolute z-20 border-[3px] border-primary"
+          lockAspectRatio
+          resizeHandleComponent={{
+            bottomRight: <HandleComponent />,
+            bottomLeft: <HandleComponent />,
+            topRight: <HandleComponent />,
+            topLeft: <HandleComponent />,
+          }}
+        >
+          <div className="relative w-full h-full">
+            <Image
+              src={imgUrl}
+              fill
+              alt="your image"
+              className="pointer-events-none"
+            />
+          </div>
+        </Rnd>
+      </div>
+      <div>
+        <ScrollArea></ScrollArea>
       </div>
     </div>
   );

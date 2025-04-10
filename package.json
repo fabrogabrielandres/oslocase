@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "@kinde-oss/kinde-auth-nextjs": "^2.5.1",
-    "@prisma/client": "^6.5.0",
+    "@prisma/client": "^6.6.0",
     "@radix-ui/react-aspect-ratio": "^1.1.2",
     "@radix-ui/react-progress": "^1.1.2",
+    "@radix-ui/react-scroll-area": "^1.2.4",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-toast": "^1.2.6",
     "@uploadthing/react": "^7.3.0",
