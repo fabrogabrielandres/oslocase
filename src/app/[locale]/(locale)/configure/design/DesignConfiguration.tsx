@@ -1,10 +1,13 @@
 "use client";
 import HandleComponent from "@/components/HandleComponent/HandleComponent";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { COLORS } from "@/validators/option-validator";
+import { COLORS, MODELS } from "@/validators/option-validator";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import { DropdownMenu, DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger,} from "@radix-ui/react-dropdown-menu";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { Check, ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { Rnd } from "react-rnd";
@@ -20,17 +23,27 @@ interface ImageDimenisons {
   height: number;
 }
 
+const colorborder = {
+  black: { bg: "bg-zinc-900", bor: "border-zinc-900" },
+
+  blue: {
+    bg: "bg-blue-950",
+    bor: "border-blue-950",
+  },
+  rose: { bg: "bg-rose-950", bor: "border-rose-950" },
+};
+
 export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
   const { height, width } = imageDimenisons;
 
   const [options, setOptions] = useState<{
     color: (typeof COLORS)[number];
-    // model: (typeof MODELS.options)[number]
+    model: (typeof MODELS.options)[number];
     // material: (typeof MATERIALS.options)[number]
     // finish: (typeof FINISHES.options)[number]
   }>({
     color: COLORS[0],
-    // model: MODELS.options[0],
+    model: MODELS.options[0],
     // material: MATERIALS.options[0],
     // finish: FINISHES.options[0],
   });
@@ -53,8 +66,9 @@ export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
           </AspectRatio>
           <div
             className={cn(
-              "absolute inset-0 left-[3px] top-px right-[3px] bottom-px rounded-[32px] w-full h-full",
-              "bg-blue-950"
+              `absolute inset-0 left-[3px] top-px right-[3px] bottom-px rounded-[32px] w-full h-full ${
+                colorborder[options.color.value].bg
+              }`
             )}
           />
           {/* this div generated from border to outside a shadow , is like a background from the border to exterior  */}
@@ -87,10 +101,10 @@ export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
         </Rnd>
       </div>
       <div className="h-[37.5rem] w-full col-span-full lg:col-span-1 flex flex-col bg-white">
-        <ScrollArea>
+        <ScrollArea className="relative flex-1 overflow-auto">
           <div
             aria-hidden="true"
-            className="absolute z-10 inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white pointer-events-none"
+            className="absolute z-10 inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white pointer-events-none "
           />
           <div className="px-8 pb-12 pt-8">
             <h2 className="tracking-tight font-bold text-3xl">
@@ -118,20 +132,61 @@ export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
                         key={color.value}
                         value={color.value}
                         className={cn(
-                          `grid place-content-center rounded-full h-10 w-10 relative -m-0.5  cursor-pointer p-0.5 active:ring-0 focus:ring-0 active:outline-none focus:outline-none border-2 border-transparent border-${color.tw}`,
-                          `${`data-[state=checked]:border-yellow-500`}`
+                          `grid place-content-center rounded-full h-10 w-10 relative -m-1.5  cursor-pointer p-0.5 active:ring-0 focus:ring-0 active:outline-none focus:outline-none border-2 border-transparent border-${color.tw}`,
+                          `data-[state=checked]:border-[8px] `
                         )}
                       >
                         <div
                           className={cn(
                             "h-8 w-8 rounded-full border border-black border-opacity-10",
-                            `bg-${color.tw}`
+                            `${colorborder[color.value].bg}`
                           )}
                         ></div>
                       </RadioGroupItem>
                     ))}
                   </div>
                 </RadioGroup>
+              </div>
+              <div className="relative flex flex-col gap-3 w-full">
+                <label className="mt-3">Model</label>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className="w-full justify-between "
+                    >
+                      {options.model.label}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {MODELS.options.map((model) => (
+                      <DropdownMenuItem
+                        key={model.label}
+                        className={cn(
+                          "flex text-sm gap-1 items-center p-1.5 cursor-default hover:bg-zinc-100",
+                          {
+                            "bg-zinc-100": model.label === options.model.label,
+                          }
+                        )}
+                        onClick={() => {
+                          setOptions((prev) => ({ ...prev, model }));
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            model.label === options.model.label
+                              ? "opacity-100"
+                              : "opacity-0"
+                          )}
+                        />
+                        {model.label}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           </div>
