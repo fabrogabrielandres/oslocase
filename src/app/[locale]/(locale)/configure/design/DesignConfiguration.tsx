@@ -6,6 +6,7 @@ import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import Image from "next/image";
+import { useState } from "react";
 import { Rnd } from "react-rnd";
 
 interface Props {
@@ -19,13 +20,21 @@ interface ImageDimenisons {
   height: number;
 }
 
-const colorVariants = {
-  black: "bg-zinc-900",
-  blue: "bg-blue-950",
-  rose: "bg-rose-950",
-};
 export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
   const { height, width } = imageDimenisons;
+
+  const [options, setOptions] = useState<{
+    color: (typeof COLORS)[number];
+    // model: (typeof MODELS.options)[number]
+    // material: (typeof MATERIALS.options)[number]
+    // finish: (typeof FINISHES.options)[number]
+  }>({
+    color: COLORS[0],
+    // model: MODELS.options[0],
+    // material: MATERIALS.options[0],
+    // finish: FINISHES.options[0],
+  });
+  console.log(options);
 
   return (
     <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20 ">
@@ -48,6 +57,7 @@ export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
               "bg-blue-950"
             )}
           />
+          {/* this div generated from border to outside a shadow , is like a background from the border to exterior  */}
           <div className="absolute z-40 inset-0 left-[3px] top-px right-[3px] bottom-px rounded-[32px] shadow-[0_0_0_99999px_rgba(229,231,235,0.6)] " />
         </div>
         <Rnd
@@ -91,22 +101,32 @@ export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
             <div className="relative mt-4 h-full flex flex-col justify-between">
               <div className="flex flex-col gap-6">
                 <RadioGroup
-                  defaultValue=""
-                  onValueChange={(value) => console.log(value)}
+                  value={options.color.value}
+                  onValueChange={(val) => {
+                    setOptions((prev) => ({
+                      ...prev,
+                      color:
+                        COLORS.find((color) => color.value === val) ||
+                        COLORS[0],
+                    }));
+                  }}
                 >
-                  <label>Color: {"options.color.label"}</label>
+                  <label>Color: {options.color.label}</label>
                   <div className="mt-3 flex items-center space-x-3">
                     {COLORS.map((color) => (
                       <RadioGroupItem
                         key={color.value}
                         value={color.value}
-                        id={color.label}
+                        className={cn(
+                          `grid place-content-center rounded-full h-10 w-10 relative -m-0.5  cursor-pointer p-0.5 active:ring-0 focus:ring-0 active:outline-none focus:outline-none border-2 border-transparent border-${color.tw}`,
+                          `${`data-[state=checked]:border-yellow-500`}`
+                        )}
                       >
-                        <label htmlFor={color.label}>{color.label}</label>
                         <div
-                          className={`${
-                            colorVariants[color.value]
-                          } h-8 w-8 rounded-full border border-black border-opacity-10`}
+                          className={cn(
+                            "h-8 w-8 rounded-full border border-black border-opacity-10",
+                            `bg-${color.tw}`
+                          )}
                         ></div>
                       </RadioGroupItem>
                     ))}
