@@ -1,21 +1,36 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import HandleComponent from "@/components/HandleComponent/HandleComponent";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Button } from "@/components/ui/button";
+import { COLORS_INTERFACE } from "@/interfaces/Colors.Interface";
 import { cn } from "@/lib/utils";
-import { COLORS, MODELS } from "@/validators/option-validator";
+import {
+  COLORS,
+  FINISHES,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  MATERIALS,
+  MODELS,
+} from "@/validators/option-validator";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { DropdownMenu, DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger,} from "@radix-ui/react-dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Check, ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Rnd } from "react-rnd";
 
 interface Props {
   id: string;
   imgUrl: string;
   imageDimenisons: ImageDimenisons;
+  colors: Array<COLORS_INTERFACE>;
 }
 
 interface ImageDimenisons {
@@ -33,21 +48,47 @@ const colorborder = {
   rose: { bg: "bg-rose-950", bor: "border-rose-950" },
 };
 
-export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
+export const DesignConfiguration = ({
+  imageDimenisons,
+  imgUrl,
+  colors,
+}: Props) => {
   const { height, width } = imageDimenisons;
 
-  const [options, setOptions] = useState<{
-    color: (typeof COLORS)[number];
-    model: (typeof MODELS.options)[number];
-    // material: (typeof MATERIALS.options)[number]
-    // finish: (typeof FINISHES.options)[number]
-  }>({
-    color: COLORS[0],
-    model: MODELS.options[0],
-    // material: MATERIALS.options[0],
-    // finish: FINISHES.options[0],
+  interface COLORSMAPED {
+    label: string;
+    value: string;
+    border: string;
+    bg: string;
+  }
+  const mapColors: { [key: string]: COLORSMAPED } = {};
+
+  colors.map((color: COLORS_INTERFACE) => {
+    mapColors[color.value as keyof typeof mapColors] = {
+      bg: `bg-${color.tw}`,
+      border: `border-${color.tw}`,
+      label: color.label,
+      value: color.value,
+    };
   });
-  console.log(options);
+
+  const [options, setOptions] = useState<{
+    color: string;
+    model: string;
+    // material: (typeof MATERIALS)[number]["id"];
+    // finish: (typeof FINISHES)[number]["id"];
+  }>({
+    color: colors[0].value,
+    model: MODELS[0].id,
+    // material: MATERIALS[0].id,
+    // finish: FINISHES[0].id,
+  });
+
+  useEffect(() => {
+    console.log("colors", colors);
+    console.log("options", options);
+    console.log("mapColors", mapColors);
+  }, [options]);
 
   return (
     <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20 ">
@@ -64,11 +105,10 @@ export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
               className="pointer-events-none z-50 select-none"
             />
           </AspectRatio>
-          <div
+          <section
             className={cn(
-              `absolute inset-0 left-[3px] top-px right-[3px] bottom-px rounded-[32px] w-full h-full ${
-                colorborder[options.color.value].bg
-              }`
+              `absolute inset-0 left-[3px] top-px right-[3px] bottom-px rounded-[32px] w-full h-full`,
+              `${colorborder[options.color as keyof typeof colorborder].bg}`
             )}
           />
           {/* this div generated from border to outside a shadow , is like a background from the border to exterior  */}
@@ -115,17 +155,15 @@ export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
             <div className="relative mt-4 h-full flex flex-col justify-between">
               <div className="flex flex-col gap-6">
                 <RadioGroup
-                  value={options.color.value}
+                  value={options.color}
                   onValueChange={(val) => {
                     setOptions((prev) => ({
                       ...prev,
-                      color:
-                        COLORS.find((color) => color.value === val) ||
-                        COLORS[0],
+                      color: val,
                     }));
                   }}
                 >
-                  <label>Color: {options.color.label}</label>
+                  <label>Color: {options.color}</label>
                   <div className="mt-3 flex items-center space-x-3">
                     {COLORS.map((color) => (
                       <RadioGroupItem
@@ -139,7 +177,9 @@ export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
                         <div
                           className={cn(
                             "h-8 w-8 rounded-full border border-black border-opacity-10",
-                            `${colorborder[color.value].bg}`
+                            `${
+                              colorborder[color.value as keyof typeof colorborder].bg
+                            }`
                           )}
                         ></div>
                       </RadioGroupItem>
@@ -149,7 +189,7 @@ export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
               </div>
               <div className="relative flex flex-col gap-3 w-full">
                 <label className="mt-3">Model</label>
-                <DropdownMenu>
+                {/* <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="outline"
@@ -161,7 +201,7 @@ export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    {MODELS.options.map((model) => (
+                    {MODELS.map((model) => (
                       <DropdownMenuItem
                         key={model.label}
                         className={cn(
@@ -186,7 +226,7 @@ export const DesignConfiguration = ({ imageDimenisons, imgUrl }: Props) => {
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
-                </DropdownMenu>
+                </DropdownMenu> */}
               </div>
             </div>
           </div>
