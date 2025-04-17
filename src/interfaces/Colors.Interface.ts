@@ -14,5 +14,5 @@ export interface COLORMAMP_INTERFACE {
 export interface MODELS_INTERFACE {
   label: string;
   value: string;
-  id: string;
+  id?: string;
 }

@@ -22,7 +22,7 @@ model Colors {
   tw    String
 }
 
-model Models {
+model ModelsPhone {
   id    String @id @default(uuid())
   label String
   value String @unique

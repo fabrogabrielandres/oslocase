@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { COLORS_INTERFACE } from "../interfaces/Colors.Interface";
+import { COLORS_INTERFACE, MODELS_INTERFACE } from "../interfaces/Colors.Interface";
 
 export const COLORS: Array<COLORS_INTERFACE> = [
   { label: "Black", value: "black", tw: "zinc-900" },
@@ -12,36 +12,31 @@ export const COLORS: Array<COLORS_INTERFACE> = [
   { label: "Rose", value: "rose", tw: "rose-950" },
 ];
 
-export const MODELS = [
+export const MODELS: Array<MODELS_INTERFACE> = [
   {
     label: "iPhone X",
     value: "iphonex",
-    id: "",
+
   },
   {
     label: "iPhone 11",
     value: "iphone11",
-    id: "",
   },
   {
     label: "iPhone 12",
     value: "iphone12",
-    id: "",
   },
   {
     label: "iPhone 13",
     value: "iphone13",
-    id: "",
   },
   {
     label: "iPhone 14",
     value: "iphone14",
-    id: "",
   },
   {
     label: "iPhone 15",
     value: "iphone15",
-    id: "",
   },
 ];
 

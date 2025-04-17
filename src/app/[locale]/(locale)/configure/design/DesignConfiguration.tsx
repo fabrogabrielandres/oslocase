@@ -3,7 +3,7 @@
 import HandleComponent from "@/components/HandleComponent/HandleComponent";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Button } from "@/components/ui/button";
-import { COLORS_INTERFACE } from "@/interfaces/Colors.Interface";
+import { COLORS_INTERFACE, MODELS_INTERFACE } from "@/interfaces/Colors.Interface";
 import { cn } from "@/lib/utils";
 import {
   COLORS,
@@ -31,6 +31,7 @@ interface Props {
   imgUrl: string;
   imageDimenisons: ImageDimenisons;
   colors: Array<COLORS_INTERFACE>;
+  models: Array<MODELS_INTERFACE>;
 }
 
 interface ImageDimenisons {
@@ -43,6 +44,7 @@ export const DesignConfiguration = ({
   imageDimenisons,
   imgUrl,
   colors,
+  models
 }: Props) => {
   const { height, width } = imageDimenisons;
 
@@ -79,6 +81,7 @@ export const DesignConfiguration = ({
     console.log("colors", colors);
     console.log("options", options);
     console.log("mapColors", mapColors);
+    console.log("models", models);
   }, [options]);
 
   return (
