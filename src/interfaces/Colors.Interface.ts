@@ -16,3 +16,19 @@ export interface MODELS_INTERFACE {
   value: string;
   id?: string;
 }
+
+export interface MATERIAL_INTERFACE {
+  label: string;
+  value: string;
+  id?: string;
+  description?: string | null;
+  price: number;
+}
+
+export interface FINISHES_INTERFACE {
+  label: string;
+  value: string;
+  id?: string;
+  description?: string | null;
+  price: number;
+}

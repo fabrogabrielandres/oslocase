@@ -2,7 +2,12 @@ import { UploadthingActions } from "@/app/api/uploadthing";
 import { notFound } from "next/navigation";
 import { DesignConfiguration } from "./DesignConfiguration";
 import { prisma } from "@/db/prisma";
-import { COLORS_INTERFACE, MODELS_INTERFACE } from "@/interfaces/Colors.Interface";
+import {
+  COLORS_INTERFACE,
+  FINISHES_INTERFACE,
+  MATERIAL_INTERFACE,
+  MODELS_INTERFACE,
+} from "@/interfaces/Colors.Interface";
 
 export default async function DesignPage({
   searchParams,
@@ -22,10 +27,14 @@ export default async function DesignPage({
 
   const colors: Array<COLORS_INTERFACE> = await prisma.colors.findMany();
   const models: Array<MODELS_INTERFACE> = await prisma.modelsPhone.findMany();
+  const materials: Array<MATERIAL_INTERFACE> = await prisma.materialsPhone.findMany();
+  const finishes: Array<FINISHES_INTERFACE> = await prisma.finishesPhone.findMany();
 
   return (
     <>
       <DesignConfiguration
+        materials={materials}
+        finishes={finishes}
         colors={colors}
         models={models}
         id={id}

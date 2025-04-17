@@ -1,20 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import HandleComponent from "@/components/HandleComponent/HandleComponent";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Button } from "@/components/ui/button";
 import {
   COLORS_INTERFACE,
+  FINISHES_INTERFACE,
+  MATERIAL_INTERFACE,
   MODELS_INTERFACE,
 } from "@/interfaces/Colors.Interface";
 import { cn } from "@/lib/utils";
-import {
-  COLORS,
-  FINISHES,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  MATERIALS,
-  MODELS,
-} from "@/validators/option-validator";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import {
   DropdownMenu,
@@ -35,6 +28,8 @@ interface Props {
   imageDimenisons: ImageDimenisons;
   colors: Array<COLORS_INTERFACE>;
   models: Array<MODELS_INTERFACE>;
+  materials: Array<MATERIAL_INTERFACE>;
+  finishes: Array<FINISHES_INTERFACE>;
 }
 
 interface ImageDimenisons {
@@ -47,6 +42,8 @@ export const DesignConfiguration = ({
   imgUrl,
   colors,
   models,
+  finishes,
+  materials,  
 }: Props) => {
   const { height, width } = imageDimenisons;
 
@@ -90,12 +87,12 @@ export const DesignConfiguration = ({
   const [options, setOptions] = useState<{
     color: string;
     model: string;
-    // material: (typeof MATERIALS)[number]["id"];
-    // finish: (typeof FINISHES)[number]["id"];
+    // material: string;
+    // finish: string;
   }>({
     color: colors[0].value,
     model: models[0].value,
-    // material: MATERIALS[0].id,
+    // material: material[0].,
     // finish: FINISHES[0].id,
   });
 
@@ -104,6 +101,8 @@ export const DesignConfiguration = ({
     console.log("options", options);
     console.log("mapColors", mapColors);
     console.log("models", models);
+    console.log("materials", materials);
+    console.log("finishes", finishes);
   }, [options]);
 
   return (
@@ -248,7 +247,66 @@ export const DesignConfiguration = ({
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              
+              {/* {MATERIALS.map(
+                  ({  }) => (
+                    <RadioGroup
+                      key={name}
+                      value={options[name]}
+                      onChange={(val) => {
+                        setOptions((prev) => ({
+                          ...prev,
+                          [name]: val,
+                        }))
+                      }}>
+                      <Label>
+                        {name.slice(0, 1).toUpperCase() + name.slice(1)}
+                      </Label>
+                      <div className='mt-3 space-y-4'>
+                        {selectableOptions.map((option) => (
+                          <RadioGroup.Option
+                            key={option.value}
+                            value={option}
+                            className={({ active, checked }) =>
+                              cn(
+                                'relative block cursor-pointer rounded-lg bg-white px-6 py-4 shadow-sm border-2 border-zinc-200 focus:outline-none ring-0 focus:ring-0 outline-none sm:flex sm:justify-between',
+                                {
+                                  'border-primary': active || checked,
+                                }
+                              )
+                            }>
+                            <span className='flex items-center'>
+                              <span className='flex flex-col text-sm'>
+                                <RadioGroup.Label
+                                  className='font-medium text-gray-900'
+                                  as='span'>
+                                  {option.label}
+                                </RadioGroup.Label>
+
+                                {option.description ? (
+                                  <RadioGroup.Description
+                                    as='span'
+                                    className='text-gray-500'>
+                                    <span className='block sm:inline'>
+                                      {option.description}
+                                    </span>
+                                  </RadioGroup.Description>
+                                ) : null}
+                              </span>
+                            </span>
+
+                            <RadioGroup.Description
+                              as='span'
+                              className='mt-2 flex text-sm sm:ml-4 sm:mt-0 sm:flex-col sm:text-right'>
+                              <span className='font-medium text-gray-900'>
+                                {formatPrice(option.price / 100)}
+                              </span>
+                            </RadioGroup.Description>
+                          </RadioGroup.Option>
+                        ))}
+                      </div>
+                    </RadioGroup>
+                  )
+                )} */}
             </div>
           </div>
         </ScrollArea>
