@@ -38,15 +38,6 @@ interface ImageDimenisons {
   height: number;
 }
 
-const colorborder = {
-  black: { bg: "bg-zinc-900", bor: "border-zinc-900" },
-
-  blue: {
-    bg: "bg-blue-950",
-    bor: "border-blue-950",
-  },
-  rose: { bg: "bg-rose-950", bor: "border-rose-950" },
-};
 
 export const DesignConfiguration = ({
   imageDimenisons,
@@ -63,7 +54,7 @@ export const DesignConfiguration = ({
   }
   const mapColors: { [key: string]: COLORSMAPED } = {};
 
-  colors.map((color: COLORS_INTERFACE) => {
+  colors.forEach((color: COLORS_INTERFACE) => {
     mapColors[color.value as keyof typeof mapColors] = {
       bg: `bg-${color.tw}`,
       border: `border-${color.tw}`,
@@ -108,7 +99,7 @@ export const DesignConfiguration = ({
           <section
             className={cn(
               `absolute inset-0 left-[3px] top-px right-[3px] bottom-px rounded-[32px] w-full h-full`,
-              `${colorborder[options.color as keyof typeof colorborder].bg}`
+              `${mapColors[options.color as keyof typeof mapColors].bg}`
             )}
           />
           {/* this div generated from border to outside a shadow , is like a background from the border to exterior  */}
@@ -165,7 +156,7 @@ export const DesignConfiguration = ({
                 >
                   <label>Color: {options.color}</label>
                   <div className="mt-3 flex items-center space-x-3">
-                    {COLORS.map((color) => (
+                    {colors.map((color) => (
                       <RadioGroupItem
                         key={color.value}
                         value={color.value}
@@ -178,7 +169,9 @@ export const DesignConfiguration = ({
                           className={cn(
                             "h-8 w-8 rounded-full border border-black border-opacity-10",
                             `${
-                              colorborder[color.value as keyof typeof colorborder].bg
+                              mapColors[
+                                color.value as keyof typeof mapColors
+                              ].bg
                             }`
                           )}
                         ></div>
@@ -189,14 +182,14 @@ export const DesignConfiguration = ({
               </div>
               <div className="relative flex flex-col gap-3 w-full">
                 <label className="mt-3">Model</label>
-                {/* <DropdownMenu>
+                <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="outline"
                       role="combobox"
                       className="w-full justify-between "
                     >
-                      {options.model.label}
+                      {/* {options.model.label} */}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -207,17 +200,17 @@ export const DesignConfiguration = ({
                         className={cn(
                           "flex text-sm gap-1 items-center p-1.5 cursor-default hover:bg-zinc-100",
                           {
-                            "bg-zinc-100": model.label === options.model.label,
+                            // "bg-zinc-100": model.label === options.model.label,
                           }
                         )}
-                        onClick={() => {
-                          setOptions((prev) => ({ ...prev, model }));
-                        }}
+                        // onClick={() => {
+                        //   setOptions((prev) => ({ ...prev, model }));
+                        // }}
                       >
                         <Check
                           className={cn(
                             "mr-2 h-4 w-4",
-                            model.label === options.model.label
+                            model.label === "options.model.label"
                               ? "opacity-100"
                               : "opacity-0"
                           )}
@@ -226,7 +219,7 @@ export const DesignConfiguration = ({
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
-                </DropdownMenu> */}
+                </DropdownMenu>
               </div>
             </div>
           </div>

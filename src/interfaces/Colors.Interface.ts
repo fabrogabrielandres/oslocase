@@ -10,3 +10,9 @@ export interface COLORMAMP_INTERFACE {
   value: string;
   tw: string;
 }
+
+export interface MODELS_INTERFACE {
+  label: string;
+  value: string;
+  id: string;
+}

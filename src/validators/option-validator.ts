@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { COLORS_INTERFACE } from "@/interfaces/Colors.Interface";
+import { COLORS_INTERFACE } from "../interfaces/Colors.Interface";
 
 export const COLORS: Array<COLORS_INTERFACE> = [
   { label: "Black", value: "black", tw: "zinc-900" },

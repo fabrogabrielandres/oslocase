@@ -18,6 +18,12 @@ model Configuration {
 model Colors {
   id    String @id @default(uuid())
   label String
-  value String
+  value String @unique
   tw    String
+}
+
+model Models {
+  id    String @id @default(uuid())
+  label String
+  value String @unique
 }
