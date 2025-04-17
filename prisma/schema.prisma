@@ -27,3 +27,19 @@ model ModelsPhone {
   label String
   value String @unique
 }
+
+model MaterialsPhone {
+  id          String  @id @default(uuid())
+  value       String  @unique
+  label       String
+  description String?
+  price       Float   @default(0)
+}
+
+model FinishesPhone {
+  id          String  @id @default(uuid())
+  value       String  @unique
+  label       String
+  description String?
+  price       Float   @default(0)
+}

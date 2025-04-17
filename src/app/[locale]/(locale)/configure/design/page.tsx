@@ -21,7 +21,7 @@ export default async function DesignPage({
   const { croppedImageUrl, height, imageUrl, width } = data;
 
   const colors: Array<COLORS_INTERFACE> = await prisma.colors.findMany();
-  const models: Array<MODELS_INTERFACE> = await prisma.modelPhone.findMany()
+  const models: Array<MODELS_INTERFACE> = await prisma.modelsPhone.findMany();
 
   return (
     <>

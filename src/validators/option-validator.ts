@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { COLORS_INTERFACE, MODELS_INTERFACE } from "../interfaces/Colors.Interface";
+import {
+  COLORS_INTERFACE,
+  MODELS_INTERFACE,
+} from "../interfaces/Colors.Interface";
 
 export const COLORS: Array<COLORS_INTERFACE> = [
   { label: "Black", value: "black", tw: "zinc-900" },
@@ -16,7 +19,6 @@ export const MODELS: Array<MODELS_INTERFACE> = [
   {
     label: "iPhone X",
     value: "iphonex",
-
   },
   {
     label: "iPhone 11",
@@ -40,33 +42,20 @@ export const MODELS: Array<MODELS_INTERFACE> = [
   },
 ];
 
-const PRODUCT_PRICES = {
-  material: {
-    silicone: 0,
-    polycarbonate: 5_00,
-  },
-  finish: {
-    smooth: 0,
-    textured: 3_00,
-  },
-};
-
 const BASE_PRICE = 14_00;
 
 export const MATERIALS = [
   {
     label: "Silicone",
     value: "silicone",
-    id: "",
     description: undefined,
-    price: PRODUCT_PRICES.material.silicone,
+    price: 0,
   },
   {
     label: "Soft Polycarbonate",
     value: "polycarbonate",
-    id: "",
     description: "Scratch-resistant coating",
-    price: PRODUCT_PRICES.material.polycarbonate,
+    price: 5.0,
   },
 ];
 
@@ -74,15 +63,13 @@ export const FINISHES = [
   {
     label: "Smooth Finish",
     value: "smooth",
-    id: "",
     description: undefined,
-    price: PRODUCT_PRICES.finish.smooth,
+    price: 0,
   },
   {
     label: "Textured Finish",
     value: "textured",
-    id: "",
     description: "Soft grippy texture",
-    price: PRODUCT_PRICES.finish.textured,
+    price: 3.0,
   },
 ];

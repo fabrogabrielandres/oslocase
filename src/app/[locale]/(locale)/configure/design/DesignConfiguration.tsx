@@ -3,7 +3,10 @@
 import HandleComponent from "@/components/HandleComponent/HandleComponent";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Button } from "@/components/ui/button";
-import { COLORS_INTERFACE, MODELS_INTERFACE } from "@/interfaces/Colors.Interface";
+import {
+  COLORS_INTERFACE,
+  MODELS_INTERFACE,
+} from "@/interfaces/Colors.Interface";
 import { cn } from "@/lib/utils";
 import {
   COLORS,
@@ -39,12 +42,11 @@ interface ImageDimenisons {
   height: number;
 }
 
-
 export const DesignConfiguration = ({
   imageDimenisons,
   imgUrl,
   colors,
-  models
+  models,
 }: Props) => {
   const { height, width } = imageDimenisons;
 
@@ -64,6 +66,26 @@ export const DesignConfiguration = ({
       value: color.value,
     };
   });
+  // const mapColors = {
+  //   black: {
+  //     bg: "bg-zinc-900",
+  //     border: "border-zinc-900",
+  //     label: "Black",
+  //     value: "black",
+  //   },
+  //   blue: {
+  //     bg: "bg-blue-950",
+  //     border: "border-blue-950",
+  //     label: "Blue",
+  //     value: "blue",
+  //   },
+  //   rose: {
+  //     bg: "bg-rose-950",
+  //     border: "border-rose-950",
+  //     label: "Rose",
+  //     value: "rose",
+  //   },
+  // };
 
   const [options, setOptions] = useState<{
     color: string;
@@ -72,7 +94,7 @@ export const DesignConfiguration = ({
     // finish: (typeof FINISHES)[number]["id"];
   }>({
     color: colors[0].value,
-    model: MODELS[0].id,
+    model: models[0].value,
     // material: MATERIALS[0].id,
     // finish: FINISHES[0].id,
   });
@@ -172,9 +194,8 @@ export const DesignConfiguration = ({
                           className={cn(
                             "h-8 w-8 rounded-full border border-black border-opacity-10",
                             `${
-                              mapColors[
-                                color.value as keyof typeof mapColors
-                              ].bg
+                              mapColors[color.value as keyof typeof mapColors]
+                                .bg
                             }`
                           )}
                         ></div>
@@ -190,40 +211,44 @@ export const DesignConfiguration = ({
                     <Button
                       variant="outline"
                       role="combobox"
-                      className="w-full justify-between "
+                      className="w-full justify-between"
                     >
-                      {/* {options.model.label} */}
+                      {options.model}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    {MODELS.map((model) => (
+                    {models.map(({ value }) => (
                       <DropdownMenuItem
-                        key={model.label}
+                        key={value}
                         className={cn(
-                          "flex text-sm gap-1 items-center p-1.5 cursor-default hover:bg-zinc-100",
+                          "flex text-sm gap-1 items-center p-1.5 cursor-default hover:bg-zinc-100 focus:outline-none",
                           {
-                            // "bg-zinc-100": model.label === options.model.label,
+                            "bg-zinc-100": value === options.model,
                           }
                         )}
-                        // onClick={() => {
-                        //   setOptions((prev) => ({ ...prev, model }));
-                        // }}
+                        onClick={() => {
+                          setOptions((prev) => ({
+                            ...prev,
+                            model: value,
+                          }));
+                        }}
                       >
                         <Check
                           className={cn(
                             "mr-2 h-4 w-4",
-                            model.label === "options.model.label"
+                            value === options.model
                               ? "opacity-100"
                               : "opacity-0"
                           )}
                         />
-                        {model.label}
+                        {value}
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
+              
             </div>
           </div>
         </ScrollArea>
