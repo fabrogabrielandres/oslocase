@@ -43,7 +43,7 @@ export const DesignConfiguration = ({
   colors,
   models,
   finishes,
-  materials,  
+  materials,
 }: Props) => {
   const { height, width } = imageDimenisons;
 
@@ -87,13 +87,13 @@ export const DesignConfiguration = ({
   const [options, setOptions] = useState<{
     color: string;
     model: string;
-    // material: string;
-    // finish: string;
+    material: string;
+    finish: string;
   }>({
     color: colors[0].value,
     model: models[0].value,
-    // material: material[0].,
-    // finish: FINISHES[0].id,
+    material: materials[0].value,
+    finish: finishes[0].value,
   });
 
   useEffect(() => {
@@ -157,10 +157,10 @@ export const DesignConfiguration = ({
       </div>
       <div className="h-[37.5rem] w-full col-span-full lg:col-span-1 flex flex-col bg-white">
         <ScrollArea className="relative flex-1 overflow-auto">
-          <div
+          {/* <div
             aria-hidden="true"
             className="absolute z-10 inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white pointer-events-none "
-          />
+          /> */}
           <div className="px-8 pb-12 pt-8">
             <h2 className="tracking-tight font-bold text-3xl">
               Customize your case
@@ -216,7 +216,7 @@ export const DesignConfiguration = ({
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent>
+                  <DropdownMenuContent className="z-10 border border-input bg-white">
                     {models.map(({ value }) => (
                       <DropdownMenuItem
                         key={value}
@@ -247,66 +247,73 @@ export const DesignConfiguration = ({
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              {/* {MATERIALS.map(
-                  ({  }) => (
-                    <RadioGroup
-                      key={name}
-                      value={options[name]}
-                      onChange={(val) => {
-                        setOptions((prev) => ({
-                          ...prev,
-                          [name]: val,
-                        }))
-                      }}>
-                      <Label>
-                        {name.slice(0, 1).toUpperCase() + name.slice(1)}
-                      </Label>
-                      <div className='mt-3 space-y-4'>
-                        {selectableOptions.map((option) => (
-                          <RadioGroup.Option
-                            key={option.value}
-                            value={option}
-                            className={({ active, checked }) =>
-                              cn(
-                                'relative block cursor-pointer rounded-lg bg-white px-6 py-4 shadow-sm border-2 border-zinc-200 focus:outline-none ring-0 focus:ring-0 outline-none sm:flex sm:justify-between',
-                                {
-                                  'border-primary': active || checked,
-                                }
-                              )
-                            }>
-                            <span className='flex items-center'>
-                              <span className='flex flex-col text-sm'>
-                                <RadioGroup.Label
-                                  className='font-medium text-gray-900'
-                                  as='span'>
-                                  {option.label}
-                                </RadioGroup.Label>
+              {[
+                { name: "material", selectableOptions: materials },
+                { name: "finish", selectableOptions: finishes },
+              ].map(({ name, selectableOptions }) => (
+                <RadioGroup
+                  key={name}
+                  value={options[name as keyof typeof options]}
+                  className="mt-4"
+                  onValueChange={(val) => {
+                    console.log("daleee", val);
 
-                                {option.description ? (
-                                  <RadioGroup.Description
-                                    as='span'
-                                    className='text-gray-500'>
-                                    <span className='block sm:inline'>
-                                      {option.description}
-                                    </span>
-                                  </RadioGroup.Description>
-                                ) : null}
-                              </span>
-                            </span>
+                    setOptions((prev) => ({
+                      ...prev,
+                      [name]: val,
+                    }));
+                  }}
+                >
+                  <label>
+                    {name.slice(0, 1).toUpperCase() + name.slice(1)}
+                  </label>
+                  <div className="mt-3 space-y-4">
+                    {selectableOptions.map(({ value, description, label }) => (
+                      <RadioGroupItem
+                        key={value}
+                        id={value}
+                        value={value}
+                        className={cn(
+                          "w-full relative block cursor-pointer rounded-lg bg-white px-6 py-4 shadow-sm border-2 border-zinc-200 focus:outline-none ring-0 focus:ring-0 outline-none sm:flex sm:justify-between",
+                          `data-[state=checked]:border-primary`
+                        )}
+                      >
+                        <div className="flex items-center">
+                          <span className="flex flex-col text-sm">
+                            <label
+                              className="font-medium text-gray-900"
+                              // as="span"
+                              htmlFor={value}
+                            >
+                              {label}
+                            </label>
 
-                            <RadioGroup.Description
-                              as='span'
-                              className='mt-2 flex text-sm sm:ml-4 sm:mt-0 sm:flex-col sm:text-right'>
-                              <span className='font-medium text-gray-900'>
-                                {formatPrice(option.price / 100)}
-                              </span>
-                            </RadioGroup.Description>
-                          </RadioGroup.Option>
-                        ))}
-                      </div>
-                    </RadioGroup>
-                  )
-                )} */}
+                            {description ? (
+                              <div
+                                // as="span"
+                                className="text-gray-500"
+                              >
+                                <span className="block sm:inline">
+                                  {description}
+                                </span>
+                              </div>
+                            ) : null}
+                          </span>
+                        </div>
+
+                        <div
+                          // as="span"
+                          className="mt-2 flex text-sm sm:ml-4 sm:mt-0 sm:flex-col sm:text-right"
+                        >
+                          <span className="font-medium text-gray-900">
+                            {/* {formatPrice(price / 100)} */}
+                          </span>
+                        </div>
+                      </RadioGroupItem>
+                    ))}
+                  </div>
+                </RadioGroup>
+              ))}
             </div>
           </div>
         </ScrollArea>
