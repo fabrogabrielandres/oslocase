@@ -28,7 +28,7 @@ model ModelsPhone {
   value String @unique
 }
 
-model MaterialsPhone {
+model FinishesPhone {
   id          String  @id @default(uuid())
   value       String  @unique
   label       String
@@ -36,7 +36,7 @@ model MaterialsPhone {
   price       Float   @default(0)
 }
 
-model FinishesPhone {
+model MaterialsPhone {
   id          String  @id @default(uuid())
   value       String  @unique
   label       String

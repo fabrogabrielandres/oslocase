@@ -8,6 +8,7 @@ import {
   MATERIAL_INTERFACE,
   MODELS_INTERFACE,
 } from "@/interfaces/Colors.Interface";
+import { Suspense } from "react";
 
 export default async function DesignPage({
   searchParams,
@@ -27,20 +28,24 @@ export default async function DesignPage({
 
   const colors: Array<COLORS_INTERFACE> = await prisma.colors.findMany();
   const models: Array<MODELS_INTERFACE> = await prisma.modelsPhone.findMany();
-  const materials: Array<MATERIAL_INTERFACE> = await prisma.materialsPhone.findMany();
-  const finishes: Array<FINISHES_INTERFACE> = await prisma.finishesPhone.findMany();
+  const materials: Array<MATERIAL_INTERFACE> =
+    await prisma.materialsPhone.findMany();
+  const finishes: Array<FINISHES_INTERFACE> =
+    await prisma.finishesPhone.findMany();
 
   return (
     <>
-      <DesignConfiguration
-        materials={materials}
-        finishes={finishes}
-        colors={colors}
-        models={models}
-        id={id}
-        imgUrl={croppedImageUrl! || imageUrl!}
-        imageDimenisons={{ width, height }}
-      />
+      <Suspense fallback={<div className="h-full w-full bg-red-500">Loading...</div>}>
+        <DesignConfiguration
+          materials={materials}
+          finishes={finishes}
+          colors={colors}
+          models={models}
+          id={id}
+          imgUrl={croppedImageUrl! || imageUrl!}
+          imageDimenisons={{ width, height }}
+        />
+      </Suspense>
     </>
   );
 }

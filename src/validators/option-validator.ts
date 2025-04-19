@@ -42,8 +42,6 @@ export const MODELS: Array<MODELS_INTERFACE> = [
   },
 ];
 
-const BASE_PRICE = 14_00;
-
 export const MATERIALS = [
   {
     label: "Silicone",
