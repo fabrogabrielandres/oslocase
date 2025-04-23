@@ -2,57 +2,41 @@
 import HandleComponent from "@/components/HandleComponent/HandleComponent";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  COLORS_INTERFACE,
-  FINISHES_INTERFACE,
-  MATERIAL_INTERFACE,
-  MODELS_INTERFACE,
-} from "@/interfaces/Colors.Interface";
-import { cn, formatPrice } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
+import { COLORS_INTERFACE, FINISHES_INTERFACE, MATERIAL_INTERFACE, MODELS_INTERFACE,} from "@/interfaces/Colors.Interface";
+import { useUploadThing } from "@/lib/uploadthing";
+import { base64ToBlob, cn, formatPrice } from "@/lib/utils";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@radix-ui/react-dropdown-menu";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Rnd } from "react-rnd";
 
 interface Props {
   id: string;
   imgUrl: string;
-  imageDimenisons: ImageDimenisons;
+  imageDimensions: ImageDimensions;
   colors: Array<COLORS_INTERFACE>;
   models: Array<MODELS_INTERFACE>;
   materials: Array<MATERIAL_INTERFACE>;
   finishes: Array<FINISHES_INTERFACE>;
 }
 
-interface ImageDimenisons {
+interface ImageDimensions {
   width: number;
   height: number;
 }
 
-export const DesignConfiguration = ({
-  imageDimenisons,
-  imgUrl,
-  colors,
-  models,
-  finishes,
-  materials,
-}: Props) => {
-  const { height, width } = imageDimenisons;
+interface COLORSMAPED {
+  label: string;
+  value: string;
+  border: string;
+  bg: string;
+}
 
-  interface COLORSMAPED {
-    label: string;
-    value: string;
-    border: string;
-    bg: string;
-  }
+export const DesignConfiguration = ({ id, imageDimensions, imgUrl, colors, models, finishes,materials}: Props) => {
   const mapColors: { [key: string]: COLORSMAPED } = {};
 
   colors.forEach((color: COLORS_INTERFACE) => {
@@ -84,18 +68,28 @@ export const DesignConfiguration = ({
   //   },
   // };
 
-  const [options, setOptions] = useState<{
-    color: string;
-    model: string;
-    material: string;
-    finish: string;
-  }>({
+  const { startUpload } = useUploadThing("imageUploader");
+
+  const [renderedDimension, setRenderedDimension] = useState({
+    width: imageDimensions.width / 4,
+    height: imageDimensions.height / 4,
+  });
+
+  const [renderedPosition, setRenderedPosition] = useState({
+    x: 150,
+    y: 205,
+  });
+
+  const phoneCaseRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const [options, setOptions] = useState<{ color: string; model: string; material: string; finish: string}>({
     color: colors[0].value,
     model: models[0].value,
     material: materials[0].value,
     finish: finishes[0].value,
   });
-  const memoizedCallback = useCallback(
+  const totalCallBack = useCallback(
     () => {
       const priceFinish = finishes.filter(
         (finis) => finis.value == options.finish
@@ -103,23 +97,113 @@ export const DesignConfiguration = ({
       const priceMaterial = materials.filter(
         (material) => material.value == options.material
       )[0].price;
-      const result = formatPrice(
-        (BASE_PRICE + priceFinish + priceMaterial) 
-      );
+      const result = formatPrice(BASE_PRICE + priceFinish + priceMaterial);
       return result;
     },
-    [options] // Dependency array
+    [finishes, materials, options.finish, options.material] // Dependency array
   );
+
+  // useEffect(() => {
+  //   const {
+  //     left: caseLeft,
+  //     top: caseTop,
+  //     width,
+  //     height,
+  //   } = phoneCaseRef.current!.getBoundingClientRect();
+
+  //   const { left: containerLeft, top: containerTop } =
+  //     containerRef.current!.getBoundingClientRect();
+
+  //   const leftOffset = caseLeft - containerLeft;
+  //   const topOffset = caseTop - containerTop;
+
+  //   const actualX = renderedPosition.x - leftOffset;
+  //   const actualY = renderedPosition.y - topOffset;
+
+  //   console.log("leftOffset", leftOffset);
+  //   console.log("topOffset", topOffset);
+  //   console.log("caseLeft", caseLeft);
+  //   console.log("caseTop", caseTop);
+  //   console.log("containerLeft", containerLeft);
+  //   console.log("containerTop", containerTop);
+  //   console.log("width", width);
+  //   console.log("height", height);
+  //   console.log("actualX", actualX);
+  //   console.log("actualY", actualY);
+  // }, [phoneCaseRef, containerRef, renderedDimension]);
+
+  const saveConfiguration = async () => {
+    try {
+      const {
+        left: caseLeft,
+        top: caseTop,
+        width: widthCase,
+        height: heightCase,
+      } = phoneCaseRef.current!.getBoundingClientRect();
+
+      const { left: containerLeft, top: containerTop } =
+        containerRef.current!.getBoundingClientRect();
+
+      const leftOffset = caseLeft - containerLeft;
+      const topOffset = caseTop - containerTop;
+
+      const actualX = renderedPosition.x - leftOffset;
+      const actualY = renderedPosition.y - topOffset;
+
+      const canvas = document.createElement("canvas");
+      canvas.width = widthCase;
+      canvas.height = heightCase;
+      const ctx = canvas.getContext("2d");
+      
+      
+      // load the original image to be proccess and crop
+      const userImage = document.createElement("img");
+      userImage.src = imgUrl;
+      userImage.crossOrigin = "anonymous";
+      
+      await new Promise((resolve) => (userImage.onload = resolve));
+      
+      //crop the image
+      ctx?.drawImage(
+        userImage,
+        actualX,
+        actualY,
+        renderedDimension.width,
+        renderedDimension.height
+      );
+      
+      //canvas is convert to image base 64
+      const base64 = canvas.toDataURL();
+      const base64Data = base64.split(",")[1];
+
+      //convert to binary
+      const blob = base64ToBlob(base64Data, "image/png");
+      const file = new File([blob], "filename.png", { type: "image/png" });
+      await startUpload([file], { configId: id });
+
+    } catch (err) {
+      toast({
+        title: `Something went wrong error : ${err}`,
+        description:
+          "There was a problem saving your config, please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const BASE_PRICE = 14.0;
 
   return (
-    <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20 ">
-      <div className="relative h-[37.5rem] overflow-hidden col-span-2 w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ">
+    <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20">
+      <div
+        className="relative h-[37.5rem] overflow-hidden col-span-2 w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 "
+        ref={containerRef}
+      >
         <div className="relative w-60 bg-opacity-50 pointer-events-none aspect-[896/1831]">
           <AspectRatio
             ratio={896 / 1831}
-            className="pointer-events-none relative z-50 aspect-[896/1831] w-full "
+            className="pointer-events-none relative z-50 aspect-[896/1831] w-full"
+            ref={phoneCaseRef}
           >
             <Image
               fill
@@ -139,10 +223,10 @@ export const DesignConfiguration = ({
         </div>
         <Rnd
           default={{
-            x: 150,
-            y: 205,
-            height: height / 4,
-            width: width / 4,
+            x: 0,
+            y: 0,
+            height: imageDimensions.height / 4,
+            width: imageDimensions.width / 4,
           }}
           className="absolute z-20 border-[3px] border-primary"
           lockAspectRatio
@@ -151,6 +235,17 @@ export const DesignConfiguration = ({
             bottomLeft: <HandleComponent />,
             topRight: <HandleComponent />,
             topLeft: <HandleComponent />,
+          }}
+          onResizeStop={(_, __, ref, ___, { x, y }) => {
+            setRenderedDimension({
+              height: parseInt(ref.style.height.slice(0, -2)),
+              width: parseInt(ref.style.width.slice(0, -2)),
+            });
+            setRenderedPosition({ x, y });
+          }}
+          onDragStop={(_, data) => {
+            const { x, y } = data;
+            setRenderedPosition({ x, y });
           }}
         >
           <div className="relative w-full h-full">
@@ -331,22 +426,12 @@ export const DesignConfiguration = ({
           <div className="h-px w-full bg-zinc-200" />
           <div className="w-full h-full flex justify-end items-center">
             <div className="w-full flex gap-6 items-center">
-              <p className="font-medium whitespace-nowrap">
-                {memoizedCallback()}
-              </p>
+              <p className="font-medium whitespace-nowrap">{totalCallBack()}</p>
               <Button
                 // isLoading={isPending}
                 // disabled={isPending}
                 // loadingText="Saving"
-                // onClick={() =>
-                //   saveConfig({
-                //     configId,
-                //     color: options.color.value,
-                //     finish: options.finish.value,
-                //     material: options.material.value,
-                //     model: options.model.value,
-                //   })
-                // }
+                onClick={() => saveConfiguration()}
                 size="sm"
                 className="w-full"
               >

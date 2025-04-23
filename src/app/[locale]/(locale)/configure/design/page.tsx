@@ -43,7 +43,7 @@ export default async function DesignPage({
           models={models}
           id={id}
           imgUrl={croppedImageUrl! || imageUrl!}
-          imageDimenisons={{ width, height }}
+          imageDimensions={{ width, height }}
         />
       </Suspense>
     </>
