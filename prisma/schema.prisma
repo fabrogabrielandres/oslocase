@@ -8,38 +8,58 @@ datasource db {
 }
 
 model Configuration {
-  id              String  @id @default(uuid())
-  width           Int
-  height          Int
-  croppedImageUrl String?
-  imageUrl        String?
+  id               String          @id @default(uuid())
+  width            Int
+  height           Int
+  croppedImageUrl  String?
+  imageUrl         String?
+  model            ModelsPhone?    @relation(fields: [modelsPhoneId], references: [id])
+  modelsPhoneId    String?
+  material         MaterialsPhone? @relation(fields: [materialsPhoneId], references: [id])
+  materialsPhoneId String?
+  finish           FinishesPhone   @relation(fields: [finishesPhoneId], references: [id])
+  finishesPhoneId  String
+  color            ColorsPhone     @relation(fields: [colorsId], references: [id])
+  colorsId         String
 }
 
-model Colors {
-  id    String @id @default(uuid())
-  label String
-  value String @unique
-  tw    String
+enum OrderStatus {
+  fulfilled
+  shipped
+  awaiting_shipment
+}
+
+// masters for the app
+
+model ColorsPhone {
+  id            String          @id @default(uuid())
+  label         String
+  value         String          @unique
+  tw            String
+  Configuration Configuration[]
 }
 
 model ModelsPhone {
-  id    String @id @default(uuid())
-  label String
-  value String @unique
+  id            String          @id @default(uuid())
+  label         String
+  value         String          @unique
+  Configuration Configuration[]
 }
 
 model FinishesPhone {
-  id          String  @id @default(uuid())
-  value       String  @unique
-  label       String
-  description String?
-  price       Float   @default(0)
+  id            String          @id @default(uuid())
+  value         String          @unique
+  label         String
+  description   String?
+  price         Float           @default(0)
+  Configuration Configuration[]
 }
 
 model MaterialsPhone {
-  id          String  @id @default(uuid())
-  value       String  @unique
-  label       String
-  description String?
-  price       Float   @default(0)
+  id            String          @id @default(uuid())
+  value         String          @unique
+  label         String
+  description   String?
+  price         Float           @default(0)
+  Configuration Configuration[]
 }
