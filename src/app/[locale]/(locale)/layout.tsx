@@ -6,6 +6,7 @@ import "../../globals.css";
 import Navbar from "@/components/NavBar/NavBar";
 import { AuthProvider, Footer } from "@/components";
 import { Toaster } from "@/components/ui/toaster";
+import ReactQueryProvider from "@/components/Provaiders/QueryClientProvider/QueryClientProvider";
 
 export default async function LocaleLayout({
   children,
@@ -24,16 +25,18 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body>
-        <AuthProvider>
-          <NextIntlClientProvider messages={messages}>
-            <Navbar language={locale}></Navbar>
-            <main className="flex grainy-light flex-col min-h-[calc(100vh-3.5rem-1px)]">
-              <div className="flex-1 flex flex-col h-full">{children}</div>
-              <Footer />
-            </main>
-            <Toaster />
-          </NextIntlClientProvider>
-        </AuthProvider>
+        <ReactQueryProvider>
+          <AuthProvider>
+            <NextIntlClientProvider messages={messages}>
+              <Navbar language={locale}></Navbar>
+              <main className="flex grainy-light flex-col min-h-[calc(100vh-3.5rem-1px)]">
+                <div className="flex-1 flex flex-col h-full">{children}</div>
+                <Footer />
+              </main>
+              <Toaster />
+            </NextIntlClientProvider>
+          </AuthProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
