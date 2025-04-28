@@ -13,23 +13,15 @@ model Configuration {
   height           Int
   croppedImageUrl  String?
   imageUrl         String?
-  model            ModelsPhone?    @relation(fields: [modelsPhoneId], references: [id])
   modelsPhoneId    String?
-  material         MaterialsPhone? @relation(fields: [materialsPhoneId], references: [id])
   materialsPhoneId String?
-  finish           FinishesPhone   @relation(fields: [finishesPhoneId], references: [id])
-  finishesPhoneId  String
-  color            ColorsPhone     @relation(fields: [colorsId], references: [id])
-  colorsId         String
+  finishesPhoneId  String?
+  colorsPhoneId         String?
+  ColorsPhone      ColorsPhone?    @relation(fields: [colorsPhoneId], references: [id])
+  finish           FinishesPhone?  @relation(fields: [finishesPhoneId], references: [id])
+  material         MaterialsPhone? @relation(fields: [materialsPhoneId], references: [id])
+  model            ModelsPhone?    @relation(fields: [modelsPhoneId], references: [id])
 }
-
-enum OrderStatus {
-  fulfilled
-  shipped
-  awaiting_shipment
-}
-
-// masters for the app
 
 model ColorsPhone {
   id            String          @id @default(uuid())
@@ -62,4 +54,10 @@ model MaterialsPhone {
   description   String?
   price         Float           @default(0)
   Configuration Configuration[]
+}
+
+enum OrderStatus {
+  fulfilled
+  shipped
+  awaiting_shipment
 }

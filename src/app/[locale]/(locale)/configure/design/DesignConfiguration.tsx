@@ -3,25 +3,36 @@ import HandleComponent from "@/components/HandleComponent/HandleComponent";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/hooks/use-toast";
-import { COLORS_INTERFACE, FINISHES_INTERFACE, MATERIAL_INTERFACE, MODELS_INTERFACE,} from "@/interfaces/Colors.Interface";
+import {
+  COLORS_INTERFACE,
+  FINISHES_INTERFACE,
+  MATERIAL_INTERFACE,
+  MODELS_INTERFACE,
+} from "@/interfaces/Colors.Interface";
 import { useUploadThing } from "@/lib/uploadthing";
 import { base64ToBlob, cn, formatPrice } from "@/lib/utils";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@radix-ui/react-dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import { useMutation } from "@tanstack/react-query";
 import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Rnd } from "react-rnd";
 
 interface Props {
   id: string;
   imgUrl: string;
   imageDimensions: ImageDimensions;
-  colors: Array<COLORS_INTERFACE>;
-  models: Array<MODELS_INTERFACE>;
-  materials: Array<MATERIAL_INTERFACE>;
-  finishes: Array<FINISHES_INTERFACE>;
+  colorsMasters: Array<COLORS_INTERFACE>;
+  modelsMasters: Array<MODELS_INTERFACE>;
+  materialsMasters: Array<MATERIAL_INTERFACE>;
+  finishesMasters: Array<FINISHES_INTERFACE>;
 }
 
 interface ImageDimensions {
@@ -36,10 +47,26 @@ interface COLORSMAPED {
   bg: string;
 }
 
-export const DesignConfiguration = ({ id, imageDimensions, imgUrl, colors, models, finishes,materials}: Props) => {
+interface MutateArgsInterface {
+  id: string;
+  colorLavel: string;
+  modelLavel: string;
+  materialLavel: string;
+  finishLavel: string;
+}
+
+export const DesignConfiguration = ({
+  id,
+  imageDimensions,
+  imgUrl,
+  colorsMasters,
+  modelsMasters,
+  finishesMasters,
+  materialsMasters,
+}: Props) => {
   const mapColors: { [key: string]: COLORSMAPED } = {};
 
-  colors.forEach((color: COLORS_INTERFACE) => {
+  colorsMasters.forEach((color: COLORS_INTERFACE) => {
     mapColors[color.value as keyof typeof mapColors] = {
       bg: `bg-${color.tw}`,
       border: `border-${color.tw}`,
@@ -83,56 +110,52 @@ export const DesignConfiguration = ({ id, imageDimensions, imgUrl, colors, model
   const phoneCaseRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [options, setOptions] = useState<{ color: string; model: string; material: string; finish: string}>({
-    color: colors[0].value,
-    model: models[0].value,
-    material: materials[0].value,
-    finish: finishes[0].value,
+  const [options, setOptions] = useState<{
+    color: string;
+    model: string;
+    material: string;
+    finish: string;
+  }>({
+    color: colorsMasters[0].value,
+    model: modelsMasters[0].value,
+    material: materialsMasters[0].value,
+    finish: finishesMasters[0].value,
   });
   const totalCallBack = useCallback(
     () => {
-      const priceFinish = finishes.filter(
+      const priceFinish = finishesMasters.filter(
         (finis) => finis.value == options.finish
       )[0].price;
-      const priceMaterial = materials.filter(
+      const priceMaterial = materialsMasters.filter(
         (material) => material.value == options.material
       )[0].price;
       const result = formatPrice(BASE_PRICE + priceFinish + priceMaterial);
       return result;
     },
-    [finishes, materials, options.finish, options.material] // Dependency array
+    [options.finish, options.material] // Dependency array
   );
 
-  // useEffect(() => {
-  //   const {
-  //     left: caseLeft,
-  //     top: caseTop,
-  //     width,
-  //     height,
-  //   } = phoneCaseRef.current!.getBoundingClientRect();
+  const { mutate: mutateArgs } = useMutation({
+    mutationKey: ["save-config"],
+    mutationFn: async (args: MutateArgsInterface) => {
+      console.log("argssss", { args });
+      // await Promise.all([cropAndUploadImage(), saveConfig(args)]);
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong",
+        description: "There was an error on our end. Please try again.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      console.log("was successfully saved");
 
-  //   const { left: containerLeft, top: containerTop } =
-  //     containerRef.current!.getBoundingClientRect();
+      // router.push(`/configure/preview?id=${configId}`);
+    },
+  });
 
-  //   const leftOffset = caseLeft - containerLeft;
-  //   const topOffset = caseTop - containerTop;
-
-  //   const actualX = renderedPosition.x - leftOffset;
-  //   const actualY = renderedPosition.y - topOffset;
-
-  //   console.log("leftOffset", leftOffset);
-  //   console.log("topOffset", topOffset);
-  //   console.log("caseLeft", caseLeft);
-  //   console.log("caseTop", caseTop);
-  //   console.log("containerLeft", containerLeft);
-  //   console.log("containerTop", containerTop);
-  //   console.log("width", width);
-  //   console.log("height", height);
-  //   console.log("actualX", actualX);
-  //   console.log("actualY", actualY);
-  // }, [phoneCaseRef, containerRef, renderedDimension]);
-
-  const saveConfiguration = async () => {
+  const cropAndUploadImage = async () => {
     try {
       const {
         left: caseLeft,
@@ -154,15 +177,14 @@ export const DesignConfiguration = ({ id, imageDimensions, imgUrl, colors, model
       canvas.width = widthCase;
       canvas.height = heightCase;
       const ctx = canvas.getContext("2d");
-      
-      
+
       // load the original image to be proccess and crop
       const userImage = document.createElement("img");
       userImage.src = imgUrl;
       userImage.crossOrigin = "anonymous";
-      
+
       await new Promise((resolve) => (userImage.onload = resolve));
-      
+
       //crop the image
       ctx?.drawImage(
         userImage,
@@ -171,7 +193,7 @@ export const DesignConfiguration = ({ id, imageDimensions, imgUrl, colors, model
         renderedDimension.width,
         renderedDimension.height
       );
-      
+
       //canvas is convert to image base 64
       const base64 = canvas.toDataURL();
       const base64Data = base64.split(",")[1];
@@ -180,7 +202,6 @@ export const DesignConfiguration = ({ id, imageDimensions, imgUrl, colors, model
       const blob = base64ToBlob(base64Data, "image/png");
       const file = new File([blob], "filename.png", { type: "image/png" });
       await startUpload([file], { configId: id });
-
     } catch (err) {
       toast({
         title: `Something went wrong error : ${err}`,
@@ -283,7 +304,7 @@ export const DesignConfiguration = ({ id, imageDimensions, imgUrl, colors, model
                 >
                   <label>Color: {options.color}</label>
                   <div className="mt-3 flex items-center space-x-3">
-                    {colors.map((color) => (
+                    {colorsMasters.map((color) => (
                       <RadioGroupItem
                         key={color.value}
                         value={color.value}
@@ -320,7 +341,7 @@ export const DesignConfiguration = ({ id, imageDimensions, imgUrl, colors, model
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="z-10 border border-input bg-white">
-                    {models.map(({ value }) => (
+                    {modelsMasters.map(({ value }) => (
                       <DropdownMenuItem
                         key={value}
                         className={cn(
@@ -351,8 +372,8 @@ export const DesignConfiguration = ({ id, imageDimensions, imgUrl, colors, model
                 </DropdownMenu>
               </div>
               {[
-                { name: "material", selectableOptions: materials },
-                { name: "finish", selectableOptions: finishes },
+                { name: "material", selectableOptions: materialsMasters },
+                { name: "finish", selectableOptions: finishesMasters },
               ].map(({ name, selectableOptions }) => (
                 <RadioGroup
                   key={name}
@@ -431,7 +452,15 @@ export const DesignConfiguration = ({ id, imageDimensions, imgUrl, colors, model
                 // isLoading={isPending}
                 // disabled={isPending}
                 // loadingText="Saving"
-                onClick={() => saveConfiguration()}
+                onClick={() =>
+                  mutateArgs({
+                    id,
+                    colorLavel: options.color,
+                    modelLavel: options.model,
+                    materialLavel: options.material,
+                    finishLavel: options.finish,
+                  })
+                }
                 size="sm"
                 className="w-full"
               >

@@ -26,21 +26,25 @@ export default async function DesignPage({
 
   const { croppedImageUrl, height, imageUrl, width } = data;
 
-  const colors: Array<COLORS_INTERFACE> = await prisma.colors.findMany();
-  const models: Array<MODELS_INTERFACE> = await prisma.modelsPhone.findMany();
-  const materials: Array<MATERIAL_INTERFACE> =
+  const colorsMasters: Array<COLORS_INTERFACE> =
+    await prisma.colorsPhone.findMany();
+  const modelsMasters: Array<MODELS_INTERFACE> =
+    await prisma.modelsPhone.findMany();
+  const materialsMasters: Array<MATERIAL_INTERFACE> =
     await prisma.materialsPhone.findMany();
-  const finishes: Array<FINISHES_INTERFACE> =
+  const finishesMasters: Array<FINISHES_INTERFACE> =
     await prisma.finishesPhone.findMany();
 
   return (
     <>
-      <Suspense fallback={<div className="h-full w-full bg-red-500">Loading...</div>}>
+      <Suspense
+        fallback={<div className="h-full w-full bg-red-500">Loading...</div>}
+      >
         <DesignConfiguration
-          materials={materials}
-          finishes={finishes}
-          colors={colors}
-          models={models}
+          materialsMasters={materialsMasters}
+          finishesMasters={finishesMasters}
+          colorsMasters={colorsMasters}
+          modelsMasters={modelsMasters}
           id={id}
           imgUrl={croppedImageUrl! || imageUrl!}
           imageDimensions={{ width, height }}
