@@ -46,7 +46,7 @@ export default async function DesignPage({
           colorsMasters={colorsMasters}
           modelsMasters={modelsMasters}
           id={id}
-          imgUrl={croppedImageUrl! || imageUrl!}
+          imgUrl={ imageUrl! || croppedImageUrl! }
           imageDimensions={{ width, height }}
         />
       </Suspense>

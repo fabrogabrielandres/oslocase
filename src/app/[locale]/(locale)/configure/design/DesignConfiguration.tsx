@@ -25,6 +25,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { Rnd } from "react-rnd";
 import { upDateConfig } from "./actions";
 import { Button } from "@/components/ui/button";
+import { SelectColors } from "./Component/SelectColors";
 
 interface Props {
   id: string;
@@ -41,7 +42,7 @@ interface ImageDimensions {
   height: number;
 }
 
-interface COLORSMAPED {
+export interface COLORSMAPED {
   label: string;
   value: string;
   border: string;
@@ -329,39 +330,10 @@ export const DesignConfiguration = ({
             <div className="w-full h-px bg-zinc-200 my-6" />
             <div className="relative mt-4 h-full flex flex-col justify-between">
               <div className="flex flex-col gap-6">
-                <RadioGroup
-                  value={options.color}
-                  onValueChange={(val) => {
-                    setOptions((prev) => ({
-                      ...prev,
-                      color: val,
-                    }));
-                  }}
-                >
-                  <label>Color: {options.color}</label>
-                  <div className="mt-3 flex items-center space-x-3">
-                    {colorsMasters.map((color) => (
-                      <RadioGroupItem
-                        key={color.value}
-                        value={color.value}
-                        className={cn(
-                          `grid place-content-center rounded-full h-10 w-10 relative -m-1.5  cursor-pointer p-0.5 active:ring-0 focus:ring-0 active:outline-none focus:outline-none border-2 border-transparent border-${color.tw}`,
-                          `data-[state=checked]:border-[8px] `
-                        )}
-                      >
-                        <div
-                          className={cn(
-                            "h-8 w-8 rounded-full border border-black border-opacity-10",
-                            `${
-                              mapColors[color.value as keyof typeof mapColors]
-                                .bg
-                            }`
-                          )}
-                        ></div>
-                      </RadioGroupItem>
-                    ))}
-                  </div>
-                </RadioGroup>
+
+              <SelectColors colorsMasters={ colorsMasters} mapColors={mapColors } options={options} setOptions={setOptions} />
+
+
               </div>
               <div className="relative flex flex-col gap-3 w-full">
                 <label className="mt-3">Model</label>
