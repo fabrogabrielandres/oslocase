@@ -2,7 +2,7 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { z } from "zod";
 import sharp from "sharp";
-import { UploadthingActions as Uploadthing } from ".";
+import { UploadthingActions } from ".";
 
 const f = createUploadthing();
 
@@ -19,7 +19,7 @@ export const ourFileRouter = {
       const image = await sharp(buffer);
       const { height, width } = await image.metadata();
       if (!configId) {
-        const res = await Uploadthing.POST({
+        const res = await UploadthingActions.POST({
           height: height || 500,
           width: width || 500,
           imageUrl: file.ufsUrl,
@@ -27,10 +27,9 @@ export const ourFileRouter = {
 
         return { configId: res.id };
       } else {
-        const res = await Uploadthing.PATCH({
+        const res = await UploadthingActions.PATCH({
           id: configId,
-          height: height || 500,
-          width: width || 500,
+          croppedImageUrl: file.ufsUrl,
         });
         return { configId: res.id };
       }

@@ -4,7 +4,7 @@ import { prisma } from "@/db/prisma";
 
 export type SaveConfigArgs = {
   id: string;
-  colorsId: string;
+  colorsPhoneId: string;
   finishesPhoneId: string;
   materialsPhoneId: string;
   modelsPhoneId: string;
@@ -12,13 +12,17 @@ export type SaveConfigArgs = {
 
 export async function upDateConfig({
   id,
-  colorsId,
+  colorsPhoneId,
   finishesPhoneId,
   materialsPhoneId,
   modelsPhoneId,
 }: SaveConfigArgs) {
-  await prisma.configuration.update({
-    where: { id: id },
-    data: { colorsId, finishesPhoneId, materialsPhoneId, modelsPhoneId },
-  });
+  try {
+    await prisma.configuration.update({
+      where: { id: id },
+      data: { colorsPhoneId, finishesPhoneId, materialsPhoneId, modelsPhoneId },
+    });
+  } catch (error) {
+    return error;
+  }
 }

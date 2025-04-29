@@ -24,6 +24,7 @@ import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
 import React, { useCallback, useRef, useState } from "react";
 import { Rnd } from "react-rnd";
+import { upDateConfig } from "./actions";
 
 interface Props {
   id: string;
@@ -135,11 +136,45 @@ export const DesignConfiguration = ({
     [options.finish, options.material] // Dependency array
   );
 
+  const findIdToUpdateConfig = async ({
+    id,
+    colorLavel,
+    finishLavel,
+    materialLavel,
+    modelLavel,
+  }: MutateArgsInterface) => {
+    const colorsPhoneId =
+      colorsMasters.find((color) => {
+        if (color.value === colorLavel) return color.id;
+      })?.id ?? "";
+    const finishesPhoneId =
+      finishesMasters.find((finish) => {
+        if (finish.value === finishLavel) return finish.id;
+      })?.id ?? "";
+    const modelsPhoneId =
+      modelsMasters.find((models) => {
+        if (models.value === modelLavel) return models.id;
+      })?.id ?? "";
+    const materialsPhoneId =
+      materialsMasters.find((material) => {
+        if (material.value === materialLavel) return material.id;
+      })?.id ?? "";
+
+    const resp = await upDateConfig({
+      colorsPhoneId,
+      finishesPhoneId,
+      modelsPhoneId,
+      materialsPhoneId,
+      id,
+    });
+    return resp;
+  };
+
   const { mutate: mutateArgs } = useMutation({
     mutationKey: ["save-config"],
     mutationFn: async (args: MutateArgsInterface) => {
       console.log("argssss", { args });
-      // await Promise.all([cropAndUploadImage(), saveConfig(args)]);
+      await Promise.all([cropAndUploadImage(), findIdToUpdateConfig(args)]);
     },
     onError: () => {
       toast({
@@ -209,6 +244,7 @@ export const DesignConfiguration = ({
           "There was a problem saving your config, please try again.",
         variant: "destructive",
       });
+      return err;
     }
   };
 
