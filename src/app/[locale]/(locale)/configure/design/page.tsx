@@ -38,7 +38,7 @@ export default async function DesignPage({
   return (
     <>
       <Suspense
-        fallback={<div className="h-full w-full bg-red-500">Loading...</div>}
+        fallback={<div className="h-full w-full">Loading...</div>}
       >
         <DesignConfiguration
           materialsMasters={materialsMasters}

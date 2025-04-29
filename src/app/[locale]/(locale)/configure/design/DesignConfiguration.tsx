@@ -1,6 +1,5 @@
 "use client";
 import HandleComponent from "@/components/HandleComponent/HandleComponent";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -25,6 +24,7 @@ import Image from "next/image";
 import React, { useCallback, useRef, useState } from "react";
 import { Rnd } from "react-rnd";
 import { upDateConfig } from "./actions";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   id: string;
@@ -170,7 +170,7 @@ export const DesignConfiguration = ({
     return resp;
   };
 
-  const { mutate: mutateArgs } = useMutation({
+  const { mutate: mutateArgs, isPending } = useMutation({
     mutationKey: ["save-config"],
     mutationFn: async (args: MutateArgsInterface) => {
       console.log("argssss", { args });
@@ -485,9 +485,7 @@ export const DesignConfiguration = ({
             <div className="w-full flex gap-6 items-center">
               <p className="font-medium whitespace-nowrap">{totalCallBack()}</p>
               <Button
-                // isLoading={isPending}
-                // disabled={isPending}
-                // loadingText="Saving"
+                disabled={isPending}
                 onClick={() =>
                   mutateArgs({
                     id,
