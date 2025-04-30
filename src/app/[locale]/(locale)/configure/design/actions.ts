@@ -10,7 +10,7 @@ export type SaveConfigArgs = {
   modelsPhoneId: string;
 };
 
-export async function upDateConfig({
+export async function upDateConfigAction({
   id,
   colorsPhoneId,
   finishesPhoneId,

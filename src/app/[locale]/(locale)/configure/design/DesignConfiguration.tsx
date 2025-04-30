@@ -11,21 +11,18 @@ import {
 import { useUploadThing } from "@/lib/uploadthing";
 import { base64ToBlob, cn, formatPrice } from "@/lib/utils";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
 import { useMutation } from "@tanstack/react-query";
-import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import React, { useCallback, useRef, useState } from "react";
 import { Rnd } from "react-rnd";
-import { upDateConfig } from "./actions";
+import { upDateConfigAction } from "./actions";
 import { Button } from "@/components/ui/button";
 import { SelectColors } from "./Component/SelectColors";
 import { SelectMaterialAndFinish } from "./Component/SelectMaterialAndFinish";
+import { SelectModel } from "./Component/SelectModel";
+import { useRouter } from "@/i18n/navigation";
+
 
 interface Props {
   id: string;
@@ -97,6 +94,8 @@ export const DesignConfiguration = ({
   //   },
   // };
 
+  const router = useRouter();
+
   const { startUpload } = useUploadThing("imageUploader");
 
   const [renderedDimension, setRenderedDimension] = useState({
@@ -137,7 +136,7 @@ export const DesignConfiguration = ({
     [options.finish, options.material] // Dependency array
   );
 
-  const findIdToUpdateConfig = async ({
+  const upDateConfig = async ({
     id,
     colorLavel,
     finishLavel,
@@ -148,20 +147,19 @@ export const DesignConfiguration = ({
       colorsMasters.find((color) => {
         if (color.value === colorLavel) return color.id;
       })?.id ?? "";
-    const finishesPhoneId =
-      finishesMasters.find((finish) => {
-        if (finish.value === finishLavel) return finish.id;
-      })?.id ?? "";
     const modelsPhoneId =
       modelsMasters.find((models) => {
         if (models.value === modelLavel) return models.id;
+      })?.id ?? "";
+    const finishesPhoneId =
+      finishesMasters.find((finish) => {
+        if (finish.value === finishLavel) return finish.id;
       })?.id ?? "";
     const materialsPhoneId =
       materialsMasters.find((material) => {
         if (material.value === materialLavel) return material.id;
       })?.id ?? "";
-
-    const resp = await upDateConfig({
+    const resp = await upDateConfigAction({
       colorsPhoneId,
       finishesPhoneId,
       modelsPhoneId,
@@ -175,7 +173,7 @@ export const DesignConfiguration = ({
     mutationKey: ["save-config"],
     mutationFn: async (args: MutateArgsInterface) => {
       console.log("argssss", { args });
-      await Promise.all([cropAndUploadImage(), findIdToUpdateConfig(args)]);
+      await Promise.all([cropAndUploadImage(), upDateConfig(args)]);
     },
     onError: () => {
       toast({
@@ -186,8 +184,7 @@ export const DesignConfiguration = ({
     },
     onSuccess: () => {
       console.log("was successfully saved");
-
-      // router.push(`/configure/preview?id=${configId}`);
+      router.push(`/configure/preview?id=${id}`);
     },
   });
 
@@ -339,47 +336,11 @@ export const DesignConfiguration = ({
               </div>
               <div className="relative flex flex-col gap-3 w-full">
                 <label className="mt-3">Model</label>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className="w-full justify-between"
-                    >
-                      {options.model}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="z-10 border border-input bg-white">
-                    {modelsMasters.map(({ value }) => (
-                      <DropdownMenuItem
-                        key={value}
-                        className={cn(
-                          "flex text-sm gap-1 items-center p-1.5 cursor-default hover:bg-zinc-100 focus:outline-none",
-                          {
-                            "bg-zinc-100": value === options.model,
-                          }
-                        )}
-                        onClick={() => {
-                          setOptions((prev) => ({
-                            ...prev,
-                            model: value,
-                          }));
-                        }}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            value === options.model
-                              ? "opacity-100"
-                              : "opacity-0"
-                          )}
-                        />
-                        {value}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <SelectModel
+                  modelsMasters={modelsMasters}
+                  options={options}
+                  setOptions={setOptions}
+                />
               </div>
 
               <SelectMaterialAndFinish
