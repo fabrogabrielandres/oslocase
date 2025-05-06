@@ -12,7 +12,7 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { base64ToBlob, cn, formatPrice } from "@/lib/utils";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { useMutation } from "@tanstack/react-query";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import Image from "next/image";
 import React, { useCallback, useRef, useState } from "react";
 import { Rnd } from "react-rnd";
@@ -22,7 +22,7 @@ import { SelectColors } from "./Component/SelectColors";
 import { SelectMaterialAndFinish } from "./Component/SelectMaterialAndFinish";
 import { SelectModel } from "./Component/SelectModel";
 import { useRouter } from "@/i18n/navigation";
-
+import { Progress } from "@/components/ui/progress";
 
 interface Props {
   id: string;
@@ -64,6 +64,7 @@ export const DesignConfiguration = ({
   materialsMasters,
 }: Props) => {
   const mapColors: { [key: string]: COLORSMAPED } = {};
+  const router = useRouter();
 
   colorsMasters.forEach((color: COLORS_INTERFACE) => {
     mapColors[color.value as keyof typeof mapColors] = {
@@ -73,30 +74,6 @@ export const DesignConfiguration = ({
       value: color.value,
     };
   });
-  // const mapColors = {
-  //   black: {
-  //     bg: "bg-zinc-900",
-  //     border: "border-zinc-900",
-  //     label: "Black",
-  //     value: "black",
-  //   },
-  //   blue: {
-  //     bg: "bg-blue-950",
-  //     border: "border-blue-950",
-  //     label: "Blue",
-  //     value: "blue",
-  //   },
-  //   rose: {
-  //     bg: "bg-rose-950",
-  //     border: "border-rose-950",
-  //     label: "Rose",
-  //     value: "rose",
-  //   },
-  // };
-
-  const router = useRouter();
-
-  const { startUpload } = useUploadThing("imageUploader");
 
   const [renderedDimension, setRenderedDimension] = useState({
     width: imageDimensions.width / 4,
@@ -133,8 +110,36 @@ export const DesignConfiguration = ({
       const result = formatPrice(BASE_PRICE + priceFinish + priceMaterial);
       return result;
     },
-    [options.finish, options.material] // Dependency array
+    [options.finish, options.material, finishesMasters, materialsMasters] // Dependency array
   );
+
+  
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+
+  const { startUpload, isUploading } = useUploadThing("imageUploader", {
+    onUploadProgress(p) {
+      setUploadProgress(p);
+    },
+  });
+
+  const { mutate: mutateArgs, isPending } = useMutation({
+    mutationKey: ["save-config"],
+    mutationFn: async (args: MutateArgsInterface) => {
+      console.log("argssss", { args });
+      await Promise.all([cropAndUploadImage(), upDateConfig(args)]);
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong",
+        description: "There was an error on our end. Please try again.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      console.log("was successfully saved");
+      router.push(`/configure/preview?id=${id}`);
+    },
+  });
 
   const upDateConfig = async ({
     id,
@@ -168,25 +173,6 @@ export const DesignConfiguration = ({
     });
     return resp;
   };
-
-  const { mutate: mutateArgs, isPending } = useMutation({
-    mutationKey: ["save-config"],
-    mutationFn: async (args: MutateArgsInterface) => {
-      console.log("argssss", { args });
-      await Promise.all([cropAndUploadImage(), upDateConfig(args)]);
-    },
-    onError: () => {
-      toast({
-        title: "Something went wrong",
-        description: "There was an error on our end. Please try again.",
-        variant: "destructive",
-      });
-    },
-    onSuccess: () => {
-      console.log("was successfully saved");
-      router.push(`/configure/preview?id=${id}`);
-    },
-  });
 
   const cropAndUploadImage = async () => {
     try {
@@ -254,6 +240,17 @@ export const DesignConfiguration = ({
         className="relative h-[37.5rem] overflow-hidden col-span-2 w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 "
         ref={containerRef}
       >
+        <div className="absolute items-center justify-center z-50">
+          {isUploading || isPending ? (
+            <div className="flex flex-col items-center justify-center">
+              <Progress
+                value={uploadProgress}
+                className="mt-2 w-40 h-2 bg-gray-300"
+              />
+              <Loader2 className="animate-spin h-6 w-6 text-zinc-500 mb-2" />
+            </div>
+          ) : null}
+        </div>
         <div className="relative w-60 bg-opacity-50 pointer-events-none aspect-[896/1831]">
           <AspectRatio
             ratio={896 / 1831}

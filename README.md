@@ -1,7 +1,9 @@
-npm i 
-npm run dev
-# to update de database: docker compose up -d
-# to run the migrations:  ```npx prisma migrate dev````
-# to run script to create seeds:  ```npm run seed````
-# to run the project:  ```npm run dev````
-
+# Description
+# Run in dev
+# Clone the repository.
+# Create a copy of .env.template and rename it to .env and change environment variables.
+# Install dependencies npm install
+# Raise docker database compose up -d
+# Run migrations Primsa ```npx prisma migrate dev````
+# Run seed npm run seed
+# Run project npm run dev
