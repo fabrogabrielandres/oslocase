@@ -36,11 +36,9 @@ export const Phone = ({
           className="pointer-events-none z-50 select-none"
           alt="phone image"
         />
-        <section className="absolute -z-10 inset-0 bg-red-400">
+        <section className={cn(`absolute -z-10 inset-0`, classNameMainPicture)}>
           <img
-            className={cn("object-cover min-w-full min-h-full", {
-              classNameMainPicture,
-            })}
+            className={cn("object-cover min-w-full min-h-full")}
             src={imgSrc}
             alt="overlaying phone image"
           />

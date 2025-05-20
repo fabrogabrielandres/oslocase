@@ -44,6 +44,13 @@ export default async function Page({
           value: true,
         },
       },
+      model:{
+        select: {
+          label: true,
+          id: true,
+          value: true,
+        },
+      }
     },
   })) as ConfigurationInterface;
 

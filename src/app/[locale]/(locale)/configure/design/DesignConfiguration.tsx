@@ -63,17 +63,28 @@ export const DesignConfiguration = ({
   finishesMasters,
   materialsMasters,
 }: Props) => {
-  const mapColors: { [key: string]: COLORSMAPED } = {};
+  const mapColors: { [key: string]: COLORSMAPED } = {
+    black: {
+      bg: "bg-zinc-900",
+      border: "border-zinc-900",
+      label: "Black",
+      value: "black",
+    },
+    blue: {
+      bg: "bg-blue-950",
+      border: "border-blue-950",
+      label: "Blue",
+      value: "blue",
+    },
+    rose: {
+      bg: "bg-rose-950",
+      border: "border-rose-950",
+      label: "Rose",
+      value: "rose",
+    },
+  };
   const router = useRouter();
 
-  colorsMasters.forEach((color: COLORS_INTERFACE) => {
-    mapColors[color.value as keyof typeof mapColors] = {
-      bg: `bg-${color.tw}`,
-      border: `border-${color.tw}`,
-      label: color.label,
-      value: color.value,
-    };
-  });
 
   const [renderedDimension, setRenderedDimension] = useState({
     width: imageDimensions.width / 4,
@@ -113,7 +124,6 @@ export const DesignConfiguration = ({
     [options.finish, options.material, finishesMasters, materialsMasters] // Dependency array
   );
 
-  
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   const { startUpload, isUploading } = useUploadThing("imageUploader", {

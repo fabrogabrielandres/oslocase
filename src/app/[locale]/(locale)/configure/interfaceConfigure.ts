@@ -11,6 +11,13 @@ export interface ConfigurationInterface {
   finish: Finish;
   material: Finish;
   ColorsPhone: ColorsPhone;
+  model: ModelPhone;
+}
+
+export interface ModelPhone {
+  label: string;
+  id: string;
+  value: string;
 }
 
 export interface ColorsPhone {

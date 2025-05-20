@@ -5,18 +5,49 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Check } from "lucide-react";
 import Phone from "@/components";
 import { ConfigurationInterface } from "../interfaceConfigure";
+import { COLORSMAPED } from "../design/DesignConfiguration";
+import { cn, formatPrice } from "@/lib/utils";
 
 interface Props {
-  configuration: ConfigurationInterface ;
+  configuration: ConfigurationInterface;
 }
 
-export default function DesignPreview({configuration}: Props) {
+export default function DesignPreview({ configuration }: Props) {
   const [confettiRun, setConfettiRun] = useState(true);
   const width = window.innerWidth || 300;
   const height = window.innerHeight || 300;
-  const { colorsPhoneId,croppedImageUrl, } = configuration;
-  
-  
+  const { croppedImageUrl, ColorsPhone, finish, material , model } = configuration;
+
+  const BASE_PRICE = 14.0;
+  const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
+  console.log("totalPrice", totalPrice);
+
+  console.log("configuration", { configuration });
+  console.log("finish", { finish });
+  console.log("model", { model });
+
+  const mapColors: { [key: string]: COLORSMAPED } = {
+    black: {
+      bg: "bg-zinc-900",
+      border: "border-zinc-900",
+      label: "Black",
+      value: "black",
+    },
+    blue: {
+      bg: "bg-blue-950",
+      border: "border-blue-950",
+      label: "Blue",
+      value: "blue",
+    },
+    rose: {
+      bg: "bg-rose-950",
+      border: "border-rose-950",
+      label: "Rose",
+      value: "rose",
+    },
+  };
+  console.log("background", mapColors[ColorsPhone.value].bg);
+
   useEffect(() => {
     setTimeout(() => {
       setConfettiRun(false);
@@ -35,18 +66,13 @@ export default function DesignPreview({configuration}: Props) {
       </div>
       <div className="mt-20 flex flex-col items-center md:grid text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12">
         <div className="md:col-span-4 lg:col-span-3 md:row-span-2 md:row-end-2">
-          {/* <Phone
-            className={cn(`bg-${tw}`, "max-w-[150px] md:max-w-full")}
-            imgSrc={configuration.croppedImageUrl!}
-          /> */}
           <Phone
-            classNameContainer={`w-64 ${colorsPhoneId}`}
+            classNameContainer={cn(`w-64`)}
+            classNameMainPicture={cn(`${mapColors[ColorsPhone.value].bg}`)}
             imgSrc={croppedImageUrl!}
           >
             {() => (
               <>
-                {/* <LinePhone></LinePhone> */}
-                {/* <Testimonial></Testimonial> */}
                 <Phone.Testimonial />
                 <Phone.LinePhone />
               </>
@@ -56,7 +82,7 @@ export default function DesignPreview({configuration}: Props) {
 
         <div className="mt-6 sm:col-span-9 md:row-end-1">
           <h3 className="text-3xl font-bold tracking-tight text-gray-900">
-            {/* Your {modelLabel} Case */}
+            Your {model.label} Case
           </h3>
           <div className="mt-3 flex items-center gap-1.5 text-base">
             <Check className="h-4 w-4 text-green-500" />
@@ -89,38 +115,30 @@ export default function DesignPreview({configuration}: Props) {
               <div className="flow-root text-sm">
                 <div className="flex items-center justify-between py-1 mt-2">
                   <p className="text-gray-600">Base price</p>
-                  <p className="font-medium text-gray-900">
-                    {/* {formatPrice(BASE_PRICE / 100)} */}
-                  </p>
+                  <p className="font-medium text-gray-900">{BASE_PRICE}</p>
                 </div>
 
-                {/* {finish === "textured" ? (
+                {finish.value === "textured" ? (
                   <div className="flex items-center justify-between py-1 mt-2">
                     <p className="text-gray-600">Textured finish</p>
+                    <p className="font-medium text-gray-900">{finish.price}</p>
+                  </div>
+                ) : null}
+
+                {material.value === "polycarbonate" ? (
+                  <div className="flex items-center justify-between py-1 mt-2">
+                    <p className="text-gray-600">Soft polycarbonate material</p>
                     <p className="font-medium text-gray-900">
-                      {formatPrice(PRODUCT_PRICES.finish.textured / 100)}
+                      {material.price}
                     </p>
                   </div>
-                ) : null} */}
-
-                {
-                  // material === "polycarbonate" ? (
-                  //   <div className="flex items-center justify-between py-1 mt-2">
-                  //     <p className="text-gray-600">Soft polycarbonate material</p>
-                  //     <p className="font-medium text-gray-900">
-                  //       {/* {formatPrice(PRODUCT_PRICES.material.polycarbonate / 100)} */}
-                  //     </p>
-                  //   </div>
-                  // ) : null
-                }
+                ) : null}
 
                 <div className="my-2 h-px bg-gray-200" />
 
                 <div className="flex items-center justify-between py-2">
                   <p className="font-semibold text-gray-900">Order total</p>
-                  <p className="font-semibold text-gray-900">
-                    {/* {formatPrice(totalPrice / 100)} */}
-                  </p>
+                  <p className="font-semibold text-gray-900">{totalPrice}</p>
                 </div>
               </div>
             </div>
