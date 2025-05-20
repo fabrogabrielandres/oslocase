@@ -85,7 +85,6 @@ export const DesignConfiguration = ({
   };
   const router = useRouter();
 
-
   const [renderedDimension, setRenderedDimension] = useState({
     width: imageDimensions.width / 4,
     height: imageDimensions.height / 4,
@@ -366,6 +365,8 @@ export const DesignConfiguration = ({
               <p className="font-medium whitespace-nowrap">{totalCallBack()}</p>
               <Button
                 disabled={isPending}
+                isLoading={isPending}
+                loadingText="Saving"
                 onClick={() =>
                   mutateArgs({
                     id,
