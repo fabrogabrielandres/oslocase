@@ -1,15 +1,12 @@
-
 import { ArrowRight } from "lucide-react";
 import { MaxWidthWrapper } from "../MaxWidthWrapper/MaxWidthWrapper";
 import { buttonVariants } from "../ui/button";
 import LocaleSwitcher from "../LocaleSwitcher/LocaleSwitcher";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { Link } from "@/i18n/routing";
+import Link from "next/link";
+import { Link as Link18n } from "@/i18n/routing";
 
-interface Props {
-  language: string;
-}
-const Navbar = async ({ language }: Props) => {
+const Navbar = async () => {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   const isAdmin = user?.email === process.env.ADMIN_EMAIL;
@@ -18,9 +15,9 @@ const Navbar = async ({ language }: Props) => {
     <nav className="sticky z-[100] h-14 inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>
         <div className="flex h-14 items-center justify-between border-b border-zinc-200">
-          <Link href="/" className="flex z-40 font-semibold">
+          <Link18n href="/" className="flex z-40 font-semibold">
             case<span className="text-blue-600">oslo</span>
-          </Link>
+          </Link18n>
           <LocaleSwitcher></LocaleSwitcher>
 
           <div className="h-full flex items-center space-x-4">
@@ -36,18 +33,18 @@ const Navbar = async ({ language }: Props) => {
                   Sign out
                 </Link>
                 {isAdmin ? (
-                  <Link
-                    href={`${language}/dashboard`}
+                  <Link18n
+                    href={`/dashboard`}
                     className={buttonVariants({
                       size: "sm",
                       variant: "ghost",
                     })}
                   >
                     Dashboard ✨
-                  </Link>
+                  </Link18n>
                 ) : null}
-                <Link
-                  href={`${language}/configure/upload`}
+                <Link18n
+                  href={`/configure/upload`}
                   className={buttonVariants({
                     size: "sm",
                     className: "hidden sm:flex items-center gap-1",
@@ -55,7 +52,7 @@ const Navbar = async ({ language }: Props) => {
                 >
                   Create case
                   <ArrowRight className="ml-1.5 h-5 w-5" />
-                </Link>
+                </Link18n>
               </>
             ) : (
               <>
@@ -81,7 +78,7 @@ const Navbar = async ({ language }: Props) => {
 
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
 
-                <Link
+                <Link18n
                   href={`/configure/upload`}
                   className={buttonVariants({
                     size: "sm",
@@ -90,7 +87,7 @@ const Navbar = async ({ language }: Props) => {
                 >
                   Create case
                   <ArrowRight className="ml-1.5 h-5 w-5" />
-                </Link>
+                </Link18n>
               </>
             )}
           </div>
