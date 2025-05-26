@@ -7,6 +7,7 @@ import Phone from "@/components";
 import { ConfigurationInterface } from "../interfaceConfigure";
 import { COLORSMAPED } from "../design/DesignConfiguration";
 import { cn, formatPrice } from "@/lib/utils";
+import { createCheckoutSession } from "./actions";
 
 interface Props {
   configuration: ConfigurationInterface;
@@ -14,17 +15,18 @@ interface Props {
 
 export default function DesignPreview({ configuration }: Props) {
   const [confettiRun, setConfettiRun] = useState(true);
-  const width = window.innerWidth || 300;
-  const height = window.innerHeight || 300;
-  const { croppedImageUrl, ColorsPhone, finish, material , model } = configuration;
+  const width =  3000;
+  const height =  3000;
+  const { croppedImageUrl, ColorsPhone, finish, material , model, id } = configuration;
 
   const BASE_PRICE = 14.0;
   const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
-  console.log("totalPrice", totalPrice);
+  
 
-  console.log("configuration", { configuration });
-  console.log("finish", { finish });
-  console.log("model", { model });
+  const handleCheckout = async () => {
+    await createCheckoutSession({configId:id})
+
+  };
 
   const mapColors: { [key: string]: COLORSMAPED } = {
     black: {
@@ -145,7 +147,7 @@ export default function DesignPreview({ configuration }: Props) {
 
             <div className="mt-8 flex justify-end pb-12">
               <Button
-                // onClick={() => handleCheckout()}
+                onClick={() => handleCheckout()}
                 className="px-4 sm:px-6 lg:px-8"
               >
                 Check out <ArrowRight className="h-4 w-4 ml-1.5 inline" />

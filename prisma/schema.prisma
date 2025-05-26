@@ -16,11 +16,12 @@ model Configuration {
   modelsPhoneId    String?
   materialsPhoneId String?
   finishesPhoneId  String?
-  colorsPhoneId         String?
+  colorsPhoneId    String?
   ColorsPhone      ColorsPhone?    @relation(fields: [colorsPhoneId], references: [id])
   finish           FinishesPhone?  @relation(fields: [finishesPhoneId], references: [id])
   material         MaterialsPhone? @relation(fields: [materialsPhoneId], references: [id])
   model            ModelsPhone?    @relation(fields: [modelsPhoneId], references: [id])
+  Order            Order[]
 }
 
 model ColorsPhone {
@@ -60,4 +61,56 @@ enum OrderStatus {
   fulfilled
   shipped
   awaiting_shipment
+}
+
+model User {
+  id    String  @id @default(uuid())
+  email String
+  Order Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id              String        @id @default(uuid())
+  configurationId String
+  configuration   Configuration @relation(fields: [configurationId], references: [id])
+  user            User          @relation(fields: [userId], references: [id])
+  userId          String
+  amount          Float
+  isPaid          Boolean       @default(false)
+  status          OrderStatus   @default(awaiting_shipment)
+
+  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  shippingAddressId String?
+  billingAddress    BillingAddress?  @relation(fields: [billingAddressId], references: [id])
+  billingAddressId  String?
+
+  createdAt DateTime @default(now())
+  updated   DateTime @updatedAt
+}
+
+model ShippingAddress {
+  id          String  @id @default(uuid())
+  name        String
+  street      String
+  city        String
+  postalCode  String
+  country     String
+  state       String?
+  phoneNumber String?
+  orders      Order[]
+}
+
+model BillingAddress {
+  id          String  @id @default(uuid())
+  name        String
+  street      String
+  city        String
+  postalCode  String
+  country     String
+  state       String?
+  phoneNumber String?
+  orders      Order[]
 }
