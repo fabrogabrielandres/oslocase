@@ -1,7 +1,8 @@
+import { BillingAddressInter, ShippingAddressInter } from "./interfaceAddress";
 import { ConfigurationInterface } from "./interfaceConfigure";
 import { UserInter } from "./interfaceUser";
 export interface OrderInt {
-  id: string;
+  id?: string;
   configurationId: string;
   configuration: ConfigurationInterface;
   user: UserInter;
@@ -10,13 +11,12 @@ export interface OrderInt {
   isPaid: boolean;
   status: OrderStatusInter;
 
-  //   shippingAddress   ShippingAddress
+  shippingAddress: ShippingAddressInter;
   shippingAddressId: string;
-  //   billingAddress    BillingAddress
+  billingAddress: BillingAddressInter;
   billingAddressId: string;
-
-  //   createdAt
-  //   updated
+  createdAt: Date;
+  updated: Date;
 }
 
 export type OrderStatusInter = "fulfilled" | "shipped" | "awaiting_shipment";

@@ -52,24 +52,51 @@ export const createCheckoutSession = async ({
     },
   })) as ConfigurationInterface;
 
+  if (!configuration) {
+    throw new Error("No such configuration found");
+  }
+
   const { finish, material } = configuration;
 
   const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
   console.log("Total Price", totalPrice);
 
-  if (!configuration) {
-    throw new Error("No such configuration found");
-  }
-
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   console.log("User", user);
 
-    if (!user) {
-      throw new Error("You need to be logged in");
-    }
+  if (!user) {
+    throw new Error("You need to be logged in");
+  }
 
-  console.log("configuration", configuration);
+  const existingOrder = await prisma.order.findFirst({
+    where: {
+      userId: user.id,
+      configurationId: configuration.id,
+    },
+    include: {
+      configuration: true,
+      user: true,
+      shippingAddress: true,
+      billingAddress: true,
+    },
+  });
+
+  console.log("existingOrder",existingOrder);
+  
+  if (!existingOrder) {
+    console.log("entramos aca");
+    
+    const existingOrderBB = await prisma.order.create({
+      data: {
+        amount: Number(totalPrice),
+        userId: user.id,
+        configurationId: configuration.id,
+      },
+    });
+    console.log("existingOrderBB",existingOrder);
+  }
+  
 
   return {};
 };
