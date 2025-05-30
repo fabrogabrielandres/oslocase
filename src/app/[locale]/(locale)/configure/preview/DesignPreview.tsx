@@ -15,9 +15,9 @@ interface Props {
 
 export default function DesignPreview({ configuration }: Props) {
   const [confettiRun, setConfettiRun] = useState(true);
-  const width = 3000;
-  const height = 3000;
-  const { croppedImageUrl, ColorsPhone, finish, material, model, id } =
+  const width = window.innerWidth || 300;
+  const height = window.innerHeight || 300;
+  const { croppedImageUrl, ColorsPhone, finish, material,  id } =
     configuration;
 
   const BASE_PRICE = 14.0;
