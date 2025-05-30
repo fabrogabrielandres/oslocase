@@ -15,18 +15,18 @@ interface Props {
 
 export default function DesignPreview({ configuration }: Props) {
   const [confettiRun, setConfettiRun] = useState(true);
-  const width =  3000;
-  const height =  3000;
-  const { croppedImageUrl, ColorsPhone, finish, material , model, id } = configuration;
+  const width = 3000;
+  const height = 3000;
+  const { croppedImageUrl, ColorsPhone, finish, material, model, id } =
+    configuration;
 
   const BASE_PRICE = 14.0;
   const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
-  
 
   const handleCheckout = async () => {
-    await createCheckoutSession({configId:id})
-
+    await createCheckoutSession({ configId: id });
   };
+  console.log("ColorsPhone", ColorsPhone.value);
 
   const mapColors: { [key: string]: COLORSMAPED } = {
     black: {
@@ -48,7 +48,7 @@ export default function DesignPreview({ configuration }: Props) {
       value: "rose",
     },
   };
-  console.log("background", mapColors[ColorsPhone.value].bg);
+  console.log("mapColors", mapColors);
 
   useEffect(() => {
     setTimeout(() => {
@@ -68,9 +68,26 @@ export default function DesignPreview({ configuration }: Props) {
       </div>
       <div className="mt-20 flex flex-col items-center md:grid text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12">
         <div className="md:col-span-4 lg:col-span-3 md:row-span-2 md:row-end-2">
+          {/* <Phone
+            className={cn(`bg-${tw}`, "max-w-[150px] md:max-w-full")}
+            imgSrc={configuration.croppedImageUrl!}
+          /> */}
+
+          {/* <Phone
+            classNameContainer={`w-64 ${colorsPhoneId}`}
+            imgSrc={croppedImageUrl!}
+          >
+            {() => (
+              <>
+
+                <Phone.Testimonial />
+                <Phone.LinePhone />
+              </>
+            )}
+          </Phone> */}
           <Phone
-            classNameContainer={cn(`w-64`)}
-            classNameMainPicture={cn(`${mapColors[ColorsPhone.value].bg}`)}
+            classNameContainer={cn("w-64")}
+            classNameMainContainerPicture={mapColors[ColorsPhone.value].bg}
             imgSrc={croppedImageUrl!}
           >
             {() => (
@@ -84,7 +101,7 @@ export default function DesignPreview({ configuration }: Props) {
 
         <div className="mt-6 sm:col-span-9 md:row-end-1">
           <h3 className="text-3xl font-bold tracking-tight text-gray-900">
-            Your {model.label} Case
+            {/* Your {modelLabel} Case */}
           </h3>
           <div className="mt-3 flex items-center gap-1.5 text-base">
             <Check className="h-4 w-4 text-green-500" />

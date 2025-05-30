@@ -7,12 +7,14 @@ export interface PhoneProps {
   dark?: boolean;
   classNameContainer?: string;
   classNameMainPicture?: string;
+  classNameMainContainerPicture?: string;
   imgSrc: string;
 }
 
 export const Phone = ({
   classNameContainer,
   classNameMainPicture,
+  classNameMainContainerPicture,
   dark = false,
   children,
   imgSrc,
@@ -36,9 +38,15 @@ export const Phone = ({
           className="pointer-events-none z-50 select-none"
           alt="phone image"
         />
-        <section className={cn(`absolute -z-10 inset-0`, classNameMainPicture)}>
+        <section
+          className={cn(
+            `absolute -z-10 inset-0 ${classNameMainContainerPicture}`
+          )}
+        >
           <img
-            className={cn("object-cover min-w-full min-h-full")}
+            className={cn("object-cover min-w-full min-h-full", {
+              classNameMainPicture,
+            })}
             src={imgSrc}
             alt="overlaying phone image"
           />
