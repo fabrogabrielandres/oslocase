@@ -3,11 +3,13 @@ import Confetti from "react-confetti";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check } from "lucide-react";
-import Phone from "@/components";
 import { ConfigurationInterface } from "../interfaceConfigure";
 import { COLORSMAPED } from "../design/DesignConfiguration";
 import { cn, formatPrice } from "@/lib/utils";
+import Phone from "@/components";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { createCheckoutSession } from "./actions";
+import { LoginModal } from "@/components/LoginModal/LoginModal";
 
 interface Props {
   configuration: ConfigurationInterface;
@@ -15,18 +17,30 @@ interface Props {
 
 export default function DesignPreview({ configuration }: Props) {
   const [confettiRun, setConfettiRun] = useState(true);
-  const width = window.innerWidth || 300;
-  const height = window.innerHeight || 300;
-  const { croppedImageUrl, ColorsPhone, finish, material,  id } =
-    configuration;
+  const [widthWindows, setWidthWindows] = useState<number>(300);
+  const [heightWindows, setHeightWindows] = useState<number>(300);
+  useEffect(() => {
+    setWidthWindows(window.innerWidth || 300);
+    setHeightWindows(window.innerHeight || 300);
+  }, []);
+
+  const { croppedImageUrl, ColorsPhone, finish, material, id } = configuration;
+  const { user } = useKindeBrowserClient();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
 
   const BASE_PRICE = 14.0;
   const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
 
   const handleCheckout = async () => {
-    await createCheckoutSession({ configId: id });
+    if (user) {
+      // create payment session
+      createCheckoutSession({ configId: id });
+    } else {
+      // need to log in
+      localStorage.setItem("configurationId", id);
+      setIsLoginModalOpen(true);
+    }
   };
-  console.log("ColorsPhone", ColorsPhone.value);
 
   const mapColors: { [key: string]: COLORSMAPED } = {
     black: {
@@ -48,7 +62,6 @@ export default function DesignPreview({ configuration }: Props) {
       value: "rose",
     },
   };
-  console.log("mapColors", mapColors);
 
   useEffect(() => {
     setTimeout(() => {
@@ -62,29 +75,13 @@ export default function DesignPreview({ configuration }: Props) {
         <Confetti
           recycle={confettiRun}
           numberOfPieces={1000}
-          width={width}
-          height={height}
+          width={widthWindows}
+          height={heightWindows}
         />
       </div>
+      <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen} />
       <div className="mt-20 flex flex-col items-center md:grid text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12">
         <div className="md:col-span-4 lg:col-span-3 md:row-span-2 md:row-end-2">
-          {/* <Phone
-            className={cn(`bg-${tw}`, "max-w-[150px] md:max-w-full")}
-            imgSrc={configuration.croppedImageUrl!}
-          /> */}
-
-          {/* <Phone
-            classNameContainer={`w-64 ${colorsPhoneId}`}
-            imgSrc={croppedImageUrl!}
-          >
-            {() => (
-              <>
-
-                <Phone.Testimonial />
-                <Phone.LinePhone />
-              </>
-            )}
-          </Phone> */}
           <Phone
             classNameContainer={cn("w-64")}
             classNameMainContainerPicture={mapColors[ColorsPhone.value].bg}
