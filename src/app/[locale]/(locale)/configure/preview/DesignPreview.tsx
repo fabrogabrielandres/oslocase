@@ -10,6 +10,7 @@ import Phone from "@/components";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { createCheckoutSession } from "./actions";
 import { LoginModal } from "@/components/LoginModal/LoginModal";
+import { useLocale } from "next-intl";
 
 interface Props {
   configuration: ConfigurationInterface;
@@ -19,6 +20,7 @@ export default function DesignPreview({ configuration }: Props) {
   const [confettiRun, setConfettiRun] = useState(true);
   const [widthWindows, setWidthWindows] = useState<number>(300);
   const [heightWindows, setHeightWindows] = useState<number>(300);
+  const locale = useLocale();
   useEffect(() => {
     setWidthWindows(window.innerWidth || 300);
     setHeightWindows(window.innerHeight || 300);
@@ -38,6 +40,7 @@ export default function DesignPreview({ configuration }: Props) {
     } else {
       // need to log in
       localStorage.setItem("configurationId", id);
+      localStorage.setItem("locale", locale);
       setIsLoginModalOpen(true);
     }
   };
