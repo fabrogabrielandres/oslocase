@@ -11,12 +11,16 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { createCheckoutSession } from "./actions";
 import { LoginModal } from "@/components/LoginModal/LoginModal";
 import { useLocale } from "next-intl";
+import { toast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "@/i18n/navigation";
 
 interface Props {
   configuration: ConfigurationInterface;
 }
 
 export default function DesignPreview({ configuration }: Props) {
+  const router = useRouter();
   const [confettiRun, setConfettiRun] = useState(true);
   const [widthWindows, setWidthWindows] = useState<number>(300);
   const [heightWindows, setHeightWindows] = useState<number>(300);
@@ -33,10 +37,26 @@ export default function DesignPreview({ configuration }: Props) {
   const BASE_PRICE = 14.0;
   const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
 
+  const { mutate: createPaymentSession } = useMutation({
+    mutationKey: ["get-checkout-session"],
+    mutationFn: createCheckoutSession,
+    onSuccess: ({ url }) => {      
+      if (url) router.push(url);
+      else throw new Error("Unable to retrieve payment URL.");
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong",
+        description: "There was an error on our end. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleCheckout = async () => {
     if (user) {
       // create payment session
-      createCheckoutSession({ configId: id });
+      createPaymentSession({ configId: id,language: locale });
     } else {
       // need to log in
       localStorage.setItem("configurationId", id);

@@ -4,11 +4,15 @@ import { prisma } from "@/db/prisma";
 import { formatPrice } from "@/lib/utils";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ConfigurationInterface } from "../interfaceConfigure";
+import { stripe } from "@/lib/stripe";
+import { OrderInt } from "../interfaceOrder";
 
 export const createCheckoutSession = async ({
   configId,
+  language = "en",
 }: {
   configId: string;
+  language: string;
 }) => {
   const BASE_PRICE = 14.0;
 
@@ -56,47 +60,70 @@ export const createCheckoutSession = async ({
     throw new Error("No such configuration found");
   }
 
-  const { finish, material } = configuration;
+  const { finish, material, croppedImageUrl } = configuration;
 
-  const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
+  const totalPriceNumber = BASE_PRICE + finish.price + material.price;
+  const totalPrice = formatPrice(totalPriceNumber);
   console.log("Total Price", totalPrice);
+  console.log("Total totalPriceNumber", totalPriceNumber);
 
   const { getUser } = getKindeServerSession();
   const user = await getUser();
-  console.log("User", user);
 
   if (!user) {
     throw new Error("You need to be logged in");
   }
+
+  let order: OrderInt | null = null;
 
   const existingOrder = await prisma.order.findFirst({
     where: {
       userId: user.id,
       configurationId: configuration.id,
     },
-    include: {
-      configuration: true,
-      user: true,
-      shippingAddress: true,
-      billingAddress: true,
-    },
   });
 
-  console.log("existingOrder",existingOrder);
-  
-  if (!existingOrder) {
-    console.log("entramos aca");
-    
-    const existingOrderBB = await prisma.order.create({
+  if (existingOrder) {
+    order = existingOrder as OrderInt;
+  } else {
+    order = (await prisma.order.create({
       data: {
-        amount: Number(totalPrice),
+        amount: totalPriceNumber * 100,
         userId: user.id,
         configurationId: configuration.id,
       },
-    });
-    console.log("existingOrderBB",existingOrder);
+    })) as OrderInt;
   }
-  
 
-  return {};
+
+  const product = await stripe.products.create({
+    name: "Custom iPhone Case",
+    images: [croppedImageUrl || ""],
+    default_price_data: {
+      currency: "USD",
+      unit_amount: totalPriceNumber * 100, // Stripe expects the amount in cents
+    },
+  });
+
+  console.log("product stripeccccccccccccccccccccccccccccc");
+  console.log("existingOrder", existingOrder);
+  const stripeSession = await stripe.checkout.sessions.create({
+    success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/${language}/thank-you?orderId=${
+      order!.id
+    }`,
+    cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/${language}/configure/preview?id=${configuration.id}`,
+    payment_method_types: ["card", "paypal"],
+    mode: "payment",
+    shipping_address_collection: { allowed_countries: ["DE", "US"] },
+    metadata: {
+      userId: user.id,
+      orderId: order.id!,
+    },
+    line_items: [{ price: product.default_price as string, quantity: 1 }],
+    locale: "auto",
+  });
+
+  console.log("stripeSession", stripeSession);
+
+  return { url: stripeSession.url };
 };
