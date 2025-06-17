@@ -38,6 +38,7 @@ export async function POST(req: Request) {
 
       const billingAddress = session.customer_details!.address
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const updatedOrder = await prisma.order.update({
         where: {
           id: orderId,
