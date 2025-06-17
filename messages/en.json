@@ -1,0 +1,47 @@
+{
+  "HomePage": {
+    "title": "Your Image on a <code>Custom</code> Phone Casen",
+    "subtitle": "Capture your favorite memories with your own, <code> one-of-one </code> phone case. CaseCobra allows you to protect your memories, not just your phone case.",
+    "sub": {
+      "li": "High-quality",
+      "li1": "durable material",
+      "li2": "Modern iPhone models supported ",
+      "customer": "<code>1.250</code> happy customers"
+    },
+    "customerssay": {
+      "title": "What our <code > customers </code> say",
+      "customerOne": "The case feels durable and I even got a compliment on the design. Had the case for two and a half months now and <code> the image is super clear </code> , on the case I had before, the image started fading into yellow-ish color after a couple weeks. Love it.",
+      "customerTwo": "I usually keep my phone together with my keys in my pocket and that led to some pretty heavy scratchmarks on all of my last phone cases. This one, besides a barely noticeable scratch on the corner, <code > looks brand new after about half a year </code>. I dig it.",
+      "Jonathan": "Jonathan",
+      "Josh": "Josh",
+      "Verified": "Verified Purchase"
+    },
+    "UploadYourPhoto": {
+      "title": "Upload your photo and <code>getyour own case </code>now",
+      "li1": "High-quality silicone material",
+      "li2": "Scratch- and fingerprint resistant coating",
+      "li3": "Wireless charging compatible",
+      "li4": "5 year print warranty",
+      "create": "Create your case now"
+    },
+    "Configure": {
+      "Uploading": "Uploading...",
+      "Redirecting": "Redirecting, please wait...",
+      "Drop": "Drop file, <code>to upload</code>",
+      "Click": "<code>Click to upload</code> or drag and drop",
+      "Type": "PNG, JPG, JPEG"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, es {Espanish} en {English} other {''} no {Norwayan} }"
+  },
+  "Components": {
+    "Footer": {
+      "reserved": "All rights reserved",
+      "terms": "Terms",
+      "privacy": "Privacy Policy",
+      "cookie": "Cookie Policy"
+    }
+  }
+}

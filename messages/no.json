@@ -1,0 +1,47 @@
+{
+  "HomePage": {
+    "title": "Carcasa Ditt bilde i et <code>personlig</code> etui.",
+    "subtitle": "Fang favorittminnene dine med ditt <code>eget</code> unike mobiletui. Oslo Case lar deg beskytte minnene dine, ikke bare telefonvesken din.",
+    "sub": {
+      "li": "Holdbart materiale av høy kvalitet",
+      "li1": "slitesterkt materiale",
+      "li2": "Støtte for moderne iPhone-modeller",
+      "customer": "<code>1.250</code> fornøyde kunder"
+    },
+    "customerssay": {
+      "title": "Hva våre <code > kunder </code> sier",
+      "customerOne": "Dekselet føles slitesterkt og jeg fikk til og med et kompliment for designet. Hadde etuiet i to og en halv måned nå, og <code> bildet er superklart </code> , på etuiet jeg hadde før, begynte bildet å blekne til en gulaktig farge etter et par uker. Elsker det.",
+      "customerTwo": "Jeg pleier å ha telefonen sammen med nøklene i lommen, og det førte til noen ganske kraftige skrapemerker på alle de siste telefondekslene mine. Denne, foruten en knapt merkbar ripe på hjørnet, ser <code> helt ny ut etter omtrent et halvt år </code>. Jeg graver det.",
+      "Jonathan": "Jonathan",
+      "Josh": "Josh",
+      "Verified": "Verifisert kjøp"
+    },
+    "UploadYourPhoto": {
+      "title": "Last opp bildet ditt og <code>få din egen sak </code>nå",
+      "li1": "Silikonmateriale av høy kvalitet",
+      "li2": "Ripe- og fingeravtrykkbestandig belegg",
+      "li3": "Trådløs lading kompatibel",
+      "li4": "5 års utskriftsgaranti",
+      "create": "Opprett saken din nå"
+    },
+    "Configure": {
+      "Uploading": "Laster opp...",
+      "Redirecting": "Omdirigerer, vennligst vent...",
+      "Drop": "Slipp fil, <code>for å laste opp</code>",
+      "Click": "<code>Klikk for å laste opp</code> eller dra og slipp",
+      "Type": "PNG, JPG, JPEG"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Sprache ändern",
+    "locale": "{locale, select, es {Spansk} en {Engelsk} other {''} no {Norsk} }"
+  },
+  "Components": {
+    "Footer": {
+      "terms": "Vilkår",
+      "reserved": "Alle rettigheter forbeholdt",
+      "privacy": "Personvernerklæring",
+      "cookie": "Retningslinjer for informasjonskapsler"
+    }
+  }
+}
