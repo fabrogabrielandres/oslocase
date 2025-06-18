@@ -4,12 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build": "prisma generate && prisma migrate deploy && next build",
-    "postinstall": "prisma generate",
-    "seed": "NODE_ENV=production ts-node --transpile-only src/seed/seed-database.ts",
-    "vercel-build": "next build"
+    "seed": "ts-node src/seed/seed-database.ts --experimental-require-module"
   },
   "dependencies": {
     "@kinde-oss/kinde-auth-nextjs": "^2.6.2",
