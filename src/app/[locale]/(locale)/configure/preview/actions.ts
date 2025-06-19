@@ -66,10 +66,11 @@ export const createCheckoutSession = async ({
   const totalPrice = formatPrice(totalPriceNumber);
   console.log("Total Price", totalPrice);
   console.log("Total totalPriceNumber", totalPriceNumber);
-
+  
   const { getUser } = getKindeServerSession();
   const user = await getUser();
-
+  
+  console.log("user", user);
   if (!user) {
     throw new Error("You need to be logged in");
   }
