@@ -39,9 +39,9 @@ const Page = () => {
   if (typeof window !== "undefined" && data?.success) {
     if (configId) {
       localStorage.removeItem("configurationId");
-      return router.push(`/${locale}/configure/preview?id=${configId}`);
+      return router.push(`/configure/preview?id=${configId}`);
     }
-    return router.push(`/${locale}`);
+    return router.push(`/`);
   }
 
   return (
