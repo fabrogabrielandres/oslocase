@@ -1,6 +1,6 @@
 "use client";
 import Confetti from "react-confetti";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check } from "lucide-react";
 import { ConfigurationInterface } from "../interfaceConfigure";
