@@ -34,7 +34,7 @@
   },
   "LocaleSwitcher": {
     "label": "Change language",
-    "locale": "{locale, select, es {Espanish} en {English} other {''} no {Norwayan} }"
+    "locale": "{locale, select, es {Spanish} en {English} other {''} no {Norwegian} }"
   },
   "Components": {
     "Footer": {
