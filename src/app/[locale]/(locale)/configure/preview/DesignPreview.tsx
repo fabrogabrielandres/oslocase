@@ -1,6 +1,6 @@
 "use client";
 import Confetti from "react-confetti";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check } from "lucide-react";
 import { ConfigurationInterface } from "../interfaceConfigure";
@@ -37,6 +37,8 @@ export default function DesignPreview({ configuration }: Props) {
   const BASE_PRICE = 14.0;
   const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
 
+  console.log(user, "user from design preview");
+  
   const { mutate: createPaymentSession } = useMutation({
     mutationKey: ["get-checkout-session"],
     mutationFn: createCheckoutSession,

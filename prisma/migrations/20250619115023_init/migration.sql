@@ -62,7 +62,9 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -120,9 +122,6 @@ CREATE UNIQUE INDEX "FinishesPhone_value_key" ON "FinishesPhone"("value");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "MaterialsPhone_value_key" ON "MaterialsPhone"("value");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_id_key" ON "User"("id");
 
 -- AddForeignKey
 ALTER TABLE "Configuration" ADD CONSTRAINT "Configuration_colorsPhoneId_fkey" FOREIGN KEY ("colorsPhoneId") REFERENCES "ColorsPhone"("id") ON DELETE SET NULL ON UPDATE CASCADE;

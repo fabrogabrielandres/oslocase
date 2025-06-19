@@ -35,6 +35,8 @@ const Page = () => {
     retryDelay: 500,
   });
 
+  console.log("Data from auth-callback:", data);
+  
   if (typeof window !== "undefined" && data?.success) {
     if (configId) {
       localStorage.removeItem("configurationId");
