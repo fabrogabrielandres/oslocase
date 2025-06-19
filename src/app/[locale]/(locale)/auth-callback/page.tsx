@@ -3,13 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { getAuthStatus } from "./actions";
 import { Loader2 } from "lucide-react";
-import { redirect } from "next/navigation";
 import { locales } from "@/i18n/routing";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [configId, setConfigId] = useState<string | null>(null);
   const [locale, setLocale] = useState<string | null>(null);
-
+  const router = useRouter();
   useEffect(() => {
     const language = localStorage.getItem("locale") as (typeof locales)[number];
     const isvalidLanguage = locales.includes(language);
@@ -18,7 +18,7 @@ const Page = () => {
       setLocale(locales[0]); // Default to the first locale if the stored one is invalid
     } else {
       setLocale(language);
-      console.log("estoy en el else",language);
+      console.log("estoy en el else", language);
     }
   }, []);
 
@@ -26,7 +26,6 @@ const Page = () => {
     const configurationId = localStorage.getItem("configurationId");
     if (configurationId) setConfigId(configurationId);
   }, []);
-  
 
   const { data } = useQuery({
     queryKey: ["auth-callback"],
@@ -36,13 +35,13 @@ const Page = () => {
   });
 
   console.log("Data from auth-callback:", data);
-  
+
   if (typeof window !== "undefined" && data?.success) {
     if (configId) {
       localStorage.removeItem("configurationId");
-      return redirect(`/${locale}/configure/preview?id=${configId}`);
+      return router.push(`/${locale}/configure/preview?id=${configId}`);
     }
-    return redirect(`/${locale}`);
+    return router.push(`/${locale}`);
   }
 
   return (
