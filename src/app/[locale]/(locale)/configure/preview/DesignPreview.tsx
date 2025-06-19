@@ -46,9 +46,9 @@ export default function DesignPreview({ configuration }: Props) {
       if (url) router.push(url);
       else throw new Error("Unable to retrieve payment URL.");
     },
-    onError: () => {
+    onError: ({message}) => {
       toast({
-        title: "Something went wrong",
+        title: `Something went wrong ${message}`,
         description: "There was an error on our end. Please try again.",
         variant: "destructive",
       });
