@@ -25,6 +25,8 @@ export const getAuthStatus = async () => {
       },
     })
   }
+  console.log("action -> getAuthStatus", 'User authenticated successfully:', user);
+  
 
   return { success: true }
 }
