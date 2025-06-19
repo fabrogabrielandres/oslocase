@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { getAuthStatus } from "./actions";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "@/i18n/navigation";
 import { locales } from "@/i18n/routing";
-import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [configId, setConfigId] = useState<string | null>(null);

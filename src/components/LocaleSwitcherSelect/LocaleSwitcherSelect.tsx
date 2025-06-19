@@ -1,14 +1,15 @@
 "use client";
 
 import clsx from "clsx";
-import { useParams, useSearchParams } from "next/navigation";
 import {
   ChangeEvent,
   //  ReactNode,
   useTransition,
 } from "react";
-import { Locale, usePathname, useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { Locale } from "@/i18n/routing";
+import { useParams, useSearchParams } from "next/navigation";
 
 type U = ["en", "es", "no"];
 
