@@ -7,13 +7,13 @@ import { ConfigurationInterface } from "../interfaceConfigure";
 import { COLORSMAPED } from "../design/DesignConfiguration";
 import { cn, formatPrice } from "@/lib/utils";
 import Phone from "@/components";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
+import {  useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { createCheckoutSession } from "./actions";
 import { LoginModal } from "@/components/LoginModal/LoginModal";
 import { useLocale } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/routing";
 
 interface Props {
   configuration: ConfigurationInterface;
@@ -31,13 +31,14 @@ export default function DesignPreview({ configuration }: Props) {
   }, []);
 
   const { croppedImageUrl, ColorsPhone, finish, material, id } = configuration;
-  const { user } = useKindeAuth();
+  const { user } = useKindeBrowserClient();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
 
   const BASE_PRICE = 14.0;
   const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
 
   console.log(user, "user from design preview");
+  console.log(configuration, "configuration from design preview");
   
   const { mutate: createPaymentSession } = useMutation({
     mutationKey: ["get-checkout-session"],
