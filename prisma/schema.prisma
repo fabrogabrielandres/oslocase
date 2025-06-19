@@ -64,7 +64,7 @@ enum OrderStatus {
 }
 
 model User {
-  id    String  @unique
+  id    String  @id
   email String
   Order Order[]
 
