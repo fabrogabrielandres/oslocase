@@ -16,6 +16,7 @@ const Page = () => {
 
     if (isvalidLanguage == false) {
       setLocale(locales[0]); // Default to the first locale if the stored one is invalid
+      console.log("estoy en el true", language);
     } else {
       setLocale(language);
       console.log("estoy en el else", language);
@@ -26,6 +27,8 @@ const Page = () => {
     const configurationId = localStorage.getItem("configurationId");
     if (configurationId) setConfigId(configurationId);
   }, []);
+  console.log(locale, "locale from localStorage");
+  
 
   const { data } = useQuery({
     queryKey: ["auth-callback"],
@@ -39,9 +42,9 @@ const Page = () => {
   if (typeof window !== "undefined" && data?.success) {
     if (configId) {
       localStorage.removeItem("configurationId");
-      return router.push(`/${locale}/configure/preview?id=${configId}`);
+      return router.push(`/configure/preview?id=${configId}`);
     }
-    return router.push(`/${locale}`);
+    return router.push(`/`);
   }
 
   return (
