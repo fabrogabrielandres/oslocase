@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getAuthStatus } from "./actions";
 import { Loader2 } from "lucide-react";
 import { locales } from "@/i18n/routing";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [configId, setConfigId] = useState<string | null>(null);
@@ -41,12 +41,10 @@ const Page = () => {
       console.log(locale, "locale from auth-callback");
 
       localStorage.removeItem("configurationId");
-      return router.replace(`/configure/preview?id=${configId}`, {
-        locale: locale!,
-      });
+      return router.replace(`/configure/preview?id=${configId}`);
     }
     console.log(locale, "locale from auth-callback fuera del if");
-    return router.replace(`/`, { locale: locale! });
+    return router.replace(`/`);
   }
 
   return (
