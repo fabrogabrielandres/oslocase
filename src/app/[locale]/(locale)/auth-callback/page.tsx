@@ -42,11 +42,11 @@ const Page = () => {
 
       localStorage.removeItem("configurationId");
       return router.replace(`/configure/preview?id=${configId}`, {
-        locale: locale,
+        locale: locale!,
       });
     }
     console.log(locale, "locale from auth-callback fuera del if");
-    return router.replace(`/`, { locale: locale });
+    return router.replace(`/`, { locale: locale! });
   }
 
   return (

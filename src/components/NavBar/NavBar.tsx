@@ -3,8 +3,8 @@ import { MaxWidthWrapper } from "../MaxWidthWrapper/MaxWidthWrapper";
 import { buttonVariants } from "../ui/button";
 import LocaleSwitcher from "../LocaleSwitcher/LocaleSwitcher";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { Link as Link18n } from "@/i18n/navigation";
 import Link from "next/link";
-import { Link as Link18n } from "@/i18n/routing";
 
 const Navbar = async () => {
   const { getUser } = getKindeServerSession();
@@ -15,9 +15,9 @@ const Navbar = async () => {
     <nav className="sticky z-[100] h-14 inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>
         <div className="flex h-14 items-center justify-between border-b border-zinc-200">
-          <Link18n href="/" className="flex z-40 font-semibold">
+          <Link href="/" className="flex z-40 font-semibold">
             case<span className="text-blue-600">oslo</span>
-          </Link18n>
+          </Link>
           <LocaleSwitcher></LocaleSwitcher>
 
           <div className="h-full flex items-center space-x-4">
