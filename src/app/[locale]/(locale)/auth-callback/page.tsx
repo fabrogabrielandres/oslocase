@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import { getAuthStatus } from "./actions";
 import { Loader2 } from "lucide-react";
 import { locales } from "@/i18n/routing";
-import { useRouter } from "@/i18n/navigation";
+import { redirect } from "next/navigation";
 
 
 const Page = () => {
   const [configId, setConfigId] = useState<string | null>(null);
   const [locale, setLocale] = useState<string | null>(null);
-  const router = useRouter();
   useEffect(() => {
     const language = localStorage.getItem("locale") as (typeof locales)[number];
     const isvalidLanguage = locales.includes(language);
@@ -42,10 +41,10 @@ const Page = () => {
       console.log(locale, "locale from auth-callback");
       
       localStorage.removeItem("configurationId");
-      return router.replace(`/configure/preview?id=${configId}`,{locale: locale!});
+      return redirect(`/configure/preview?id=${configId}`);
     }
     console.log(locale, "locale from auth-callback fuera del if");
-    return router.push(`/`,{locale: locale!});
+    return redirect(`/`);
   }
 
   return (
