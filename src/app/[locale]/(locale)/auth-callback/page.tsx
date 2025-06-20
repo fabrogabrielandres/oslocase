@@ -41,10 +41,10 @@ const Page = () => {
       console.log(locale, "locale from auth-callback");
       
       localStorage.removeItem("configurationId");
-      return redirect(`/configure/preview?id=${configId}`);
+      return redirect(`${locale}/configure/preview?id=${configId}`);
     }
     console.log(locale, "locale from auth-callback fuera del if");
-    return redirect(`/`);
+    return redirect(`/${locale}`);
   }
 
   return (
