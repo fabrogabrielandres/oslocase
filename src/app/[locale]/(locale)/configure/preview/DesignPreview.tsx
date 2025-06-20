@@ -13,7 +13,8 @@ import { LoginModal } from "@/components/LoginModal/LoginModal";
 import { useLocale } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
+
 
 interface Props {
   configuration: ConfigurationInterface;
