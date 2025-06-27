@@ -10,18 +10,12 @@ const Page = () => {
   const [configId, setConfigId] = useState<string | null>(null);
   const [locale, setLocale] = useState<string | null>(null);
   const router = useRouter();
+
   useEffect(() => {
     const language = localStorage.getItem("locale") as (typeof locales)[number];
     const isvalidLanguage = locales.includes(language);
-
-    if (isvalidLanguage == false) {
-      setLocale(locales[0]); // Default to the first locale if the stored one is invalid
-    } else {
-      setLocale(language);
-    }
-  }, []);
-
-  useEffect(() => {
+    setLocale(isvalidLanguage ? language : locales[0]);
+    
     const configurationId = localStorage.getItem("configurationId");
     if (configurationId) setConfigId(configurationId);
   }, []);
@@ -33,19 +27,20 @@ const Page = () => {
     retryDelay: 500,
   });
 
-  console.log("Data from auth-callback:", data);
-
-  if (typeof window !== "undefined" && data?.success) {
-    if (configId) {
-      console.log(locale, "locale from auth-callback");
-      console.log("${locale}/configure/preview?id=${configId}", `${locale}/configure/preview?id=${configId}`);
-
-      localStorage.removeItem("configurationId");
-      return router.replace(`${locale}/configure/preview?id=${configId}`);
+  useEffect(() => {
+    if (data?.success) {
+      console.log("Data from auth-callback:", data);
+      
+      if (configId) {
+        console.log(locale, "locale from auth-callback");
+        localStorage.removeItem("configurationId");
+        router.push(`/${locale}/configure/preview?id=${configId}`);
+      } else {
+        console.log(locale, "locale from auth-callback fuera del if");
+        router.push(`/${locale}`);
+      }
     }
-    console.log(locale, "locale from auth-callback fuera del if");
-    return router.replace(`/${locale}`);
-  }
+  }, [data, configId, locale, router]);
 
   return (
     <div className="w-full mt-24 flex justify-center">
