@@ -135,7 +135,6 @@ export const DesignConfiguration = ({
   const { mutate: mutateArgs, isPending } = useMutation({
     mutationKey: ["save-config"],
     mutationFn: async (args: MutateArgsInterface) => {
-      console.log("argssss", { args });
       await Promise.all([cropAndUploadImage(), upDateConfig(args)]);
     },
     onError: () => {

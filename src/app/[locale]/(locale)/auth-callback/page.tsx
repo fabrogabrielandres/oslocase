@@ -18,7 +18,6 @@ const Page = () => {
       setLocale(locales[0]); // Default to the first locale if the stored one is invalid
     } else {
       setLocale(language);
-      console.log("estoy en el else", language);
     }
   }, []);
 
