@@ -39,12 +39,13 @@ const Page = () => {
   if (typeof window !== "undefined" && data?.success) {
     if (configId) {
       console.log(locale, "locale from auth-callback");
+      console.log("${locale}/configure/preview?id=${configId}", `${locale}/configure/preview?id=${configId}`);
 
       localStorage.removeItem("configurationId");
-      return router.replace(`/configure/preview?id=${configId}`);
+      return router.replace(`${locale}/configure/preview?id=${configId}`);
     }
     console.log(locale, "locale from auth-callback fuera del if");
-    return router.replace(`/`);
+    return router.replace(`/${locale}`);
   }
 
   return (

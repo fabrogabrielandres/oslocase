@@ -21,7 +21,6 @@ export const ReviewColumn = ({
 
   useEffect(() => {
       if (!columnRef.current) return;
-      console.log(columnRef.current.offsetHeight);
       
     const resizeObserver = new window.ResizeObserver(() => {
       setColumnHeight(columnRef.current?.offsetHeight ?? 0);

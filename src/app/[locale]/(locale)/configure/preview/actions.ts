@@ -1,7 +1,6 @@
 "use server";
 
 import { prisma } from "@/db/prisma";
-import { formatPrice } from "@/lib/utils";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ConfigurationInterface } from "../interfaceConfigure";
 import { stripe } from "@/lib/stripe";
@@ -63,9 +62,6 @@ export const createCheckoutSession = async ({
   const { finish, material, croppedImageUrl } = configuration;
 
   const totalPriceNumber = BASE_PRICE + finish.price + material.price;
-  const totalPrice = formatPrice(totalPriceNumber);
-  console.log("Total Price", totalPrice);
-  console.log("Total totalPriceNumber", totalPriceNumber);
   
   const { getUser } = getKindeServerSession();
   const user = await getUser();

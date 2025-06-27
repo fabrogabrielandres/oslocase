@@ -38,8 +38,6 @@ export default function DesignPreview({ configuration }: Props) {
   const BASE_PRICE = 14.0;
   const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
 
-  console.log(user, "user from design preview");
-  console.log(configuration, "configuration from design preview");
   
   const { mutate: createPaymentSession } = useMutation({
     mutationKey: ["get-checkout-session"],
