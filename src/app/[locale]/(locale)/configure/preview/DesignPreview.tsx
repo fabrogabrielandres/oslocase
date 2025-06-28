@@ -7,13 +7,13 @@ import { ConfigurationInterface } from "../interfaceConfigure";
 import { COLORSMAPED } from "../design/DesignConfiguration";
 import { cn, formatPrice } from "@/lib/utils";
 import Phone from "@/components";
-import {  useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { createCheckoutSession } from "./actions";
 import { LoginModal } from "@/components/LoginModal/LoginModal";
 import { useLocale } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "@/i18n/navigation";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 
 
 interface Props {
@@ -32,7 +32,7 @@ export default function DesignPreview({ configuration }: Props) {
   }, []);
 
   const { croppedImageUrl, ColorsPhone, finish, material, id } = configuration;
-  const { user } = useKindeBrowserClient();
+  const { user } = useKindeAuth();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
 
   const BASE_PRICE = 14.0;
