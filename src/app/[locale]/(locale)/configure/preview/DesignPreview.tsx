@@ -12,7 +12,7 @@ import { LoginModal } from "@/components/LoginModal/LoginModal";
 import { useLocale } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "@/i18n/navigation";
+// import { useRouter } from "@/i18n/navigation";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 
 
@@ -21,7 +21,7 @@ interface Props {
 }
 
 export default function DesignPreview({ configuration }: Props) {
-  const router = useRouter();
+  // const router = useRouter();
   const [confettiRun, setConfettiRun] = useState(true);
   const [widthWindows, setWidthWindows] = useState<number>(300);
   const [heightWindows, setHeightWindows] = useState<number>(300);
@@ -33,6 +33,8 @@ export default function DesignPreview({ configuration }: Props) {
 
   const { croppedImageUrl, ColorsPhone, finish, material, id } = configuration;
   const { user } = useKindeAuth();
+  console.log("user from DesignPreview",user );
+  
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
 
   const BASE_PRICE = 14.0;
@@ -43,8 +45,10 @@ export default function DesignPreview({ configuration }: Props) {
     mutationKey: ["get-checkout-session"],
     mutationFn: createCheckoutSession,
     onSuccess: ({ url }) => {      
-      if (url) router.push(url);
-      else throw new Error("Unable to retrieve payment URL.");
+      console.log(url);
+      
+      // if (url) router.push(url);
+      // else throw new Error("Unable to retrieve payment URL.");
     },
     onError: ({message}) => {
       toast({
