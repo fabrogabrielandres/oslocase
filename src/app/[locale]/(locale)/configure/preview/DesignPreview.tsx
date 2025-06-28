@@ -110,7 +110,7 @@ export default function DesignPreview({ configuration, user }: Props) {
         />
       </div>
       <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen} />
-      <div>{user ? JSON.stringify(user) : "No user logged in"}</div>;
+      <div>componentdesig--{user ? JSON.stringify(user) : "No user logged in"}</div>;
       <div className="mt-20 flex flex-col items-center md:grid text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12">
         <div className="md:col-span-4 lg:col-span-3 md:row-span-2 md:row-end-2">
           <Phone
