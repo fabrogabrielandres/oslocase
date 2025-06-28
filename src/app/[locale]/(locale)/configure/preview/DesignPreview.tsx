@@ -7,14 +7,13 @@ import { ConfigurationInterface } from "../interfaceConfigure";
 import { COLORSMAPED } from "../design/DesignConfiguration";
 import { cn, formatPrice } from "@/lib/utils";
 import Phone from "@/components";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { createCheckoutSession } from "./actions";
 import { LoginModal } from "@/components/LoginModal/LoginModal";
 import { useLocale } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 // import { useRouter } from "@/i18n/navigation";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
-
 
 interface Props {
   configuration: ConfigurationInterface;
@@ -32,25 +31,24 @@ export default function DesignPreview({ configuration }: Props) {
   }, []);
 
   const { croppedImageUrl, ColorsPhone, finish, material, id } = configuration;
-  const { user } = useKindeAuth();
-  console.log("user from DesignPreview",user );
-  
+  const { user } = useKindeBrowserClient();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+
+  console.log("user", user);
 
   const BASE_PRICE = 14.0;
   const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
 
-  
   const { mutate: createPaymentSession } = useMutation({
     mutationKey: ["get-checkout-session"],
     mutationFn: createCheckoutSession,
-    onSuccess: ({ url }) => {      
-      console.log(url);
-      
+    onSuccess: ({ url }) => {
+      console.log("url", url);
+
       // if (url) router.push(url);
       // else throw new Error("Unable to retrieve payment URL.");
     },
-    onError: ({message}) => {
+    onError: ({ message }) => {
       toast({
         title: `Something went wrong ${message}`,
         description: "There was an error on our end. Please try again.",
@@ -62,7 +60,7 @@ export default function DesignPreview({ configuration }: Props) {
   const handleCheckout = async () => {
     if (user) {
       // create payment session
-      createPaymentSession({ configId: id,language: locale });
+      createPaymentSession({ configId: id, language: locale });
     } else {
       // need to log in
       localStorage.setItem("configurationId", id);
@@ -109,6 +107,7 @@ export default function DesignPreview({ configuration }: Props) {
         />
       </div>
       <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen} />
+      <div>{user ? JSON.stringify(user) : "No user logged in"}</div>;
       <div className="mt-20 flex flex-col items-center md:grid text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12">
         <div className="md:col-span-4 lg:col-span-3 md:row-span-2 md:row-end-2">
           <Phone
