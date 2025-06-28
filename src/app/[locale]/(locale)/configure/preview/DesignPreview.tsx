@@ -7,19 +7,22 @@ import { ConfigurationInterface } from "../interfaceConfigure";
 import { COLORSMAPED } from "../design/DesignConfiguration";
 import { cn, formatPrice } from "@/lib/utils";
 import Phone from "@/components";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { createCheckoutSession } from "./actions";
 import { LoginModal } from "@/components/LoginModal/LoginModal";
 import { useLocale } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
+import { KindeUser } from "@kinde-oss/kinde-auth-nextjs";
+// import { AuthUser } from "../authUser.interface";
+
 // import { useRouter } from "@/i18n/navigation";
 
 interface Props {
   configuration: ConfigurationInterface;
+  user: KindeUser<Record<string, unknown>> | null;
 }
 
-export default function DesignPreview({ configuration }: Props) {
+export default function DesignPreview({ configuration, user }: Props) {
   // const router = useRouter();
   const [confettiRun, setConfettiRun] = useState(true);
   const [widthWindows, setWidthWindows] = useState<number>(300);
@@ -31,10 +34,10 @@ export default function DesignPreview({ configuration }: Props) {
   }, []);
 
   const { croppedImageUrl, ColorsPhone, finish, material, id } = configuration;
-  const { user } = useKindeBrowserClient();
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
 
-  console.log("user", user);
+  // console.log("user", user);
 
   const BASE_PRICE = 14.0;
   const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
