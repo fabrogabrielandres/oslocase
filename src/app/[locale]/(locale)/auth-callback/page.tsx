@@ -36,11 +36,11 @@ const Page = () => {
         console.log(locale, "locale from auth-callback");
         localStorage.removeItem("configurationId");
         // router.push(`/${locale}/configure/preview?id=${configId}`);
-        router.push(`/configure/preview?id=${configId}`);
+        router.push(`/configure/preview?id=${configId}`,{ locale: locale! });
       } else {
         console.log(locale, "locale from auth-callback fuera del if");
         // router.push(`/${locale}`);
-        router.push(`/`);
+        router.push(`/`, { locale: locale! });
       }
     }
   }, [data, configId, locale, router]);
