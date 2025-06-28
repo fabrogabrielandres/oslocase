@@ -4,6 +4,8 @@ import DesignPreview from "./DesignPreview";
 import { ConfigurationInterface } from "../interfaceConfigure";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs";
+import AuthKindeBrosertest from "@/components/testauth/AuthKindeBrosertest";
+import { AuthTest } from "@/components/testauth/AuthTest";
 
 export default async function Page({
   searchParams,
@@ -66,6 +68,10 @@ export default async function Page({
   return (
     <>
       <div>page--{user ? JSON.stringify(user) : "No user logged in page"}</div>;
+      ****
+      <AuthKindeBrosertest />
+      ***
+      <AuthTest />
       <DesignPreview configuration={configuration} user={user} />
     </>
   );
