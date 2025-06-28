@@ -16,7 +16,7 @@ const Page = () => {
     const language = localStorage.getItem("locale") as (typeof locales)[number];
     const isvalidLanguage = locales.includes(language);
     setLocale(isvalidLanguage ? language : locales[0]);
-    
+
     const configurationId = localStorage.getItem("configurationId");
     if (configurationId) setConfigId(configurationId);
   }, []);
@@ -31,14 +31,16 @@ const Page = () => {
   useEffect(() => {
     if (data?.success) {
       console.log("Data from auth-callback:", data);
-      
+
       if (configId) {
         console.log(locale, "locale from auth-callback");
         localStorage.removeItem("configurationId");
-        router.push(`/${locale}/configure/preview?id=${configId}`);
+        // router.push(`/${locale}/configure/preview?id=${configId}`);
+        router.push(`/configure/preview?id=${configId}`);
       } else {
         console.log(locale, "locale from auth-callback fuera del if");
-        router.push(`/${locale}`);
+        // router.push(`/${locale}`);
+        router.push(`/`);
       }
     }
   }, [data, configId, locale, router]);
