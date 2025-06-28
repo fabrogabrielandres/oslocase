@@ -3,6 +3,8 @@ import Steps from "@/components/Steps/Steps";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs";
 import { AuthProvider } from "@/components";
+import AuthKindeBrosertest from "@/components/testauth/AuthKindeBrosertest";
+import { AuthTest } from "@/components/testauth/AuthTest";
 
 // const Layout = ({ children }: { children: ReactNode }) => {
 //   const { getUser } = getKindeServerSession();
@@ -23,6 +25,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const { getUser } = getKindeServerSession();
+  
   const user: KindeUser<Record<string, unknown>> | null = await getUser();
   return (
     <AuthProvider>
@@ -31,6 +34,10 @@ export default async function Layout({
           layout-- {user ? JSON.stringify(user) : "No user logged in layout"}
         </div>
         ;
+        ****
+        <AuthKindeBrosertest />
+        ***
+        <AuthTest/>
         <Steps />
         {children}
       </MaxWidthWrapper>
