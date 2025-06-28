@@ -7,6 +7,7 @@ import Stripe from 'stripe'
 
 export async function POST(req: Request) {
   try {
+    console.log("Webhook received Webhook received Webhook received Webhook received Webhook received");
     const body = await req.text()
     const signature = (await headers()).get('stripe-signature')
 
@@ -42,6 +43,7 @@ export async function POST(req: Request) {
       const updatedOrder = await prisma.order.update({
         where: {
           id: orderId,
+          isPaid: true,
         },
         data: {
           isPaid: true,
