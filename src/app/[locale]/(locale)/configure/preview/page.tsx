@@ -15,8 +15,9 @@ export default async function Page({
   if (!id || typeof id !== "string") {
     return notFound();
   }
-  const { getUser } = getKindeServerSession();
+  const { getUser } = await getKindeServerSession();
   const user: KindeUser<Record<string, unknown>> | null = await getUser();
+  
 
   const configuration = (await prisma.configuration.findUnique({
     where: {
@@ -64,6 +65,8 @@ export default async function Page({
 
   return (
     <>
+      <div>{user ? JSON.stringify(user) : "No user logged in page"}</div>;
+
       <DesignPreview configuration={configuration} user={user} />
     </>
   );
