@@ -20,7 +20,7 @@ const Navbar = async () => {
           </Link>
      
           <Link18n
-            href={`/b`}
+            href={`/a/b`}
             className={buttonVariants({
               size: "sm",
               variant: "ghost",

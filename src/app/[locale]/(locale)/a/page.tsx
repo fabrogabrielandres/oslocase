@@ -4,8 +4,8 @@ import { AuthTest } from "@/components/testauth/AuthTest";
 export default function Page() {
   return (
     <>
-      A:<AuthTest></AuthTest>
-      A:<AuthKindeBrosertest></AuthKindeBrosertest>
+      pageA:<AuthTest></AuthTest>
+      pageA:<AuthKindeBrosertest></AuthKindeBrosertest>
     </>
   );
 }
