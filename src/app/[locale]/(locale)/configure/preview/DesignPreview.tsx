@@ -12,17 +12,16 @@ import { LoginModal } from "@/components/LoginModal/LoginModal";
 import { useLocale } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { KindeUser } from "@kinde-oss/kinde-auth-nextjs";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 // import { AuthUser } from "../authUser.interface";
 
 // import { useRouter } from "@/i18n/navigation";
 
 interface Props {
   configuration: ConfigurationInterface;
-  user: KindeUser<Record<string, unknown>> | null;
 }
 
-export default function DesignPreview({ configuration, user }: Props) {
+export default function DesignPreview({ configuration }: Props) {
   // const router = useRouter();
   const [confettiRun, setConfettiRun] = useState(true);
   const [widthWindows, setWidthWindows] = useState<number>(300);
@@ -32,6 +31,7 @@ export default function DesignPreview({ configuration, user }: Props) {
     setWidthWindows(window.innerWidth || 300);
     setHeightWindows(window.innerHeight || 300);
   }, []);
+  const { user } = useKindeAuth();
 
   const { croppedImageUrl, ColorsPhone, finish, material, id } = configuration;
 
@@ -110,7 +110,10 @@ export default function DesignPreview({ configuration, user }: Props) {
         />
       </div>
       <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen} />
-      <div>componentdesig--{user ? JSON.stringify(user) : "No user logged in"}</div>;
+      <div>
+        componentdesig--{user ? JSON.stringify(user) : "No user logged in"}
+      </div>
+      ;
       <div className="mt-20 flex flex-col items-center md:grid text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12">
         <div className="md:col-span-4 lg:col-span-3 md:row-span-2 md:row-end-2">
           <Phone

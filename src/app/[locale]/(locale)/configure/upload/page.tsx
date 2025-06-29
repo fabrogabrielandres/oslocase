@@ -17,7 +17,6 @@ export default function UploadPage() {
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const router = useRouter();
   const { toast } = useToast();
-
   const { isUploading, startUpload } = useUploadThing("imageUploader", {
     onClientUploadComplete: ([data]) => {
       const configId = data.serverData?.configId;
