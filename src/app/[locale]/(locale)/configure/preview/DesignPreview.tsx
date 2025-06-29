@@ -13,9 +13,8 @@ import { useLocale } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
-// import { AuthUser } from "../authUser.interface";
 
-// import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 
 interface Props {
   configuration: ConfigurationInterface;
@@ -32,6 +31,7 @@ export default function DesignPreview({ configuration }: Props) {
     setHeightWindows(window.innerHeight || 300);
   }, []);
   const { user } = useKindeAuth();
+  const router = useRouter();
 
   const { croppedImageUrl, ColorsPhone, finish, material, id } = configuration;
 
@@ -48,8 +48,8 @@ export default function DesignPreview({ configuration }: Props) {
     onSuccess: ({ url }) => {
       console.log("url", url);
 
-      // if (url) router.push(url);
-      // else throw new Error("Unable to retrieve payment URL.");
+      if (url) router.push(url);
+      else throw new Error("Unable to retrieve payment URL.");
     },
     onError: ({ message }) => {
       toast({
