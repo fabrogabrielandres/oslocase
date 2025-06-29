@@ -63,7 +63,7 @@ export default function DesignPreview({ configuration }: Props) {
   const handleCheckout = async () => {
     if (user) {
       // create payment session
-      createPaymentSession({ configId: id, language: locale });
+      createPaymentSession({ configId: id, language: locale, user: user  });
     } else {
       // need to log in
       localStorage.setItem("configurationId", id);
