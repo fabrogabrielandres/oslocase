@@ -1,17 +1,20 @@
 "use server";
 
 import { prisma } from "@/db/prisma";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+// import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ConfigurationInterface } from "../interfaceConfigure";
 // import { stripe } from "@/lib/stripe";
 import { OrderInt } from "../interfaceOrder";
+import { UserKindeAuth } from "../interfaceUser";
 
 export const createCheckoutSession = async ({
   configId,
   language = "en",
+  user,
 }: {
   configId: string;
   language: string;
+  user: UserKindeAuth | null;
 }) => {
   const BASE_PRICE = 14.0;
 
@@ -60,14 +63,13 @@ export const createCheckoutSession = async ({
   }
 
   const { finish, material, croppedImageUrl } = configuration;
-  console.log("laguage y croppedImag",language,croppedImageUrl);
-  
+  console.log("laguage y croppedImag", language, croppedImageUrl);
 
   const totalPriceNumber = BASE_PRICE + finish.price + material.price;
-  
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
-  
+
+  // const { getUser } = getKindeServerSession();
+  // const user = await getUser();
+
   console.log("user", user);
   if (!user) {
     throw new Error("You need to be logged in");
@@ -93,8 +95,6 @@ export const createCheckoutSession = async ({
       },
     })) as OrderInt;
   }
-  
-
 
   // const product = await stripe.products.create({
   //   name: "Custom iPhone Case",
