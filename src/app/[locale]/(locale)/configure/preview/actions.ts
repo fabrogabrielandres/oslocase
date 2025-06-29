@@ -62,14 +62,12 @@ export const createCheckoutSession = async ({
   }
 
   const { finish, material, croppedImageUrl } = configuration;
-  console.log("laguage y croppedImag", language, croppedImageUrl);
 
   const totalPriceNumber = BASE_PRICE + finish.price + material.price;
 
   // const { getUser } = getKindeServerSession();
   // const user = await getUser();
 
-  console.log("user", user);
   if (!user) {
     throw new Error("You need to be logged in");
   }
@@ -104,8 +102,6 @@ export const createCheckoutSession = async ({
     },
   });
 
-  console.log("product stripeccccccccccccccccccccccccccccc");
-  console.log("existingOrder", existingOrder);
   const stripeSession = await stripe.checkout.sessions.create({
     success_url: `${
       process.env.NEXT_PUBLIC_SERVER_URL
@@ -122,7 +118,5 @@ export const createCheckoutSession = async ({
     locale: "auto",
   });
 
-  console.log("stripeSession", stripeSession);
-
-  return { url: JSON.stringify(order) };
+  return { url: stripeSession.url };
 };
