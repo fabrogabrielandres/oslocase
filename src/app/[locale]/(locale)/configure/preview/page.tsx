@@ -2,7 +2,8 @@ import { prisma } from "@/db/prisma";
 import { notFound } from "next/navigation";
 import DesignPreview from "./DesignPreview";
 import { ConfigurationInterface } from "../interfaceConfigure";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { AuthTest } from "@/components/testauth/AuthTest";
+import AuthKindeBrosertest from "@/components/testauth/AuthKindeBrosertest";
 
 export default async function Page({
   searchParams,
@@ -14,8 +15,6 @@ export default async function Page({
   if (!id || typeof id !== "string") {
     return notFound();
   }
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
 
   const configuration = (await prisma.configuration.findUnique({
     where: {
@@ -63,7 +62,8 @@ export default async function Page({
 
   return (
     <>
-      user pagePreview: {JSON.stringify(user)}
+      <AuthTest></AuthTest>
+      <AuthKindeBrosertest></AuthKindeBrosertest>
       <DesignPreview configuration={configuration} />
     </>
   );
