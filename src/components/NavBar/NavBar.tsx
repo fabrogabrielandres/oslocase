@@ -14,6 +14,21 @@ const Navbar = async () => {
   return (
     <nav className="sticky z-[100] h-14 inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>
+        <div>
+          <Link href="/en/q" className="flex z-40 font-semibold">
+            <span className="text-blue-600">q link</span>
+          </Link>
+     
+          <Link18n
+            href={`/q`}
+            className={buttonVariants({
+              size: "sm",
+              variant: "ghost",
+            })}
+          >
+            q link18n
+          </Link18n>
+        </div>
         <div className="flex h-14 items-center justify-between border-b border-zinc-200">
           <Link href="/" className="flex z-40 font-semibold">
             case<span className="text-blue-600">oslo</span>
