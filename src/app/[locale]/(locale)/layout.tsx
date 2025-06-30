@@ -1,14 +1,13 @@
-// import { NextIntlClientProvider } from "next-intl";
-// import { getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import "../../globals.css";
 import Navbar from "@/components/NavBar/NavBar";
-// import { AuthProvider, Footer } from "@/components";
+import { AuthProvider, Footer } from "@/components";
 import { Toaster } from "@/components/ui/toaster";
-// import ReactQueryProvider from "@/components/Provaiders/QueryClientProvider/QueryClientProvider";
+import ReactQueryProvider from "@/components/Provaiders/QueryClientProvider/QueryClientProvider";
 import { Metadata } from 'next';
-import { Footer } from "@/components";
 
 export const metadata: Metadata = {
   title: "Custom Phone Cases | Design Your Unique Case with Your Photos",
@@ -52,23 +51,23 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  // const messages = await getMessages();
+  const messages = await getMessages();
 
   return (
     <html lang={locale}>
       <body>
-        {/* <AuthProvider> */}
-          {/* <ReactQueryProvider> */}
-            {/* <NextIntlClientProvider messages={messages}> */}
+        <AuthProvider>
+          <ReactQueryProvider>
+            <NextIntlClientProvider messages={messages}>
               <Navbar></Navbar>
               <main className="flex grainy-light flex-col min-h-[calc(100vh-3.5rem-1px)]">
                 <div className="flex-1 flex flex-col h-full">{children}</div>
                 <Footer />
               </main>
               <Toaster />
-            {/* </NextIntlClientProvider> */}
-          {/* </ReactQueryProvider> */}
-        {/* </AuthProvider> */}
+            </NextIntlClientProvider>
+          </ReactQueryProvider>
+        </AuthProvider>
       </body>
     </html>
   );
