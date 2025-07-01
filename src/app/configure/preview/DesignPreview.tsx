@@ -13,8 +13,8 @@ import { useLocale } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
+import { useRouter } from "next/navigation";
 
-import { useRouter } from "@/i18n/navigation";
 
 interface Props {
   configuration: ConfigurationInterface;
@@ -26,6 +26,7 @@ export default function DesignPreview({ configuration }: Props) {
   const [widthWindows, setWidthWindows] = useState<number>(300);
   const [heightWindows, setHeightWindows] = useState<number>(300);
   const locale = useLocale();
+  
   useEffect(() => {
     setWidthWindows(window.innerWidth || 300);
     setHeightWindows(window.innerHeight || 300);
@@ -63,7 +64,7 @@ export default function DesignPreview({ configuration }: Props) {
   const handleCheckout = async () => {
     if (user) {
       // create payment session
-      createPaymentSession({ configId: id, language: locale, user: user  });
+      createPaymentSession({ configId: id,  user: user  });
     } else {
       // need to log in
       localStorage.setItem("configurationId", id);

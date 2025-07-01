@@ -3,7 +3,6 @@ import { MaxWidthWrapper } from "../MaxWidthWrapper/MaxWidthWrapper";
 import { buttonVariants } from "../ui/button";
 import LocaleSwitcher from "../LocaleSwitcher/LocaleSwitcher";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { Link as Link18n } from "@/i18n/navigation";
 import Link from "next/link";
 
 const Navbar = async () => {
@@ -33,7 +32,7 @@ const Navbar = async () => {
                   Sign out
                 </Link>
                 {isAdmin ? (
-                  <Link18n
+                  <Link
                     href={`/dashboard`}
                     className={buttonVariants({
                       size: "sm",
@@ -41,9 +40,9 @@ const Navbar = async () => {
                     })}
                   >
                     Dashboard ✨
-                  </Link18n>
+                  </Link>
                 ) : null}
-                <Link18n
+                <Link
                   href={`/configure/upload`}
                   className={buttonVariants({
                     size: "sm",
@@ -52,7 +51,7 @@ const Navbar = async () => {
                 >
                   Create case
                   <ArrowRight className="ml-1.5 h-5 w-5" />
-                </Link18n>
+                </Link>
               </>
             ) : (
               <>
@@ -78,7 +77,7 @@ const Navbar = async () => {
 
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
 
-                <Link18n
+                <Link
                   href={`/configure/upload`}
                   className={buttonVariants({
                     size: "sm",
@@ -87,7 +86,7 @@ const Navbar = async () => {
                 >
                   Create case
                   <ArrowRight className="ml-1.5 h-5 w-5" />
-                </Link18n>
+                </Link>
               </>
             )}
           </div>

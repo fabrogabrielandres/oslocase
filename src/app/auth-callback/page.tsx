@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { getAuthStatus } from "./actions";
 import { Loader2 } from "lucide-react";
-import { locales } from "@/i18n/routing";
-import { useRouter } from "@/i18n/navigation";
+import { locales } from "@/i18n/config";
+import { useRouter } from "next/navigation";
 // import { useRouter } from "next/navigation";
 
 const Page = () => {
@@ -36,11 +36,11 @@ const Page = () => {
         console.log(locale, "locale from auth-callback");
         localStorage.removeItem("configurationId");
         // router.push(`/${locale}/configure/preview?id=${configId}`);
-        router.push(`/configure/preview?id=${configId}`,{ locale: locale! });
+        router.push(`/configure/preview?id=${configId}`);
       } else {
         console.log(locale, "locale from auth-callback fuera del if");
         // router.push(`/${locale}`);
-        router.push(`/`, { locale: locale! });
+        router.push(`/`);
       }
     }
   }, [data, configId, locale, router]);

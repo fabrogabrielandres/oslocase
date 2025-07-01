@@ -8,11 +8,9 @@ import { UserKindeAuth } from "../interfaceUser";
 
 export const createCheckoutSession = async ({
   configId,
-  language = "en",
   user,
 }: {
   configId: string;
-  language: string;
   user: UserKindeAuth | null;
 }) => {
   const BASE_PRICE = 14.0;
@@ -105,8 +103,8 @@ export const createCheckoutSession = async ({
   const stripeSession = await stripe.checkout.sessions.create({
     success_url: `${
       process.env.NEXT_PUBLIC_SERVER_URL
-    }/${language}/thank-you?orderId=${order!.id}`,
-    cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/${language}/configure/preview?id=${configuration.id}`,
+    }/thank-you?orderId=${order!.id}`,
+    cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/configure/preview?id=${configuration.id}`,
     payment_method_types: ["card", "paypal"],
     mode: "payment",
     shipping_address_collection: { allowed_countries: ["DE", "US"] },

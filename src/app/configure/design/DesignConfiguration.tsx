@@ -22,7 +22,8 @@ import { SelectColors } from "./Component/SelectColors";
 import { SelectMaterialAndFinish } from "./Component/SelectMaterialAndFinish";
 import { SelectModel } from "./Component/SelectModel";
 import { Progress } from "@/components/ui/progress";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
+
 
 
 interface Props {

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { UserKindeAuth } from "@/app/[locale]/(locale)/configure/interfaceUser";
+import { UserKindeAuth } from "@/app/configure/interfaceUser";
 
 export default function AuthKindeBrosertest() {
   const { user: initialUser, isLoading } = useKindeBrowserClient();

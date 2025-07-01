@@ -2,7 +2,7 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import { Check } from "lucide-react";
 import Image from "next/image";
-import "../../globals.css";
+import "./globals.css";
 import Phone from "@/components";
 import { CustomersSay } from "./ui/CustomersSay";
 import {

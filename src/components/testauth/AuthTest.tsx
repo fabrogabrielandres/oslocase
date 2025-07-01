@@ -1,5 +1,5 @@
 "use client";
-import { UserKindeAuth } from "@/app/[locale]/(locale)/configure/interfaceUser";
+import { UserKindeAuth } from "@/app/configure/interfaceUser";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 import { useEffect, useState } from "react";
 
