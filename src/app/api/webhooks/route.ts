@@ -43,7 +43,6 @@ export async function POST(req: Request) {
       const updatedOrder = await prisma.order.update({
         where: {
           id: orderId,
-          isPaid: true,
         },
         data: {
           isPaid: true,
