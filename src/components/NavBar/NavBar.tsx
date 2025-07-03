@@ -22,7 +22,7 @@ const Navbar = async () => {
           <div className="h-full flex items-center space-x-4">
             {user ? (
               <>
-                <Link
+                {/* <Link
                   href="/api/auth/logout"
                   className={buttonVariants({
                     size: "sm",
@@ -30,7 +30,15 @@ const Navbar = async () => {
                   })}
                 >
                   Sign out
-                </Link>
+                </Link> */}
+                <button
+                  onClick={() => {
+                    window.location.href = "/api/auth/logout";
+                  }}
+                  className={buttonVariants({ size: "sm", variant: "ghost" })}
+                >
+                  Sign out
+                </button>
                 {isAdmin ? (
                   <Link
                     href={`/dashboard`}
