@@ -75,74 +75,18 @@
 
 
 
-// import { NextResponse } from "next/server";
-// import type { NextRequest } from "next/server";
-
-// export function middleware(request: NextRequest) {
-//   const response = NextResponse.next();
-//   const isProduction = request.nextUrl.hostname !== 'localhost';
-
-//   // 1. Configura cookies solo en producción
-//   if (isProduction) {
-//     const domain = `.${request.nextUrl.hostname.replace('www.', '')}`;
-
-//     // Cookies de Kinde que deben persistir
-//     ['kinde_session', 'access_token', 'id_token'].forEach(cookieName => {
-//       const cookieValue = request.cookies.get(cookieName)?.value;
-//       if (cookieValue) {
-//         response.cookies.set({
-//           name: cookieName,
-//           value: cookieValue,
-//           secure: true,
-//           sameSite: 'none',
-//           domain: domain,
-//           path: '/'
-//         });
-//       }
-//     });
-//   }
-
-//   return response;
-// }
-
-// export const config = {
-//   matcher: [
-//     "/((?!_next/static|_next/image|favicon.ico|login|api/webhooks|auth).*)",
-//   ],
-// };
-
-
-
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
   const isProduction = request.nextUrl.hostname !== 'localhost';
-  const domain = isProduction ? `.${request.nextUrl.hostname.replace('www.', '')}` : undefined;
 
-  // 1. Manejo especial para logout - Elimina cookies
-  if (request.nextUrl.pathname === '/logout') {
-    const logoutResponse = NextResponse.redirect(new URL('/', request.url));
-    
-    if (isProduction) {
-      ['kinde_session', 'access_token', 'id_token'].forEach(cookieName => {
-        logoutResponse.cookies.set({
-          name: cookieName,
-          value: '',
-          expires: new Date(0),
-          secure: true,
-          sameSite: 'none',
-          domain: domain,
-          path: '/'
-        });
-      });
-    }
-    return logoutResponse;
-  }
+  // 1. Configura cookies solo en producción
+  if (isProduction) {
+    const domain = `.${request.nextUrl.hostname.replace('www.', '')}`;
 
-  // 2. Configura cookies en producción (excepto para rutas de API)
-  if (isProduction && !request.nextUrl.pathname.startsWith('/api')) {
+    // Cookies de Kinde que deben persistir
     ['kinde_session', 'access_token', 'id_token'].forEach(cookieName => {
       const cookieValue = request.cookies.get(cookieName)?.value;
       if (cookieValue) {
