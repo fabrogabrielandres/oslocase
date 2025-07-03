@@ -8,5 +8,5 @@ export default async function LogoutPage() {
   (await cookies()).delete("id_token");
 
   // Redirige a la página principal
-  redirect("/");
+  redirect("/api/auth/logout");
 }
