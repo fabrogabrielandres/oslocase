@@ -113,40 +113,41 @@
 
 
 
-
-
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
-  const isProduction = request.nextUrl.hostname !== 'localhost';
+  const isProduction = process.env.NODE_ENV === 'production';
   const domain = isProduction ? `.${request.nextUrl.hostname.replace('www.', '')}` : undefined;
 
-  // 1. Manejo especial para logout - Eliminar cookies
-  if (request.nextUrl.pathname === '/api/auth/logout') {
-    const logoutResponse = NextResponse.redirect(new URL('/', request.url));
-    
-    ['kinde_session', 'access_token', 'id_token'].forEach(cookieName => {
-      logoutResponse.cookies.delete(cookieName);
-      // Forzar eliminación en producción
-      if (isProduction) {
+  // 1. Manejo especial para rutas de autenticación de Kinde
+  if (request.nextUrl.pathname.startsWith('/api/auth')) {
+    // Para logout - borrar cookies
+    if (request.nextUrl.pathname === '/api/auth/logout') {
+      const logoutResponse = NextResponse.redirect(new URL('/', request.url));
+      
+      ['kinde_session', 'access_token', 'id_token'].forEach(cookieName => {
+        // Eliminación segura en todos los entornos
         logoutResponse.cookies.set({
           name: cookieName,
           value: '',
-          expires: new Date(0),
-          secure: true,
-          sameSite: 'none',
+          maxAge: -1, // Esto expira la cookie inmediatamente
+          path: '/',
           domain: domain,
-          path: '/'
+          secure: isProduction,
+          sameSite: isProduction ? 'none' : 'lax'
         });
-      }
-    });
+      });
+      
+      return logoutResponse;
+    }
     
-    return logoutResponse;
+    // Para otras rutas de auth, no modificar la respuesta
+    return response;
   }
 
-  // 2. Configura cookies en producción (rutas normales)
+  // 2. Configuración de cookies para rutas normales (solo en producción)
   if (isProduction) {
     ['kinde_session', 'access_token', 'id_token'].forEach(cookieName => {
       const cookieValue = request.cookies.get(cookieName)?.value;
@@ -168,6 +169,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|login|api/webhooks).*)",
+    "/((?!_next/static|_next/image|favicon.ico).*)",
   ],
 };
