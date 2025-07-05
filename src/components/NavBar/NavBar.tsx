@@ -23,11 +23,7 @@ const Navbar = async () => {
             {user ? (
               <>
                 <Link
-                  // href={"/api/auth/logout"}
-                  href={{
-                    pathname: "/api/auth/logout",
-                    query: {}, // Limpia cualquier query param automático
-                  }}
+                  href={"/api/auth/logout"}
                   className={buttonVariants({
                     size: "sm",
                     variant: "ghost",
