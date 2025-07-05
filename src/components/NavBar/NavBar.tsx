@@ -32,9 +32,6 @@ const Navbar = async () => {
                 >
                   Sign out
                 </Link>
-                <a href="api/auth/logout?post_logout_redirect_url=/dashboardddd">
-                  Sign out A
-                </a>
                 <LogoutLink> LogoutLink</LogoutLink>
                 {isAdmin ? (
                   <Link
