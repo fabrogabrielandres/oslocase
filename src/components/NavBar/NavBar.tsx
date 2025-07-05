@@ -32,7 +32,7 @@ const Navbar = async () => {
                 >
                   Sign out
                 </Link>
-                <LogoutLink postLogoutRedirectURL="/hola"> LogoutLink</LogoutLink>
+                <LogoutLink postLogoutRedirectURL="/configure/upload"> LogoutLink</LogoutLink>
                 {isAdmin ? (
                   <Link
                     href={`/dashboard`}
