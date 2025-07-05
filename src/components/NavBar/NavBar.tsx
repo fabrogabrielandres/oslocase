@@ -4,7 +4,7 @@ import { buttonVariants } from "../ui/button";
 import LocaleSwitcher from "../LocaleSwitcher/LocaleSwitcher";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Link from "next/link";
-import {LogoutLink} from "@kinde-oss/kinde-auth-nextjs/server";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/server";
 
 const Navbar = async () => {
   const { getUser } = getKindeServerSession();
@@ -32,6 +32,9 @@ const Navbar = async () => {
                 >
                   Sign out
                 </Link>
+                <a href="api/auth/logout?post_logout_redirect_url=/dashboardddd">
+                  Sign out A
+                </a>
                 <LogoutLink> LogoutLink</LogoutLink>
                 {isAdmin ? (
                   <Link
