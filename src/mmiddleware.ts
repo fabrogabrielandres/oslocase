@@ -108,82 +108,82 @@
 //   ],
 // };
 
-// import { NextResponse } from "next/server";
-// import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-// export function middleware(request: NextRequest) {
-//   const response = NextResponse.next();
-//   const isProduction = process.env.NODE_ENV === "production";
-//   const domain = isProduction
-//     ? `.${request.nextUrl.hostname.replace("www.", "")}`
-//     : undefined;
+export function middleware(request: NextRequest) {
+  const response = NextResponse.next();
+  const isProduction = process.env.NODE_ENV === "production";
+  const domain = isProduction
+    ? `.${request.nextUrl.hostname.replace("www.", "")}`
+    : undefined;
 
-//   // 1. Manejo especial para rutas de autenticación de Kinde
-//   if (request.nextUrl.pathname.startsWith("/api/auth")) {
-//     // Para logout - borrar cookies
-//     if (request.nextUrl.pathname === "/api/auth/logout") {
-//       const logoutResponse = NextResponse.redirect(new URL("/", request.url));
+  // 1. Manejo especial para rutas de autenticación de Kinde
+  if (request.nextUrl.pathname.startsWith("/api/auth")) {
+    // Para logout - borrar cookies
+    if (request.nextUrl.pathname === "/api/auth/logout") {
+      const logoutResponse = NextResponse.redirect(new URL("/", request.url));
 
-//       ["kinde_session", "access_token", "id_token"].forEach((cookieName) => {
-//         // Eliminación segura en todos los entornos
-//         logoutResponse.cookies.set({
-//           name: cookieName,
-//           value: "",
-//           maxAge: -1, // Esto expira la cookie inmediatamente
-//           path: "/",
-//           domain: domain,
-//           secure: isProduction,
-//           sameSite: isProduction ? "none" : "lax",
-//         });
-//       });
+      ["kinde_session", "access_token", "id_token"].forEach((cookieName) => {
+        // Eliminación segura en todos los entornos
+        logoutResponse.cookies.set({
+          name: cookieName,
+          value: "",
+          maxAge: -1, // Esto expira la cookie inmediatamente
+          path: "/",
+          domain: domain,
+          secure: isProduction,
+          sameSite: isProduction ? "none" : "lax",
+        });
+      });
 
-//       return logoutResponse;
-//     }
+      return logoutResponse;
+    }
 
-//     // Para otras rutas de auth, no modificar la respuesta
-//     return response;
-//   }
-
-//   // 2. Configuración de cookies para rutas normales (solo en producción)
-//   if (isProduction) {
-//     ["kinde_session", "access_token", "id_token"].forEach((cookieName) => {
-//       const cookieValue = request.cookies.get(cookieName)?.value;
-//       if (cookieValue) {
-//         response.cookies.set({
-//           name: cookieName,
-//           value: cookieValue,
-//           secure: true,
-//           sameSite: "none",
-//           domain: domain,
-//           path: "/",
-//         });
-//       }
-//     });
-//   }
-
-//   return response;
-// }
-
-// export const config = {
-//   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
-// };
-
-import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
-import { NextRequest } from "next/server";
-
-export default function middleware(req: NextRequest) {
-  const path = req.nextUrl.pathname;
-
-  // Permitir acceso público a la ruta raíz
-  if (path === "/") {
-    return;
+    // Para otras rutas de auth, no modificar la respuesta
+    return response;
   }
-  return withAuth(req);
+
+  // 2. Configuración de cookies para rutas normales (solo en producción)
+  if (isProduction) {
+    ["kinde_session", "access_token", "id_token"].forEach((cookieName) => {
+      const cookieValue = request.cookies.get(cookieName)?.value;
+      if (cookieValue) {
+        response.cookies.set({
+          name: cookieName,
+          value: cookieValue,
+          secure: true,
+          sameSite: "none",
+          domain: domain,
+          path: "/",
+        });
+      }
+    });
+  }
+
+  return response;
 }
 
 export const config = {
-  matcher: [
-    // Excluye la ruta raíz y los archivos estáticos/next
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|$)).*)",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
+
+// import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
+// import { NextRequest } from "next/server";
+
+// export default function middleware(req: NextRequest) {
+//   const path = req.nextUrl.pathname;
+
+//   // Permitir acceso público a la ruta raíz
+//   if (path === "/") {
+//     return;
+//   }
+//   return withAuth(req);
+// }
+
+// export const config = {
+//   matcher: [
+//     // Excluye la ruta raíz y los archivos estáticos/next
+//     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|$)).*)",
+//   ],
+// };
