@@ -39,6 +39,9 @@ const Navbar = async () => {
                 <LogoutLink postLogoutRedirectURL="https://oslocase.vercel.app">
                   LogoutLink
                 </LogoutLink>
+                <LogoutLink postLogoutRedirectURL="/">
+                  LogoutLink //
+                </LogoutLink>
 
                 {isAdmin ? (
                   <Link
