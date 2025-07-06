@@ -123,5 +123,5 @@ export default withAuth(async function middleware(req: unknown) {
 });
 
 export const config = {
-  matcher: [],
+  matcher: ["/((?!api/auth|_next|login|logout|[^?]*\\..*).*)"],
 };

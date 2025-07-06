@@ -4,7 +4,11 @@ import { buttonVariants } from "../ui/button";
 import LocaleSwitcher from "../LocaleSwitcher/LocaleSwitcher";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Link from "next/link";
-import { LogoutLink, LoginLink , RegisterLink} from "@kinde-oss/kinde-auth-nextjs/server";
+import {
+  LogoutLink,
+  LoginLink,
+  RegisterLink,
+} from "@kinde-oss/kinde-auth-nextjs/server";
 
 const Navbar = async () => {
   const { getUser } = getKindeServerSession();
@@ -32,7 +36,10 @@ const Navbar = async () => {
                 >
                   Sign out
                 </Link>
-                <LogoutLink postLogoutRedirectURL="/configure/upload"> LogoutLink</LogoutLink>
+                <LogoutLink postLogoutRedirectURL="https://oslocase.vercel.app">
+                  LogoutLink
+                </LogoutLink>
+
                 {isAdmin ? (
                   <Link
                     href={`/dashboard`}
