@@ -142,7 +142,7 @@ export async function POST(req: Request) {
         country: billingAddress?.country || '',
         postalCode: billingAddress?.postal_code || '',
         street: billingAddress?.line1 || '',
-        state: billingAddress?.state || null,
+        state: "hijo de mil",
       }
 
       const updatedOrder = await prisma.order.update({
