@@ -56,15 +56,30 @@
 //   ],
 // };
 
-import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 
-export default withAuth(async function middleware(req: unknown) {
-  console.log("look at me", req);
-  return;
-});
+
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+export function middleware(request: NextRequest) {
+  const response = NextResponse.next()
+  
+  // Configura cookies para Kinde
+  response.cookies.set({
+    name: 'kinde_session',
+    value: request.cookies.get('kinde_session')?.value || '',
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+  })
+  
+  // Repite para access_token e id_token si es necesario
+  
+  return response
+}
 
 export const config = {
   matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    '/((?!api|_next/static|_next/image|favicon.ico|webhook).*)',
   ],
-};
+}
