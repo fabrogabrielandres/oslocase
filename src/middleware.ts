@@ -20,41 +20,41 @@
 //   ],
 // };
 
-// import { NextResponse } from "next/server";
-// import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-// export function middleware(request: NextRequest) {
-//   const response = NextResponse.next();
-//   const isProduction = request.nextUrl.hostname !== 'localhost';
+export function middleware(request: NextRequest) {
+  const response = NextResponse.next();
+  const isProduction = request.nextUrl.hostname !== 'localhost';
 
-//   // 1. Configura cookies solo en producción
-//   if (isProduction) {
-//     const domain = `.${request.nextUrl.hostname.replace('www.', '')}`;
+  // 1. Configura cookies solo en producción
+  if (isProduction) {
+    const domain = `.${request.nextUrl.hostname.replace('www.', '')}`;
 
-//     // Cookies de Kinde que deben persistir
-//     ['kinde_session', 'access_token', 'id_token'].forEach(cookieName => {
-//       const cookieValue = request.cookies.get(cookieName)?.value;
-//       if (cookieValue) {
-//         response.cookies.set({
-//           name: cookieName,
-//           value: cookieValue,
-//           secure: true,
-//           sameSite: 'none',
-//           domain: domain,
-//           path: '/'
-//         });
-//       }
-//     });
-//   }
+    // Cookies de Kinde que deben persistir
+    ['kinde_session', 'access_token', 'id_token'].forEach(cookieName => {
+      const cookieValue = request.cookies.get(cookieName)?.value;
+      if (cookieValue) {
+        response.cookies.set({
+          name: cookieName,
+          value: cookieValue,
+          secure: true,
+          sameSite: 'none',
+          domain: domain,
+          path: '/'
+        });
+      }
+    });
+  }
 
-//   return response;
-// }
+  return response;
+}
 
-// export const config = {
-//   matcher: [
-//     "/((?!_next/static|_next/image|favicon.ico|login|api/webhooks|auth).*)",
-//   ],
-// };
+export const config = {
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|login|api/webhooks|auth).*)",
+  ],
+};
 
 // import { NextResponse } from "next/server";
 // import type { NextRequest } from "next/server";
