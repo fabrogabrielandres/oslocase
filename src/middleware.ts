@@ -56,46 +56,58 @@
 //   ],
 // };
 
+// import { NextResponse } from 'next/server'
+// import type { NextRequest } from 'next/server'
 
+// export function middleware(request: NextRequest) {
+//   const response = NextResponse.next()
 
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+//   // Configura cookies para Kinde
+//   response.cookies.set({
+//     name: 'kinde_session',
+//     value: request.cookies.get('kinde_session')?.value || '',
+//     sameSite: 'lax',
+//     secure: process.env.NODE_ENV === 'production',
+//     path: '/',
+//   })
 
-export function middleware(request: NextRequest) {
-  const response = NextResponse.next()
-  
-  // Configura cookies para Kinde
-  response.cookies.set({
-    name: 'kinde_session',
-    value: request.cookies.get('kinde_session')?.value || '',
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
-  })
+//     response.cookies.set({
+//     name: 'access_token',
+//     value: request.cookies.get('access_token')?.value || '',
+//     sameSite: 'lax',
+//     secure: process.env.NODE_ENV === 'production',
+//     path: '/',
+//   })
 
-    response.cookies.set({
-    name: 'access_token',
-    value: request.cookies.get('access_token')?.value || '',
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
-  })
+//     response.cookies.set({
+//     name: 'id_token',
+//     value: request.cookies.get('id_token')?.value || '',
+//     sameSite: 'lax',
+//     secure: process.env.NODE_ENV === 'production',
+//     path: '/',
+//   })
 
-    response.cookies.set({
-    name: 'id_token',
-    value: request.cookies.get('id_token')?.value || '',
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
-  })
-  
-  // Repite para access_token e id_token si es necesario
-  
-  return response
-}
+//   // Repite para access_token e id_token si es necesario
+
+//   return response
+// }
+
+// export const config = {
+//   matcher: [
+//     '/((?!api|_next/static|_next/image|favicon.ico|webhook).*)',
+//   ],
+// }
+
+import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
+
+export default withAuth({
+  cookieOptions: {
+    sameSite: "none",
+    secure: true,
+    domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
+  },
+});
 
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|webhook).*)',
-  ],
-}
+  matcher: [],
+};
