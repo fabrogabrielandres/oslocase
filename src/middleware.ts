@@ -72,6 +72,22 @@ export function middleware(request: NextRequest) {
     secure: process.env.NODE_ENV === 'production',
     path: '/',
   })
+
+    response.cookies.set({
+    name: 'access_token',
+    value: request.cookies.get('access_token')?.value || '',
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+  })
+
+    response.cookies.set({
+    name: 'id_token',
+    value: request.cookies.get('id_token')?.value || '',
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+  })
   
   // Repite para access_token e id_token si es necesario
   
