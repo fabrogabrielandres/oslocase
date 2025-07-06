@@ -116,12 +116,15 @@
 //   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 // };
 
-import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 
-export default withAuth(async function middleware(req: unknown) {
-  console.log("look at me in kindeAuth", req);
+
+
+import { withAuth } from '@kinde-oss/kinde-auth-nextjs/middleware';
+
+export default withAuth({
+loginPage: '/login',
 });
 
 export const config = {
-  matcher: [],
+matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
