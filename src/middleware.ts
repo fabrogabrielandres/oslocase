@@ -1,55 +1,3 @@
-// import createMiddleware from 'next-intl/middleware';
-// import {routing} from './i18n/routing';
-
-// export default createMiddleware(routing);
-
-// export const config = {
-//   // Match only internationalized pathnames
-//   matcher: ['/', '/(es|en|no)/:path*']
-// };
-
-// import createMiddleware from "next-intl/middleware";
-// import { routing } from "./i18n/routing";
-
-// const intlMiddleware = createMiddleware(routing);
-
-// // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// export default function middleware(req: any) {
-//   const pathname = req.nextUrl.pathname;
-
-//   // Excluye las rutas de API y auth-callback
-//   if (pathname.startsWith("/api") || pathname.startsWith("/auth-callback")) {
-//     return;
-//   }
-
-//   return intlMiddleware(req);
-// }
-
-// export const config = {
-//   matcher: ["/", "/(es|en|no)/:path*"],
-// };
-
-// import createMiddleware from "next-intl/middleware";
-// import { routing } from "./i18n/routing";
-
-// const intlMiddleware = createMiddleware(routing);
-
-// // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// export default function middleware(req: any) {
-//   const pathname = req.nextUrl.pathname;
-
-//   // Excluye las rutas de API y auth-callback
-//   if (pathname.startsWith("/api") || pathname.startsWith("/auth-callback")) {
-//     return;
-//   }
-
-//   return intlMiddleware(req);
-// }
-
-// export const config = {
-//   matcher: ["/", "/(es|en|no)/:path*"],
-// };
-
 // import { NextResponse } from "next/server";
 // import type { NextRequest } from "next/server";
 
@@ -168,43 +116,14 @@
 //   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 // };
 
+import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-
-export function middleware(request: NextRequest) {
-  const response = NextResponse.next();
-  const isProduction = process.env.NODE_ENV === "production";
-  const domain = isProduction
-    ? `.${request.nextUrl.hostname.replace("www.", "")}`
-    : undefined;
-
-  // 1. Manejo especial para rutas de autenticación de Kinde
-  if (request.nextUrl.pathname.startsWith("/api/auth")) {
-    // No interferir con el flujo normal de Kinde
-    return response;
-  }
-
-  // 2. Configuración de cookies para rutas normales (solo en producción)
-  if (isProduction) {
-    ["kinde_session", "access_token", "id_token"].forEach((cookieName) => {
-      const cookieValue = request.cookies.get(cookieName)?.value;
-      if (cookieValue) {
-        response.cookies.set({
-          name: cookieName,
-          value: cookieValue,
-          secure: true,
-          sameSite: "none",
-          domain: domain,
-          path: "/",
-        });
-      }
-    });
-  }
-
-  return response;
-}
+export default withAuth(async function middleware(req:unknown) {
+  console.log("look at me in kindeAuth", req);
+});
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+  ],
 };
