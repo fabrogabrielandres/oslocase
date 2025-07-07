@@ -20,41 +20,41 @@
 //   ],
 // };
 
-// import { NextResponse } from "next/server";
-// import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-// export function middleware(request: NextRequest) {
-//   const response = NextResponse.next();
-//   const isProduction = request.nextUrl.hostname !== "localhost";
+export function middleware(request: NextRequest) {
+  const response = NextResponse.next();
+  const isProduction = request.nextUrl.hostname !== "localhost";
 
-//   // 1. Configura cookies solo en producción
-//   if (isProduction) {
-//     const domain = `.${request.nextUrl.hostname.replace("www.", "")}`;
+  // 1. Configura cookies solo en producción
+  if (isProduction) {
+    const domain = `.${request.nextUrl.hostname.replace("www.", "")}`;
 
-//     // Cookies de Kinde que deben persistir
-//     ["kinde_session", "access_token", "id_token"].forEach((cookieName) => {
-//       const cookieValue = request.cookies.get(cookieName)?.value;
-//       if (cookieValue) {
-//         response.cookies.set({
-//           name: cookieName,
-//           value: cookieValue,
-//           secure: true,
-//           sameSite: "none",
-//           domain: domain,
-//           path: "/",
-//         });
-//       }
-//     });
-//   }
+    // Cookies de Kinde que deben persistir
+    ["kinde_session", "access_token", "id_token"].forEach((cookieName) => {
+      const cookieValue = request.cookies.get(cookieName)?.value;
+      if (cookieValue) {
+        response.cookies.set({
+          name: cookieName,
+          value: cookieValue,
+          secure: true,
+          sameSite: "none",
+          domain: domain,
+          path: "/",
+        });
+      }
+    });
+  }
 
-//   return response;
-// }
+  return response;
+}
 
-// export const config = {
-//   matcher: [
-//     "/((?!_next/static|_next/image|favicon.ico|login|api/webhooks|auth).*)",
-//   ],
-// };
+export const config = {
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|login|api/webhooks|auth).*)",
+  ],
+};
 
 // import { NextResponse } from 'next/server'
 // import type { NextRequest } from 'next/server'
@@ -124,72 +124,72 @@
 // };
 
 
-import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+// import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
+// import { NextResponse } from 'next/server';
+// import type { NextRequest } from 'next/server';
 
-export default withAuth(async function middleware(request: NextRequest) {
-  const response = NextResponse.next();
-  const isProduction = request.nextUrl.hostname !== "localhost";
-  const isLogoutPath = request.nextUrl.pathname.includes('/logout');
+// export default withAuth(async function middleware(request: NextRequest) {
+//   const response = NextResponse.next();
+//   const isProduction = request.nextUrl.hostname !== "localhost";
+//   const isLogoutPath = request.nextUrl.pathname.includes('/logout');
 
-  // Si es ruta de logout, no manipular las cookies
-  if (isLogoutPath) {
-    return response;
-  }
+//   // Si es ruta de logout, no manipular las cookies
+//   if (isLogoutPath) {
+//     return response;
+//   }
 
-  // Cookies que deben persistir
-  const authCookies = ["kinde_session", "access_token", "id_token"] as const;
-console.log("middleware running", request.nextUrl.pathname, request.cookies.get("kinde_session")?.value);
+//   // Cookies que deben persistir
+//   const authCookies = ["kinde_session", "access_token", "id_token"] as const;
+// console.log("middleware running", request.nextUrl.pathname, request.cookies.get("kinde_session")?.value);
 
-  authCookies.forEach((cookieName) => {
-    const cookieValue = request.cookies.get(cookieName)?.value;
+//   authCookies.forEach((cookieName) => {
+//     const cookieValue = request.cookies.get(cookieName)?.value;
     
-    // Solo reescribir la cookie si existe y no está siendo eliminada
-    if (cookieValue && !response.cookies.get(cookieName)?.value?.includes('delete')) {
-      const cookieOptions: {
-        secure: boolean;
-        sameSite: 'none' | 'lax' | 'strict';
-        path: string;
-        domain?: string;
-        expires?: Date;
-      } = {
-        secure: isProduction,
-        sameSite: isProduction ? 'none' : 'lax',
-        path: "/",
-      };
+//     // Solo reescribir la cookie si existe y no está siendo eliminada
+//     if (cookieValue && !response.cookies.get(cookieName)?.value?.includes('delete')) {
+//       const cookieOptions: {
+//         secure: boolean;
+//         sameSite: 'none' | 'lax' | 'strict';
+//         path: string;
+//         domain?: string;
+//         expires?: Date;
+//       } = {
+//         secure: isProduction,
+//         sameSite: isProduction ? 'none' : 'lax',
+//         path: "/",
+//       };
 
-      if (isProduction) {
-        cookieOptions.domain = `.${request.nextUrl.hostname.replace("www.", "")}`;
-      }
+//       if (isProduction) {
+//         cookieOptions.domain = `.${request.nextUrl.hostname.replace("www.", "")}`;
+//       }
 
-      // Solo reescribir si la cookie actual es diferente
-      const currentCookie = request.cookies.get(cookieName);
-      if (!currentCookie || currentCookie.value !== cookieValue) {
-        response.cookies.set(cookieName, cookieValue, cookieOptions);
-      }
-    }
-  });
+//       // Solo reescribir si la cookie actual es diferente
+//       const currentCookie = request.cookies.get(cookieName);
+//       if (!currentCookie || currentCookie.value !== cookieValue) {
+//         response.cookies.set(cookieName, cookieValue, cookieOptions);
+//       }
+//     }
+//   });
 
-  return response;
-}, {
-  publicPaths: [
-    "/",
-    "/api/auth",
-    "/api/kinde_callback",
-    "/api/uploadthing",
-    "/api/webhooks",
-    "/configure",
-    "/configure/design",
-    "/configure/preview",
-    "/configure/upload",
-    "/thank-you",
-    "/logout" // Asegurar que la ruta de logout sea pública
-  ],
-});
+//   return response;
+// }, {
+//   publicPaths: [
+//     "/",
+//     "/api/auth",
+//     "/api/kinde_callback",
+//     "/api/uploadthing",
+//     "/api/webhooks",
+//     "/configure",
+//     "/configure/design",
+//     "/configure/preview",
+//     "/configure/upload",
+//     "/thank-you",
+//     "/logout" // Asegurar que la ruta de logout sea pública
+//   ],
+// });
 
-export const config = {
-  matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-  ],
-};
+// export const config = {
+//   matcher: [
+//     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+//   ],
+// };
