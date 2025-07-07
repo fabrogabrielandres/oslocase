@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   console.log(request);
   
-  const kindeLogoutUrl = `${process.env.KINDE_ISSUER_URL}/logout?redirect=${encodeURIComponent(process.env.NEXT_PUBLIC_SITE_URL || '/')}`;
+  const kindeLogoutUrl = `${process.env.KINDE_ISSUER_URL}/logout?redirect=${encodeURIComponent(process.env.NEXT_PUBLIC_SERVER_URL || '/')}`;
   
   // Crear respuesta de redirección
   const response = NextResponse.redirect(kindeLogoutUrl);
