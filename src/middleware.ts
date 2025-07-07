@@ -20,45 +20,41 @@
 //   ],
 // };
 
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+// import { NextResponse } from "next/server";
+// import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
-  const response = NextResponse.next();
-  console.log("request middleware",request);
-  
-  // const isProduction = request.nextUrl.hostname !== "localhost";
-  // if (request.nextUrl.pathname.startsWith("/api/auth/logout")) {
-  //   return response; // No manipules cookies aquí
-  // }
-  // // 1. Configura cookies solo en producción
-  // if (isProduction) {
-  //   const domain = `.${request.nextUrl.hostname.replace("www.", "")}`;
+// export function middleware(request: NextRequest) {
+//   const response = NextResponse.next();
+//   const isProduction = request.nextUrl.hostname !== "localhost";
 
-  //   // Cookies de Kinde que deben persistir
-  //   ["kinde_session", "access_token", "id_token"].forEach((cookieName) => {
-  //     const cookieValue = request.cookies.get(cookieName)?.value;
-  //     if (cookieValue) {
-  //       response.cookies.set({
-  //         name: cookieName,
-  //         value: cookieValue,
-  //         secure: true,
-  //         sameSite: "none",
-  //         domain: domain,
-  //         path: "/",
-  //       });
-  //     }
-  //   });
-  // }
+//   // 1. Configura cookies solo en producción
+//   if (isProduction) {
+//     const domain = `.${request.nextUrl.hostname.replace("www.", "")}`;
 
-  return response;
-}
+//     // Cookies de Kinde que deben persistir
+//     ["kinde_session", "access_token", "id_token"].forEach((cookieName) => {
+//       const cookieValue = request.cookies.get(cookieName)?.value;
+//       if (cookieValue) {
+//         response.cookies.set({
+//           name: cookieName,
+//           value: cookieValue,
+//           secure: true,
+//           sameSite: "none",
+//           domain: domain,
+//           path: "/",
+//         });
+//       }
+//     });
+//   }
 
-export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|login|api/webhooks|auth).*)",
-  ],
-};
+//   return response;
+// }
+
+// export const config = {
+//   matcher: [
+//     "/((?!_next/static|_next/image|favicon.ico|login|api/webhooks|auth).*)",
+//   ],
+// };
 
 // import { NextResponse } from 'next/server'
 // import type { NextRequest } from 'next/server'
@@ -102,16 +98,15 @@ export const config = {
 //   ],
 // }
 
-// import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
+import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 
-// export default withAuth({
-//   cookieOptions: {
-//     sameSite: "none",
-//     secure: true,
-//     domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
-//   },
-// });
+export default withAuth(async function middleware(req:unknown) {}, {
+  publicPaths: ["/", "/api/public"],
+});
 
-// export const config = {
-//   matcher: [],
-// };
+export const config = {
+  matcher: [
+    // Run on everything but Next internals and static files
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+  ],
+};
