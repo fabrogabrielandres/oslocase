@@ -26,7 +26,9 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
   const isProduction = request.nextUrl.hostname !== "localhost";
-
+  if (request.nextUrl.pathname.startsWith("/api/auth/logout")) {
+    return response; // No manipules cookies aquí
+  }
   // 1. Configura cookies solo en producción
   if (isProduction) {
     const domain = `.${request.nextUrl.hostname.replace("www.", "")}`;
