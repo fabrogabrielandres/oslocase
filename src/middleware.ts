@@ -140,6 +140,7 @@ export default withAuth(async function middleware(request: NextRequest) {
 
   // Cookies que deben persistir
   const authCookies = ["kinde_session", "access_token", "id_token"] as const;
+console.log("middleware running", request.nextUrl.pathname, request.cookies.get("kinde_session")?.value);
 
   authCookies.forEach((cookieName) => {
     const cookieValue = request.cookies.get(cookieName)?.value;
