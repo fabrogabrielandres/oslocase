@@ -124,8 +124,6 @@
 // };
 
 
-
-
 import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
@@ -133,6 +131,12 @@ import type { NextRequest } from 'next/server';
 export default withAuth(async function middleware(request: NextRequest) {
   const response = NextResponse.next();
   const isProduction = request.nextUrl.hostname !== "localhost";
+  const isLogoutPath = request.nextUrl.pathname.includes('/logout');
+
+  // Si es ruta de logout, no manipular las cookies
+  if (isLogoutPath) {
+    return response;
+  }
 
   // Cookies que deben persistir
   const authCookies = ["kinde_session", "access_token", "id_token"] as const;
@@ -140,13 +144,14 @@ export default withAuth(async function middleware(request: NextRequest) {
   authCookies.forEach((cookieName) => {
     const cookieValue = request.cookies.get(cookieName)?.value;
     
-    if (cookieValue) {
-      // Definición explícita del tipo para las opciones de cookies
+    // Solo reescribir la cookie si existe y no está siendo eliminada
+    if (cookieValue && !response.cookies.get(cookieName)?.value?.includes('delete')) {
       const cookieOptions: {
         secure: boolean;
         sameSite: 'none' | 'lax' | 'strict';
         path: string;
         domain?: string;
+        expires?: Date;
       } = {
         secure: isProduction,
         sameSite: isProduction ? 'none' : 'lax',
@@ -157,11 +162,11 @@ export default withAuth(async function middleware(request: NextRequest) {
         cookieOptions.domain = `.${request.nextUrl.hostname.replace("www.", "")}`;
       }
 
-      response.cookies.set(
-        cookieName, 
-        cookieValue, 
-        cookieOptions
-      );
+      // Solo reescribir si la cookie actual es diferente
+      const currentCookie = request.cookies.get(cookieName);
+      if (!currentCookie || currentCookie.value !== cookieValue) {
+        response.cookies.set(cookieName, cookieValue, cookieOptions);
+      }
     }
   });
 
@@ -178,6 +183,7 @@ export default withAuth(async function middleware(request: NextRequest) {
     "/configure/preview",
     "/configure/upload",
     "/thank-you",
+    "/logout" // Asegurar que la ruta de logout sea pública
   ],
 });
 
