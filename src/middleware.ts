@@ -101,8 +101,19 @@
 import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default withAuth(async function middleware(req:unknown) {}, {
-  publicPaths: ["/", "/api/auth" , "/api/kinde_callback","/api/uploadthing","/api/webhooks"],
+export default withAuth(async function middleware(req: unknown) {}, {
+  publicPaths: [
+    "/",
+    "/api/auth",
+    "/api/kinde_callback",
+    "/api/uploadthing",
+    "/api/webhooks",
+    "configure",
+    "configure/design",
+    "configure/preview",
+    "configure/upload",
+    "thank-you",
+  ],
 });
 
 export const config = {
