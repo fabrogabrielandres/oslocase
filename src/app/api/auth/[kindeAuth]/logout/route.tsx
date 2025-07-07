@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     sameSite: 'none' as const,
     secure: true,
     ...(process.env.NODE_ENV === 'production' && {
-      domain: `.${new URL(process.env.NEXT_PUBLIC_SITE_URL || '').hostname.replace('www.', '')}`
+      domain: `.${new URL(process.env.NEXT_PUBLIC_SERVER_URL || '').hostname.replace('www.', '')}`
     })
   };
 
