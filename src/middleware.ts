@@ -108,11 +108,11 @@ export default withAuth(async function middleware(req: unknown) {}, {
     "/api/kinde_callback",
     "/api/uploadthing",
     "/api/webhooks",
-    "configure",
-    "configure/design",
-    "configure/preview",
-    "configure/upload",
-    "thank-you",
+    "/configure",
+    "/configure/design",
+    "/configure/preview",
+    "/configure/upload",
+    "/thank-you",
   ],
 });
 
