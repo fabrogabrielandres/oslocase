@@ -20,176 +20,67 @@
 //   ],
 // };
 
+import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
-  const response = NextResponse.next();
-  const isProduction = request.nextUrl.hostname !== "localhost";
+export default withAuth(
+  async function middleware(request: NextRequest) {
+    const response = NextResponse.next();
+    const isProduction = request.nextUrl.hostname !== "localhost";
+    const isAuthApiPath = request.nextUrl.pathname.startsWith("/api/auth");
 
-  // 1. Configura cookies solo en producción
-  if (isProduction) {
-    const domain = `.${request.nextUrl.hostname.replace("www.", "")}`;
+    if (isAuthApiPath) {
+      return response;
+    }
 
-    // Cookies de Kinde que deben persistir
-    ["kinde_session", "access_token", "id_token"].forEach((cookieName) => {
+    const authCookies = ["kinde_session", "access_token", "id_token"] as const;
+
+    authCookies.forEach((cookieName) => {
       const cookieValue = request.cookies.get(cookieName)?.value;
+
       if (cookieValue) {
-        response.cookies.set({
-          name: cookieName,
-          value: cookieValue,
-          secure: true,
-          sameSite: "none",
-          domain: domain,
-          path: "/",
-        });
+        // Configuración de cookies con tipos explícitos
+        const cookieOptions = {
+          secure: isProduction,
+          sameSite: (isProduction ? "none" : "lax") as
+            | "none"
+            | "lax"
+            | "strict",
+          path: "/" as const,
+          ...(isProduction && {
+            domain: `.${request.nextUrl.hostname.replace("www.", "")}`,
+          }),
+        };
+
+        const currentCookie = request.cookies.get(cookieName);
+        if (!currentCookie || currentCookie.value !== cookieValue) {
+          // Sintaxis correcta y completamente tipada
+          response.cookies.set(cookieName, cookieValue, cookieOptions);
+        }
       }
     });
-  }
 
-  return response;
-}
+    return response;
+  },
+  {
+    publicPaths: [
+      "/",
+      "/api/auth",
+      "/api/kinde_callback",
+      "/api/uploadthing",
+      "/api/webhooks",
+      "/configure",
+      "/configure/design",
+      "/configure/preview",
+      "/configure/upload",
+      "/thank-you",
+    ],
+  }
+);
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|login|api/webhooks|auth).*)",
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
   ],
 };
-
-// import { NextResponse } from 'next/server'
-// import type { NextRequest } from 'next/server'
-
-// export function middleware(request: NextRequest) {
-//   const response = NextResponse.next()
-
-//   // Configura cookies para Kinde
-//   response.cookies.set({
-//     name: 'kinde_session',
-//     value: request.cookies.get('kinde_session')?.value || '',
-//     sameSite: 'lax',
-//     secure: process.env.NODE_ENV === 'production',
-//     path: '/',
-//   })
-
-//     response.cookies.set({
-//     name: 'access_token',
-//     value: request.cookies.get('access_token')?.value || '',
-//     sameSite: 'lax',
-//     secure: process.env.NODE_ENV === 'production',
-//     path: '/',
-//   })
-
-//     response.cookies.set({
-//     name: 'id_token',
-//     value: request.cookies.get('id_token')?.value || '',
-//     sameSite: 'lax',
-//     secure: process.env.NODE_ENV === 'production',
-//     path: '/',
-//   })
-
-//   // Repite para access_token e id_token si es necesario
-
-//   return response
-// }
-
-// export const config = {
-//   matcher: [
-//     '/((?!api|_next/static|_next/image|favicon.ico|webhook).*)',
-//   ],
-// }
-
-// import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
-
-// // eslint-disable-next-line @typescript-eslint/no-unused-vars
-// export default withAuth(async function middleware(req: unknown) {}, {
-//   publicPaths: [
-//     "/",
-//     "/api/auth",
-//     "/api/kinde_callback",
-//     "/api/uploadthing",
-//     "/api/webhooks",
-//     "/configure",
-//     "/configure/design",
-//     "/configure/preview",
-//     "/configure/upload",
-//     "/thank-you",
-//   ],
-// });
-
-// export const config = {
-//   matcher: [
-//     // Run on everything but Next internals and static files
-//     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-//   ],
-// };
-
-
-// import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
-// import { NextResponse } from 'next/server';
-// import type { NextRequest } from 'next/server';
-
-// export default withAuth(async function middleware(request: NextRequest) {
-//   const response = NextResponse.next();
-//   const isProduction = request.nextUrl.hostname !== "localhost";
-//   const isLogoutPath = request.nextUrl.pathname.includes('/logout');
-
-//   // Si es ruta de logout, no manipular las cookies
-//   if (isLogoutPath) {
-//     return response;
-//   }
-
-//   // Cookies que deben persistir
-//   const authCookies = ["kinde_session", "access_token", "id_token"] as const;
-// console.log("middleware running", request.nextUrl.pathname, request.cookies.get("kinde_session")?.value);
-
-//   authCookies.forEach((cookieName) => {
-//     const cookieValue = request.cookies.get(cookieName)?.value;
-    
-//     // Solo reescribir la cookie si existe y no está siendo eliminada
-//     if (cookieValue && !response.cookies.get(cookieName)?.value?.includes('delete')) {
-//       const cookieOptions: {
-//         secure: boolean;
-//         sameSite: 'none' | 'lax' | 'strict';
-//         path: string;
-//         domain?: string;
-//         expires?: Date;
-//       } = {
-//         secure: isProduction,
-//         sameSite: isProduction ? 'none' : 'lax',
-//         path: "/",
-//       };
-
-//       if (isProduction) {
-//         cookieOptions.domain = `.${request.nextUrl.hostname.replace("www.", "")}`;
-//       }
-
-//       // Solo reescribir si la cookie actual es diferente
-//       const currentCookie = request.cookies.get(cookieName);
-//       if (!currentCookie || currentCookie.value !== cookieValue) {
-//         response.cookies.set(cookieName, cookieValue, cookieOptions);
-//       }
-//     }
-//   });
-
-//   return response;
-// }, {
-//   publicPaths: [
-//     "/",
-//     "/api/auth",
-//     "/api/kinde_callback",
-//     "/api/uploadthing",
-//     "/api/webhooks",
-//     "/configure",
-//     "/configure/design",
-//     "/configure/preview",
-//     "/configure/upload",
-//     "/thank-you",
-//     "/logout" // Asegurar que la ruta de logout sea pública
-//   ],
-// });
-
-// export const config = {
-//   matcher: [
-//     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-//   ],
-// };
