@@ -98,10 +98,75 @@
 //   ],
 // }
 
-import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
+// import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default withAuth(async function middleware(req: unknown) {}, {
+// // eslint-disable-next-line @typescript-eslint/no-unused-vars
+// export default withAuth(async function middleware(req: unknown) {}, {
+//   publicPaths: [
+//     "/",
+//     "/api/auth",
+//     "/api/kinde_callback",
+//     "/api/uploadthing",
+//     "/api/webhooks",
+//     "/configure",
+//     "/configure/design",
+//     "/configure/preview",
+//     "/configure/upload",
+//     "/thank-you",
+//   ],
+// });
+
+// export const config = {
+//   matcher: [
+//     // Run on everything but Next internals and static files
+//     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+//   ],
+// };
+
+
+
+
+import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export default withAuth(async function middleware(request: NextRequest) {
+  const response = NextResponse.next();
+  const isProduction = request.nextUrl.hostname !== "localhost";
+
+  // Cookies que deben persistir
+  const authCookies = ["kinde_session", "access_token", "id_token"] as const;
+
+  authCookies.forEach((cookieName) => {
+    const cookieValue = request.cookies.get(cookieName)?.value;
+    
+    if (cookieValue) {
+      // Definición explícita del tipo para las opciones de cookies
+      const cookieOptions: {
+        secure: boolean;
+        sameSite: 'none' | 'lax' | 'strict';
+        path: string;
+        domain?: string;
+      } = {
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
+        path: "/",
+      };
+
+      if (isProduction) {
+        cookieOptions.domain = `.${request.nextUrl.hostname.replace("www.", "")}`;
+      }
+
+      response.cookies.set(
+        cookieName, 
+        cookieValue, 
+        cookieOptions
+      );
+    }
+  });
+
+  return response;
+}, {
   publicPaths: [
     "/",
     "/api/auth",
@@ -118,7 +183,6 @@ export default withAuth(async function middleware(req: unknown) {}, {
 
 export const config = {
   matcher: [
-    // Run on everything but Next internals and static files
     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
   ],
 };
