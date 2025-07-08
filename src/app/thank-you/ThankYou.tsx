@@ -4,12 +4,19 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { getPaymentStatus } from "./actions";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { useEffect } from "react";
 // import { formatPrice } from "@/lib/utils";
-
 
 const ThankYou = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
+  const { getUser } = useKindeBrowserClient();
+
+  useEffect(() => {
+    // Verificar la sesión al cargar la página de éxito
+    getUser();
+  }, [getUser]);
 
   const { data } = useQuery({
     queryKey: ["get-payment-status"],
@@ -42,8 +49,7 @@ const ThankYou = () => {
     );
   }
 
-  console.log("data",data);
-  
+  console.log("data", data);
 
   return (
     <div className="bg-white">
