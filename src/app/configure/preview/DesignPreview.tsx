@@ -49,8 +49,8 @@ export default function DesignPreview({ configuration }: Props) {
     onSuccess: ({ url }) => {
       console.log("url", url);
 
-      if (url) router.push(url);
-      else throw new Error("Unable to retrieve payment URL.");
+      // if (url) router.push(url);
+      // else throw new Error("Unable to retrieve payment URL.");
     },
     onError: ({ message }) => {
       toast({
