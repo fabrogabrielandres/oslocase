@@ -13,7 +13,7 @@ import { useLocale } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 
 interface Props {
@@ -32,7 +32,7 @@ export default function DesignPreview({ configuration }: Props) {
     setHeightWindows(window.innerHeight || 300);
   }, []);
   const { user } = useKindeAuth();
-  const router = useRouter();
+  // const router = useRouter();
 
   const { croppedImageUrl, ColorsPhone, finish, material, id } = configuration;
 
