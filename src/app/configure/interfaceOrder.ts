@@ -17,6 +17,7 @@ export interface OrderInt {
   billingAddressId: string;
   createdAt: Date;
   updated: Date;
+  transactionId: string;
 }
 
 export type OrderStatusInter = "fulfilled" | "shipped" | "awaiting_shipment";

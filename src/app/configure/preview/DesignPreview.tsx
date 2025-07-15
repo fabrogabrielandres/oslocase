@@ -7,64 +7,57 @@ import { ConfigurationInterface } from "../interfaceConfigure";
 import { COLORSMAPED } from "../design/DesignConfiguration";
 import { cn, formatPrice } from "@/lib/utils";
 import Phone from "@/components";
-import { createCheckoutSession } from "./actions";
 import { LoginModal } from "@/components/LoginModal/LoginModal";
 import { useLocale } from "next-intl";
-import { toast } from "@/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
-import { useRouter } from "next/navigation";
-
+import { PayPalButton } from "@/components/Paypal/PayPalButton";
 
 interface Props {
   configuration: ConfigurationInterface;
 }
 
 export default function DesignPreview({ configuration }: Props) {
-  // const router = useRouter();
   const [confettiRun, setConfettiRun] = useState(true);
   const [widthWindows, setWidthWindows] = useState<number>(300);
   const [heightWindows, setHeightWindows] = useState<number>(300);
   const locale = useLocale();
-  
+
   useEffect(() => {
     setWidthWindows(window.innerWidth || 300);
     setHeightWindows(window.innerHeight || 300);
   }, []);
   const { user } = useKindeAuth();
-  const router = useRouter();
 
   const { croppedImageUrl, ColorsPhone, finish, material, id } = configuration;
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
 
-  // console.log("user", user);
-
   const BASE_PRICE = 14.0;
   const totalPrice = formatPrice(BASE_PRICE + finish.price + material.price);
+  const totalPriceNumber = BASE_PRICE + finish.price + material.price * 100;
 
-  const { mutate: createPaymentSession } = useMutation({
-    mutationKey: ["get-checkout-session"],
-    mutationFn: createCheckoutSession,
-    onSuccess: ({ url }) => {
-      console.log("url", url);
+  // const { mutate: createPaymentSession } = useMutation({
+  //   mutationKey: ["get-checkout-session"],
+  //   mutationFn: createCheckoutSession,
+  //   onSuccess: ({ url }) => {
+  //     console.log("url", url);
 
-      if (url) router.push(url);
-      // else throw new Error("Unable to retrieve payment URL.");
-    },
-    onError: ({ message }) => {
-      toast({
-        title: `Something went wrong ${message}`,
-        description: "There was an error on our end. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
+  //     if (url) router.push(url);
+  //     // else throw new Error("Unable to retrieve payment URL.");
+  //   },
+  //   onError: ({ message }) => {
+  //     toast({
+  //       title: `Something went wrong ${message}`,
+  //       description: "There was an error on our end. Please try again.",
+  //       variant: "destructive",
+  //     });
+  //   },
+  // });
 
   const handleCheckout = async () => {
     if (user) {
       // create payment session
-      createPaymentSession({ configId: id,  user: user  });
+      // createPaymentSession({ configId: id, user: user });
     } else {
       // need to log in
       localStorage.setItem("configurationId", id);
@@ -195,12 +188,20 @@ export default function DesignPreview({ configuration }: Props) {
             </div>
 
             <div className="mt-8 flex justify-end pb-12">
-              <Button
-                onClick={() => handleCheckout()}
-                className="px-4 sm:px-6 lg:px-8"
-              >
-                Check out <ArrowRight className="h-4 w-4 ml-1.5 inline" />
-              </Button>
+              {user ? (
+                <PayPalButton
+                  configurationId={id}
+                  userId={user.id}
+                  amount={totalPriceNumber}
+                ></PayPalButton>
+              ) : (
+                <Button
+                  onClick={() => handleCheckout()}
+                  className="px-4 sm:px-6 lg:px-8"
+                >
+                  Check out <ArrowRight className="h-4 w-4 ml-1.5 inline" />
+                </Button>
+              )}
             </div>
           </div>
         </div>

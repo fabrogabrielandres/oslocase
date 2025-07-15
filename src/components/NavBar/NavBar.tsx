@@ -39,10 +39,6 @@ const Navbar = async () => {
                 <LogoutLink postLogoutRedirectURL="https://oslocase.vercel.app">
                   LogoutLink
                 </LogoutLink>
-                <LogoutLink postLogoutRedirectURL="/">
-                  LogoutLink //
-                </LogoutLink>
-
                 {isAdmin ? (
                   <Link
                     href={`/dashboard`}
@@ -67,32 +63,9 @@ const Navbar = async () => {
               </>
             ) : (
               <>
-                <Link
-                  href="/api/auth/register"
-                  className={buttonVariants({
-                    size: "sm",
-                    variant: "ghost",
-                  })}
-                >
-                  Sign up
-                </Link>
-                <RegisterLink>SUPLink</RegisterLink>
-                {/* <a href="api/auth/login?post_login_redirect_url=/dashboardddd">
-                  Sign in A
-                </a>
-                 */}
+                <RegisterLink>Sign up</RegisterLink>
 
-                <Link
-                  href="/api/auth/login"
-                  // href="api/auth/login?post_login_redirect_url=/dashboardddd"
-                  className={buttonVariants({
-                    size: "sm",
-                    variant: "ghost",
-                  })}
-                >
-                  Login
-                </Link>
-                <LoginLink>Link</LoginLink>
+                <LoginLink>Login</LoginLink>
 
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
 

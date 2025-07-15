@@ -86,7 +86,7 @@ export const UploadYourPhoto = ({ locale }: Props) => {
                 size: "lg",
                 className: "mx-auto mt-8",
               })}
-              href={`${locale}/configure/upload`}
+              href={`configure/upload`}
               // href={`/configure/upload`}
             >
               {t.rich("create", {
