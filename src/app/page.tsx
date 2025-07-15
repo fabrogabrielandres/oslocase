@@ -13,14 +13,11 @@ import { StarInterface, StarStack } from "@/components/StarStack/StarStack";
 import { UploadYourPhoto } from "./ui/UploadYourPhoto";
 import { getTranslations } from "next-intl/server";
 
-interface Props {
-  params: Promise<{ locale: string }>;
-}
 
-export default async function HomePage({ params }: Props) {
+export default async function HomePage() {
   // const t = useTranslations("HomePage");
   const t = await getTranslations("HomePage");
-  const { locale } = await params;
+  
 
   const stackImage: Array<AvatarInterface> = [
     {
