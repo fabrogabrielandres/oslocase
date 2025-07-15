@@ -180,7 +180,7 @@ export default async function HomePage({ params }: Props) {
         <CustomersSay />
       </section>
       <section>
-        <UploadYourPhoto locale={locale} />
+        <UploadYourPhoto  />
       </section>
     </div>
   );

@@ -8,11 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-interface Props {
-  locale: string;
-}
 
-export const UploadYourPhoto = ({ locale }: Props) => {
+export const UploadYourPhoto = () => {
   const t = useTranslations("HomePage.UploadYourPhoto");
 
   return (
