@@ -3,8 +3,17 @@
 import { prisma } from "@/db/prisma";
 // import { revalidatePath } from "next/cache";
 import { PayPalOrderStatusResponse } from "./Paypal.Interface";
+import { ShippingAddressInter } from "@/app/configure/interfaceAddress";
 
-export const paypalCheckPayment = async (paypalTransactionId: string) => {
+interface Props {
+  paypalTransactionId: string;
+  address: Partial<ShippingAddressInter>;
+}
+
+export const paypalCheckPayment = async ({
+  paypalTransactionId,
+  address,
+}: Props) => {
   const authToken = await getPayPalBearerToken();
 
   if (!authToken) {
@@ -26,7 +35,6 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
   const { status, purchase_units } = resp;
   const { invoice_id: orderId } = purchase_units[0]; // TODO: invoice ID
 
-
   if (status !== "COMPLETED") {
     return {
       ok: false,
@@ -40,9 +48,22 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
       where: { id: orderId },
       data: {
         isPaid: true,
+        shippingAddress: {
+          create: {
+            city: address.city!,
+            country: address.country!,
+            name: address.name!,
+            postalCode: address.postalCode!,
+            street: address.street!,
+            state: address.state,
+          },
+        },
       },
     });
-    console.log("OrderUpdate", OrderUpdate);
+
+    if (!OrderUpdate) {
+      throw new Error("No se pudo actualizar la orden");
+    }
 
     // TODO: Revalidar un path
     // revalidatePath(`/orders/${orderId}`);
@@ -115,7 +136,6 @@ const verifyPayPalPayment = async (
       ...requestOptions,
       cache: "no-store",
     }).then((r) => r.json());
-    console.log({ resp });
     return resp;
   } catch (error) {
     console.log(error);

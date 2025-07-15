@@ -41,8 +41,6 @@ const ThankYou = () => {
     },
   };
 
-  console.log("data to parce", data);
-  console.log("mapColors", mapColors);
 
   if (data === undefined) {
     return (

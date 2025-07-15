@@ -30,16 +30,11 @@ const Page = () => {
 
   useEffect(() => {
     if (data?.success) {
-      console.log("Data from auth-callback:", data);
 
       if (configId) {
-        console.log(locale, "locale from auth-callback");
         localStorage.removeItem("configurationId");
-        // router.push(`/${locale}/configure/preview?id=${configId}`);
         router.push(`/configure/preview?id=${configId}`);
       } else {
-        console.log(locale, "locale from auth-callback fuera del if");
-        // router.push(`/${locale}`);
         router.push(`/`);
       }
     }

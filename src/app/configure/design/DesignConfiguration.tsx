@@ -146,7 +146,6 @@ export const DesignConfiguration = ({
       });
     },
     onSuccess: () => {
-      console.log("was successfully saved");
       router.push(`/configure/preview?id=${id}`);
     },
   });
