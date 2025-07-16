@@ -1,11 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import {
-  ChangeEvent,
-  //  ReactNode,
-  useTransition,
-} from "react";
+import { ChangeEvent, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { setUserLocale } from "@/services/locale";
 import { Locale } from "@/i18n/config";
@@ -31,19 +27,18 @@ export const LocaleSwitcherSelect = ({ defaultValue, routing }: Props) => {
   return (
     <label
       className={clsx(
-        "relative text-gray-400",
+        "relative flex items-center h-full",
         isPending && "transition-opacity [&:disabled]:opacity-30"
       )}
     >
       <select
-        className="text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 rounded-md px-3"
+        className="h-8 px-2 text-xs sm:text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-md"
         defaultValue={defaultValue}
         disabled={isPending}
         onChange={onSelectChange}
       >
         {routing.map((language) => (
           <option key={language} value={language}>
-            {/* <>{t("locale", { locale: language })}</> */}
             <>{t.rich("locale", { locale: language })}</>
           </option>
         ))}
