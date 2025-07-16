@@ -85,7 +85,7 @@ export const PayPalButton = ({ configurationId, userId, amount }: Props) => {
     const address:Partial<ShippingAddressInter> = {
       name:details.purchase_units?.[0]?.shipping?.name?.full_name,
       street:details.purchase_units?.[0]?.shipping?.address?.address_line_1,
-      city:details.purchase_units?.[0]?.shipping?.address?.admin_area_1 || details.purchase_units?.[0]?.shipping?.address?.admin_area_2,
+      city:details.purchase_units?.[0]?.shipping?.address?.admin_area_1 || details.purchase_units?.[0]?.shipping?.address?.admin_area_2 || "",
       postalCode:details.purchase_units?.[0]?.shipping?.address?.postal_code || "",
       country:details.purchase_units?.[0]?.shipping?.address?.country_code || "",
     }

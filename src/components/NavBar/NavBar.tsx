@@ -27,17 +27,14 @@ const Navbar = async () => {
           <div className="h-full flex items-center space-x-4">
             {user ? (
               <>
-                <Link
-                  href={"/api/auth/logout"}
+                <LogoutLink
                   className={buttonVariants({
                     size: "sm",
                     variant: "ghost",
                   })}
+                  postLogoutRedirectURL="https://oslocase.vercel.app"
                 >
-                  Sign out
-                </Link>
-                <LogoutLink postLogoutRedirectURL="https://oslocase.vercel.app">
-                  LogoutLink
+                  Logout
                 </LogoutLink>
                 {isAdmin ? (
                   <Link
@@ -63,9 +60,23 @@ const Navbar = async () => {
               </>
             ) : (
               <>
-                <RegisterLink>Sign up</RegisterLink>
+                <RegisterLink
+                  className={buttonVariants({
+                    size: "sm",
+                    variant: "ghost",
+                  })}
+                >
+                  Sign up
+                </RegisterLink>
 
-                <LoginLink>Login</LoginLink>
+                <LoginLink
+                  className={buttonVariants({
+                    size: "sm",
+                    variant: "ghost",
+                  })}
+                >
+                  Login
+                </LoginLink>
 
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
 
