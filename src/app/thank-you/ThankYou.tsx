@@ -8,26 +8,48 @@ import { COLORSMAPED } from "../configure/design/DesignConfiguration";
 import PhonePreview from "@/components/PhonePreview/PhonePreview";
 import { formatPrice } from "@/lib/utils";
 import { useEffect } from "react";
-// import { formatPrice } from "@/lib/utils";
+import { SendEmailRequestBody } from "../api/send/route";
 
 const ThankYou = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
-  useEffect(() => {
-    llamarFunc();
-  }, []);
 
-  const llamarFunc = async () => {
-    const resultadoEmail = await fetch("api/send");
-    console.log(resultadoEmail);
+  const SendEmail = async () => {
+    if (data != false) {
+      const body: SendEmailRequestBody = {
+        email: data!.email,
+        orderDate: data!.createdAt,
+        orderId: data!.id,
+        shippingAddress: {
+          city: data!.shippingAddress?.city,
+          country: data!.shippingAddress?.country,
+          id: data!.shippingAddress?.id,
+          name: data!.shippingAddress?.name,
+        },
+      };
+
+      await fetch("api/send", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json());
+    }
   };
 
   const { data } = useQuery({
     queryKey: ["get-payment-status"],
-    queryFn: async () => await getPaymentStatus({ orderId }),
+    queryFn: async () => {
+      return await getPaymentStatus({ orderId });
+    },
     retry: true,
     retryDelay: 500,
   });
+
+  useEffect(() => {
+    SendEmail();
+  }, [data]);
 
   const mapColors: { [key: string]: COLORSMAPED } = {
     black: {
@@ -107,13 +129,6 @@ const ThankYou = () => {
         </div>
 
         <div className="flex space-x-6 overflow-hidden mt-4 rounded-xl bg-gray-900/5 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl">
-          {/* <Phone
-            classNameContainer={cn("w-64")}
-            classNameMainContainerPicture={
-              mapColors[data.configuration.ColorsPhone!.value].bg
-            }
-            imgSrc={data.configuration.croppedImageUrl!}
-          /> */}
           <PhonePreview
             croppedImageUrl={data.configuration.croppedImageUrl!}
             color={mapColors[data.configuration.ColorsPhone!.value].bg}

@@ -1,9 +1,7 @@
 "use server";
 
 import { prisma } from "@/db/prisma";
-// import { prisma } from '@/db/prisma'
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-// import { OrderInt } from "../configure/interfaceOrder";
 
 export const getPaymentStatus = async ({ orderId }: { orderId: string }) => {
   const { getUser } = getKindeServerSession();
@@ -16,15 +14,6 @@ export const getPaymentStatus = async ({ orderId }: { orderId: string }) => {
       )} `
     );
   }
-
-  // const order = await prisma.order.findFirst({
-  //   where: { id: orderId },
-  //   include: {
-  //     billingAddress: true,
-  //     shippingAddress: true,
-  //     user: true,
-  //   },
-  // });
 
   const order = await prisma.order.findUnique({
     where: {
@@ -44,12 +33,10 @@ export const getPaymentStatus = async ({ orderId }: { orderId: string }) => {
       billingAddress: true,
     },
   });
-
-
   if (!order) throw new Error("This order does not exist.");
 
   if (order.isPaid) {
-    return order;
+    return { ...order, email: user.email };
   } else {
     return false;
   }
