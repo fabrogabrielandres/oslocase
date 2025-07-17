@@ -7,11 +7,20 @@ import { getPaymentStatus } from "./actions";
 import { COLORSMAPED } from "../configure/design/DesignConfiguration";
 import PhonePreview from "@/components/PhonePreview/PhonePreview";
 import { formatPrice } from "@/lib/utils";
+import { useEffect } from "react";
 // import { formatPrice } from "@/lib/utils";
 
 const ThankYou = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
+  useEffect(() => {
+    llamarFunc();
+  }, []);
+
+  const llamarFunc = async () => {
+    const resultadoEmail = await fetch("api/send");
+    console.log(resultadoEmail);
+  };
 
   const { data } = useQuery({
     queryKey: ["get-payment-status"],
@@ -40,7 +49,6 @@ const ThankYou = () => {
       value: "rose",
     },
   };
-
 
   if (data === undefined) {
     return (

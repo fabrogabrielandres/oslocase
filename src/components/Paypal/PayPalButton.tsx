@@ -12,6 +12,7 @@ import { paypalCheckPayment } from "@/actions/payment/paypal-check-payment";
 import { useRouter } from "next/navigation";
 import { ShippingAddressInter } from "@/app/configure/interfaceAddress";
 
+
 interface Props {
   configurationId: string;
   userId: string;
@@ -79,18 +80,29 @@ export const PayPalButton = ({ configurationId, userId, amount }: Props) => {
     console.log("se aprobo data", data);
     console.log("se aprobo actions", actions);
     const details = await actions.order?.capture();
-    console.log("details",details);
-    
-    if (!details) return;
-    const address:Partial<ShippingAddressInter> = {
-      name:details.purchase_units?.[0]?.shipping?.name?.full_name,
-      street:details.purchase_units?.[0]?.shipping?.address?.address_line_1,
-      city:details.purchase_units?.[0]?.shipping?.address?.admin_area_1 || details.purchase_units?.[0]?.shipping?.address?.admin_area_2 || "",
-      postalCode:details.purchase_units?.[0]?.shipping?.address?.postal_code || "",
-      country:details.purchase_units?.[0]?.shipping?.address?.country_code || "",
-    }
+    console.log("details", details);
 
-    const { url } = await paypalCheckPayment({paypalTransactionId:details.id!,address});
+    if (!details) return;
+    const address: Partial<ShippingAddressInter> = {
+      name: details.purchase_units?.[0]?.shipping?.name?.full_name,
+      street: details.purchase_units?.[0]?.shipping?.address?.address_line_1,
+      city:
+        details.purchase_units?.[0]?.shipping?.address?.admin_area_1 ||
+        details.purchase_units?.[0]?.shipping?.address?.admin_area_2 ||
+        "",
+      postalCode:
+        details.purchase_units?.[0]?.shipping?.address?.postal_code || "",
+      country:
+        details.purchase_units?.[0]?.shipping?.address?.country_code || "",
+    };
+
+    const { url, OrderUpdate } = await paypalCheckPayment({
+      paypalTransactionId: details.id!,
+      address,
+    });
+    console.log(OrderUpdate);
+    
+    
     if (url) router.push(url);
   };
 

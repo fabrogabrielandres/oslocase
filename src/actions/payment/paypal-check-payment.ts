@@ -72,6 +72,7 @@ export const paypalCheckPayment = async ({
       ok: true,
       url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${orderId}`,
       message: "El pago se pudo guardar correctamente",
+      OrderUpdate:OrderUpdate
     };
   } catch (error) {
     console.log(error);
