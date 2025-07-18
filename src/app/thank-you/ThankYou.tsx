@@ -7,41 +7,49 @@ import { getPaymentStatus } from "./actions";
 import { COLORSMAPED } from "../configure/design/DesignConfiguration";
 import PhonePreview from "@/components/PhonePreview/PhonePreview";
 import { formatPrice } from "@/lib/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SendEmailRequestBody } from "../api/send/route";
+import { CreateEmailResponseSuccess } from "resend";
 
 const ThankYou = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
+  const [mailWasSended, setMailWasSended] = useState(false);
 
   const SendEmail = async () => {
-    if (data != false) {
+    if (data) {
       const body: SendEmailRequestBody = {
-        email: data!.email,
-        orderDate: data!.createdAt,
-        orderId: data!.id,
+        email: data!.email!,
+        orderDate: data!.createdAt!.toString(),
+        orderId: data!.id!,
         shippingAddress: {
           city: data!.shippingAddress?.city,
           country: data!.shippingAddress?.country,
           id: data!.shippingAddress?.id,
           name: data!.shippingAddress?.name,
         },
-      };
+      };      
 
-      await fetch("api/send", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json());
+      if (mailWasSended == false) {
+        const respuesta: CreateEmailResponseSuccess = await fetch("api/send", {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => res.json());
+        if (respuesta) {
+          setMailWasSended(true);
+        }
+      }
     }
   };
 
   const { data } = useQuery({
     queryKey: ["get-payment-status"],
     queryFn: async () => {
-      return await getPaymentStatus({ orderId });
+      const response = await getPaymentStatus({ orderId });
+      return { ...response };
     },
     retry: true,
     retryDelay: 500,
@@ -49,7 +57,7 @@ const ThankYou = () => {
 
   useEffect(() => {
     SendEmail();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const mapColors: { [key: string]: COLORSMAPED } = {
@@ -85,17 +93,17 @@ const ThankYou = () => {
     );
   }
 
-  if (data === false) {
-    return (
-      <div className="w-full mt-24 flex justify-center">
-        <div className="flex flex-col items-center gap-2">
-          <Loader2 className="h-8 w-8 animate-spin text-zinc-500" />
-          <h3 className="font-semibold text-xl">Verifying your payment...</h3>
-          <p>This might take a moment.</p>
-        </div>
-      </div>
-    );
-  }
+  // if (data === false) {
+  //   return (
+  //     <div className="w-full mt-24 flex justify-center">
+  //       <div className="flex flex-col items-center gap-2">
+  //         <Loader2 className="h-8 w-8 animate-spin text-zinc-500" />
+  //         <h3 className="font-semibold text-xl">Verifying your payment...</h3>
+  //         <p>This might take a moment.</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="bg-white">
@@ -131,8 +139,8 @@ const ThankYou = () => {
 
         <div className="flex space-x-6 overflow-hidden mt-4 rounded-xl bg-gray-900/5 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl">
           <PhonePreview
-            croppedImageUrl={data.configuration.croppedImageUrl!}
-            color={mapColors[data.configuration.ColorsPhone!.value].bg}
+            croppedImageUrl={data.configuration!.croppedImageUrl!}
+            color={mapColors[data.configuration!.ColorsPhone!.value].bg}
           />
         </div>
 
@@ -184,7 +192,7 @@ const ThankYou = () => {
         <div className="space-y-6 border-t border-zinc-200 pt-10 text-sm">
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Subtotal</p>
-            <p className="text-zinc-700">{formatPrice(data.amount)}</p>
+            <p className="text-zinc-700">{formatPrice(data.amount!)}</p>
           </div>
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Shipping</p>
@@ -192,7 +200,7 @@ const ThankYou = () => {
           </div>
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Total</p>
-            <p className="text-zinc-700">{formatPrice(data.amount)}</p>
+            <p className="text-zinc-700">{formatPrice(data.amount!)}</p>
           </div>
         </div>
       </div>

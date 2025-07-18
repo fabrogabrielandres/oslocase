@@ -96,12 +96,10 @@ export const PayPalButton = ({ configurationId, userId, amount }: Props) => {
         details.purchase_units?.[0]?.shipping?.address?.country_code || "",
     };
 
-    const { url, OrderUpdate } = await paypalCheckPayment({
+    const { url } = await paypalCheckPayment({
       paypalTransactionId: details.id!,
       address,
     });
-    console.log(OrderUpdate);
-    
     
     if (url) router.push(url);
   };

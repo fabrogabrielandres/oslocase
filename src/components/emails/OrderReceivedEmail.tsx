@@ -25,9 +25,8 @@ const OrderReceivedEmail = ({
 }) => {
   const baseUrl =
     process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : "https://oslocase.vercel.app/";
-
+      ? "https://oslocase.vercel.app"
+      : "http://localhost:3000";
   return (
     <Html>
       <Head />
