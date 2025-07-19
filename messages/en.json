@@ -42,6 +42,13 @@
       "terms": "Terms",
       "privacy": "Privacy Policy",
       "cookie": "Cookie Policy"
+    },
+    "NavBar": {
+      "Logout": "Logout",
+      "Dashboard": "Dashboard",
+      "Create": "Create case",
+      "Signup": "Sign up",
+      "Login":"Login"
     }
   }
 }

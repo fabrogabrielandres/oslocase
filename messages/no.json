@@ -42,6 +42,13 @@
       "reserved": "Alle rettigheter forbeholdt",
       "privacy": "Personvernerklæring",
       "cookie": "Retningslinjer for informasjonskapsler"
+    },
+    "NavBar": {
+      "Logout": "Logg ut",
+      "Dashboard": "Dashboard",
+      "Create": "Opprett sak",
+      "Signup": "Registrering",
+      "Login":"Logg inn"
     }
   }
 }

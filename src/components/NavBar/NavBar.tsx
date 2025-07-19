@@ -9,12 +9,13 @@ import {
   LoginLink,
   RegisterLink,
 } from "@kinde-oss/kinde-auth-nextjs/server";
+import { getTranslations } from "next-intl/server";
 
 const Navbar = async () => {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   const isAdmin = user?.email === process.env.ADMIN_EMAIL;
-
+  const t = await getTranslations("Components.NavBar");
   return (
     <nav className="sticky z-[100] h-14 inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>
@@ -34,7 +35,7 @@ const Navbar = async () => {
                   })}
                   postLogoutRedirectURL="https://oslocase.vercel.app"
                 >
-                  Logout
+                  {t.rich("Logout")}
                 </LogoutLink>
                 {isAdmin ? (
                   <Link
@@ -44,7 +45,7 @@ const Navbar = async () => {
                       variant: "ghost",
                     })}
                   >
-                    Dashboard ✨
+                    {`${t.rich("Dashboard")} ✨`}
                   </Link>
                 ) : null}
                 <Link
@@ -54,7 +55,7 @@ const Navbar = async () => {
                     className: "hidden sm:flex items-center gap-1",
                   })}
                 >
-                  Create case
+                  {t.rich("Create")}
                   <ArrowRight className="ml-1.5 h-5 w-5" />
                 </Link>
               </>
@@ -66,7 +67,7 @@ const Navbar = async () => {
                     variant: "ghost",
                   })}
                 >
-                  Sign up
+                  {t.rich("Signup")}
                 </RegisterLink>
 
                 <LoginLink
@@ -75,7 +76,7 @@ const Navbar = async () => {
                     variant: "ghost",
                   })}
                 >
-                  Login
+                  {t.rich("Login")}
                 </LoginLink>
 
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
@@ -86,8 +87,8 @@ const Navbar = async () => {
                     size: "sm",
                     className: "hidden sm:flex items-center gap-1",
                   })}
-                >
-                  Create case
+                  >
+                  {t.rich("Create")}
                   <ArrowRight className="ml-1.5 h-5 w-5" />
                 </Link>
               </>

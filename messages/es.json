@@ -42,6 +42,13 @@
       "terms": "Condiciones de uso",
       "privacy": "Política de privacidad",
       "cookie": "Política de cookies"
+    },
+    "NavBar": {
+      "Logout": "Cierre de sesión",
+      "Dashboard": "Panel",
+      "Create": "Crear carcasa",
+      "Signup": "Regístrate",
+      "Login": "Inicio de sesión"
     }
   }
 }
