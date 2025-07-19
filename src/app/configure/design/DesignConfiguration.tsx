@@ -342,7 +342,7 @@ export const DesignConfiguration = ({
                 />
               </div>
               <div className="relative flex flex-col gap-3 w-full">
-                <label className="mt-3">Model</label>
+                <label className="mt-3">{t.rich("Model")}</label>
                 <SelectModel
                   modelsMasters={modelsMasters}
                   options={options}
@@ -380,7 +380,7 @@ export const DesignConfiguration = ({
                 size="sm"
                 className="w-full"
               >
-                Continue
+                {t.rich("Continue")}
                 <ArrowRight className="h-4 w-4 ml-1.5 inline" />
               </Button>
             </div>

@@ -35,7 +35,9 @@
   "Configure": {
     "design": {
       "DesignConfiguration": {
-        "Customize": "Customize your case"
+        "Customize": "Customize your case",
+        "Model": "Model",
+        "Continue": "Continue"
       }
     },
     "SelectColors": {

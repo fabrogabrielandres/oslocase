@@ -35,7 +35,9 @@
   "Configure": {
     "design": {
       "DesignConfiguration": {
-        "Customize": "Tilpass kofferten din"
+        "Customize": "Tilpass kofferten din",
+        "Model": "Modell",
+        "Continue": "Fortsett"
       }
     },
     "SelectColors": {

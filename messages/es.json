@@ -35,7 +35,9 @@
   "Configure": {
     "design": {
       "DesignConfiguration": {
-        "Customize": "Personalice su funda"
+        "Customize": "Personalice su funda",
+        "Model": "Modelo",
+        "Continue": "Continuar"
       }
     },
     "SelectColors": {
