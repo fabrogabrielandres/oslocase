@@ -35,8 +35,14 @@
   "Configure": {
     "design": {
       "DesignConfiguration": {
-        "Customize":"Customize your case"
+        "Customize": "Customize your case"
       }
+    },
+    "SelectColors": {
+      "Color": "Color",
+      "black": "black",
+      "blue": "blue",
+      "rose": "rose"
     }
   },
   "LocaleSwitcher": {

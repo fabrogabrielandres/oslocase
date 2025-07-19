@@ -37,6 +37,12 @@
       "DesignConfiguration": {
         "Customize": "Tilpass kofferten din"
       }
+    },
+    "SelectColors": {
+      "Color": "Farge",
+      "black": "svart",
+      "blue": "blå",
+      "rose": "rose"
     }
   },
   "LocaleSwitcher": {

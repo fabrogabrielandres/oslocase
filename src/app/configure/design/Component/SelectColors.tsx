@@ -2,6 +2,7 @@ import { COLORS_INTERFACE } from "@/interfaces/Colors.Interface";
 import { cn } from "@/lib/utils";
 import { COLORSMAPED } from "../DesignConfiguration";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import { useTranslations } from "next-intl";
 
 interface Options {
   [key: string]: string;
@@ -26,6 +27,8 @@ export const SelectColors = ({
   options,
   mapColors,
 }: Props) => {
+  const t = useTranslations("Configure.SelectColors");
+
   return (
     <RadioGroup
       value={options.color}
@@ -36,7 +39,9 @@ export const SelectColors = ({
         }));
       }}
     >
-      <label>Color: {options.color}</label>
+      <label>
+        {t.rich("Color")}: {t.rich(options.color)}
+      </label>
       <div className="mt-3 flex items-center space-x-3">
         {colorsMasters.map((color) => (
           <RadioGroupItem

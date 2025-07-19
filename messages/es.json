@@ -37,6 +37,12 @@
       "DesignConfiguration": {
         "Customize": "Personalice su funda"
       }
+    },
+    "SelectColors": {
+      "Color": "Color",
+      "black": "negro",
+      "blue": "azul",
+      "rose": "rosa"
     }
   },
   "LocaleSwitcher": {
