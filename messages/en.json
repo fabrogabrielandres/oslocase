@@ -48,7 +48,15 @@
       "Dashboard": "Dashboard",
       "Create": "Create case",
       "Signup": "Sign up",
-      "Login":"Login"
+      "Login": "Login"
+    },
+    "Steps": {
+      "Steps1name": "Step 1: Add image",
+      "Steps1description": "Choose an image for your case",
+      "Steps2name": "Step 2: Customize design",
+      "Steps2description": "Make the case yours",
+      "Steps3name": "Step 3: Summary",
+      "Steps3description": "Review your final design"
     }
   }
 }

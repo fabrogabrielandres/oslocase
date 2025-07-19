@@ -1,30 +1,31 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 
-const STEPS = [
-  {
-    name: "Step 1: Add image",
-    description: "Choose an image for your case",
-    url: "/upload",
-    imgPath: "/moose-2.png",
-  },
-  {
-    name: "Step 2: Customize design",
-    description: "Make the case yours",
-    url: "/design",
-    imgPath: "/moose-3.png",
-  },
-  {
-    name: "Step 3: Summary",
-    description: "Review your final design",
-    url: "/preview",
-    imgPath: "/moose-4.png",
-  },
-];
-
 const Steps = () => {
+  const t = useTranslations("Components.Steps");
+  const STEPS = [
+    {
+      name: t.rich("Steps1name"),
+      description: t.rich("Steps1description"),
+      url: "/upload",
+      imgPath: "/moose-2.png",
+    },
+    {
+      name: t.rich("Steps2name"),
+      description: t.rich("Steps2description"),
+      url: "/design",
+      imgPath: "/moose-3.png",
+    },
+    {
+      name: t.rich("Steps3name"),
+      description: t.rich("Steps3description"),
+      url: "/preview",
+      imgPath: "/moose-4.png",
+    },
+  ];
   const pathname = usePathname();
 
   return (
@@ -36,7 +37,7 @@ const Steps = () => {
         );
 
         return (
-          <li key={step.name} className="relative overflow-hidden lg:flex-1">
+          <li key={step.url} className="relative overflow-hidden lg:flex-1">
             <div>
               <span
                 className={cn(

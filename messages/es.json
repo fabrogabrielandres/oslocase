@@ -49,6 +49,14 @@
       "Create": "Crear carcasa",
       "Signup": "Regístrate",
       "Login": "Inicio de sesión"
+    },
+    "Steps": {
+      "Steps1name":        "Paso 1: Añadir imagen",
+      "Steps1description": "Elige una imagen para tu carcasa",
+      "Steps2name":        "Paso 2: Personaliza el diseño",
+      "Steps2description": "Haz tuya la carcasa",
+      "Steps3name":        "Paso 3: Resumen",
+      "Steps3description": "Revisa tu diseño final"
     }
   }
 }
