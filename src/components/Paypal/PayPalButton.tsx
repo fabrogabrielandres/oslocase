@@ -22,6 +22,7 @@ interface Props {
 export const PayPalButton = ({ configurationId, userId, amount }: Props) => {
   const [{ isPending }] = usePayPalScriptReducer();
   const router = useRouter();
+  
 
   if (isPending) {
     return (
@@ -77,10 +78,8 @@ export const PayPalButton = ({ configurationId, userId, amount }: Props) => {
   };
 
   const onApprove = async (data: OnApproveData, actions: OnApproveActions) => {
-    console.log("se aprobo data", data);
-    console.log("se aprobo actions", actions);
     const details = await actions.order?.capture();
-    console.log("details", details);
+
 
     if (!details) return;
     const address: Partial<ShippingAddressInter> = {

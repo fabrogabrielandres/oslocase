@@ -72,9 +72,6 @@ const Page = async () => {
     },
   });
 
-  console.log("orders", orders);
-  console.log("lastMonthSum", lastMonthSum);
-  console.log("lastWeekSum", lastWeekSum);
 
   const WEEKLY_GOAL = 500;
   const MONTHLY_GOAL = 2500;
