@@ -45,6 +45,16 @@
       "black": "black",
       "blue": "blue",
       "rose": "rose"
+    },
+    "SelectMaterial": {
+      "Silicone": "Silicone",
+      "Soft Polycarbonate": "Soft Polycarbonate",
+      "Textured Finish": "Textured Finish",
+      "Smooth Finish": "Smooth Finish",
+      "material": "Material",
+      "finish":   "Finish",
+      "Scratch-resistant coating":   "Scratch-resistant coating",
+      "Soft grippy texture":   "Soft grippy texture"
     }
   },
   "LocaleSwitcher": {

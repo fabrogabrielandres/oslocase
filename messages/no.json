@@ -45,6 +45,16 @@
       "black": "svart",
       "blue": "blå",
       "rose": "rose"
+    },
+    "SelectMaterial": {
+      "Silicone": "Silikon",
+      "Soft Polycarbonate": "Mykt polykarbonat",
+      "Textured Finish": "Strukturert overflate",
+      "Smooth Finish": "Glatt overflate",
+      "material": "Materiale",
+      "finish": "Utførelse",
+      "Scratch-resistant coating": "Ripebestandig belegg",
+      "Soft grippy texture": "Myk, gripevennlig tekstur"
     }
   },
   "LocaleSwitcher": {

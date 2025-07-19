@@ -4,6 +4,7 @@ import {
 } from "@/interfaces/Colors.Interface";
 import { cn, formatPrice } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import { useTranslations } from "next-intl";
 
 interface Options {
   [key: string]: string;
@@ -29,6 +30,8 @@ export const SelectMaterialAndFinish = ({
   options,
   setOptions,
 }: Props) => {
+  const t = useTranslations("Configure.SelectMaterial");
+
   return (
     <>
       {[
@@ -46,7 +49,10 @@ export const SelectMaterialAndFinish = ({
             }));
           }}
         >
-          <label>{name.slice(0, 1).toUpperCase() + name.slice(1)}</label>
+          <label>
+            {(t.rich(name) as string).slice(0, 1).toUpperCase() +
+              (t.rich(name) as string).slice(1)}
+          </label>
           <div className="mt-3 space-y-4">
             {selectableOptions.map(({ value, description, label, price }) => (
               <RadioGroupItem
@@ -65,7 +71,7 @@ export const SelectMaterialAndFinish = ({
                       // as="span"
                       htmlFor={value}
                     >
-                      {label}
+                      {t.rich(label)}
                     </label>
 
                     {description ? (
@@ -73,7 +79,9 @@ export const SelectMaterialAndFinish = ({
                         // as="span"
                         className="text-gray-500"
                       >
-                        <span className="block sm:inline">{description}</span>
+                        <span className="block sm:inline">
+                          {t.rich(description)}
+                        </span>
                       </div>
                     ) : null}
                   </span>

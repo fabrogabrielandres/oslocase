@@ -45,6 +45,16 @@
       "black": "negro",
       "blue": "azul",
       "rose": "rosa"
+    },
+    "SelectMaterial": {
+      "Silicone": "Silicona",
+      "Soft Polycarbonate": "Policarbonato blando",
+      "Textured Finish": "Acabado texturado",
+      "Smooth Finish": "Acabado liso",
+      "material": "Material",
+      "finish": "Acabado",
+      "Scratch-resistant coating": "Revestimiento resistente a los arañazos",
+      "Soft grippy texture": "Textura de agarre suave"
     }
   },
   "LocaleSwitcher": {
