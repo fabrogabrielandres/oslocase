@@ -32,6 +32,13 @@
       "Type": "PNG, JPG, JPEG"
     }
   },
+  "Configure": {
+    "design": {
+      "DesignConfiguration": {
+        "Customize":"Customize your case"
+      }
+    }
+  },
   "LocaleSwitcher": {
     "label": "Change language",
     "locale": "{locale, select, es {Spanish} en {English} other {''} no {Norwegian} }"

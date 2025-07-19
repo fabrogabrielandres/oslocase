@@ -23,8 +23,7 @@ import { SelectMaterialAndFinish } from "./Component/SelectMaterialAndFinish";
 import { SelectModel } from "./Component/SelectModel";
 import { Progress } from "@/components/ui/progress";
 import { useRouter } from "next/navigation";
-
-
+import { useTranslations } from "next-intl";
 
 interface Props {
   id: string;
@@ -65,6 +64,8 @@ export const DesignConfiguration = ({
   finishesMasters,
   materialsMasters,
 }: Props) => {
+  const t = useTranslations("Configure.design.DesignConfiguration");
+
   const mapColors: { [key: string]: COLORSMAPED } = {
     black: {
       bg: "bg-zinc-900",
@@ -327,7 +328,7 @@ export const DesignConfiguration = ({
           /> */}
           <div className="px-8 pb-12 pt-8">
             <h2 className="tracking-tight font-bold text-3xl">
-              Customize your case
+              {t.rich("Customize")}
             </h2>
 
             <div className="w-full h-px bg-zinc-200 my-6" />

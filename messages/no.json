@@ -32,6 +32,13 @@
       "Type": "PNG, JPG, JPEG"
     }
   },
+  "Configure": {
+    "design": {
+      "DesignConfiguration": {
+        "Customize": "Tilpass kofferten din"
+      }
+    }
+  },
   "LocaleSwitcher": {
     "label": "Sprache ändern",
     "locale": "{locale, select, es {Spansk} en {Engelsk} other {''} no {Norsk} }"
@@ -51,11 +58,11 @@
       "Login": "Logg inn"
     },
     "Steps": {
-      "Steps1name":        "Trinn 1: Legg til bilde",
+      "Steps1name": "Trinn 1: Legg til bilde",
       "Steps1description": "Velg et bilde til kofferten din",
-      "Steps2name":        "Trinn 2: Tilpass design",
+      "Steps2name": "Trinn 2: Tilpass design",
       "Steps2description": "Gjør kofferten til din egen",
-      "Steps3name":        "Trinn 3: Oppsummering",
+      "Steps3name": "Trinn 3: Oppsummering",
       "Steps3description": "Se gjennom det endelige designet"
     }
   }

@@ -1,6 +1,6 @@
 {
   "HomePage": {
-    "title": "Tu imagen en una Carcasa <code>personalisada</code>",
+    "title": "Tu imagen en una funda <code>personalisada</code>",
     "subtitle": "Capture sus recuerdos favoritos con su <code>propia</code> funda de teléfono única. Oslo Case te permite proteger tus recuerdos, no solo la funda de tu teléfono.",
     "sub": {
       "li": "Alta calidad",
@@ -32,6 +32,13 @@
       "Type": "PNG, JPG, JPEG"
     }
   },
+  "Configure": {
+    "design": {
+      "DesignConfiguration": {
+        "Customize": "Personalice su funda"
+      }
+    }
+  },
   "LocaleSwitcher": {
     "label": "Cambiar Idioma",
     "locale": "{locale, select, es {Español} en {Inglés} other {''} no {Noruego}}"
@@ -46,16 +53,16 @@
     "NavBar": {
       "Logout": "Cierre de sesión",
       "Dashboard": "Panel",
-      "Create": "Crear carcasa",
+      "Create": "Crear funda",
       "Signup": "Regístrate",
       "Login": "Inicio de sesión"
     },
     "Steps": {
-      "Steps1name":        "Paso 1: Añadir imagen",
-      "Steps1description": "Elige una imagen para tu carcasa",
-      "Steps2name":        "Paso 2: Personaliza el diseño",
-      "Steps2description": "Haz tuya la carcasa",
-      "Steps3name":        "Paso 3: Resumen",
+      "Steps1name": "Paso 1: Añadir imagen",
+      "Steps1description": "Elige una imagen para tu funda",
+      "Steps2name": "Paso 2: Personaliza el diseño",
+      "Steps2description": "Haz tuya la funda",
+      "Steps3name": "Paso 3: Resumen",
       "Steps3description": "Revisa tu diseño final"
     }
   }
